@@ -38,7 +38,7 @@ export default function RootLayout({
         className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} antialiased`}
       >
         <Header />
-        <div className="pt-20">{children}</div>
+        {children}
       </body>
     </html>
   )
