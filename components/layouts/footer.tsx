@@ -2,15 +2,7 @@ import { Logo } from "@/components/layouts/logo"
 import { CopyrightYear } from "@/components/layouts/copyright-year"
 import { Button } from "@/components/ui/button"
 import { socialLinks } from "@/config/socials"
-
-const navLinks = [
-  { href: "#", label: "Features" },
-  { href: "#", label: "Blog" },
-  { href: "#", label: "About" },
-  { href: "#", label: "Contact" },
-  { href: "#", label: "Licence" },
-  { href: "#", label: "Privacy" },
-]
+import { footerLinks } from "@/config/navigation"
 
 export function Footer() {
   return (
@@ -33,7 +25,7 @@ export function Footer() {
 
         <nav>
           <ul className="flex flex-wrap gap-4 text-sm font-medium text-muted-foreground md:gap-6">
-            {navLinks.map((link) => (
+            {footerLinks.map((link) => (
               <li key={link.label}>
                 <a className="hover:text-foreground" href={link.href}>
                   {link.label}
