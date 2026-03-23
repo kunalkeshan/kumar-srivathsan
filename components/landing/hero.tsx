@@ -5,12 +5,18 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 export function Hero() {
-  const bgRef = useRef<HTMLDivElement>(null)
+  const mobileBgRef = useRef<HTMLDivElement>(null)
+  const desktopBgRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const applyParallax = () => {
-      if (!bgRef.current) return
-      bgRef.current.style.transform = `translateY(${window.scrollY * 0.35}px)`
+      const translateY = window.scrollY * 0.35
+      if (mobileBgRef.current) {
+        mobileBgRef.current.style.transform = `translateY(${translateY}px)`
+      }
+      if (desktopBgRef.current) {
+        desktopBgRef.current.style.transform = `translateY(${translateY}px)`
+      }
     }
     window.addEventListener("scroll", applyParallax, { passive: true })
     window.addEventListener("touchmove", applyParallax, { passive: true })
@@ -25,11 +31,22 @@ export function Hero() {
   }
 
   return (
-    <section className="relative -mt-14 h-screen w-full overflow-hidden md:h-screen">
-      {/* Parallax background */}
+    <section className="relative -mt-14 h-svh w-full overflow-hidden md:h-screen">
+      {/* Mobile background — canvas.png (9:16) */}
       <div
-        ref={bgRef}
-        className="absolute inset-x-0 top-0 h-[120%] bg-cover bg-position-[center_30%] md:-top-[20%] md:h-[140%] md:bg-center"
+        ref={mobileBgRef}
+        className="absolute inset-x-0 top-0 h-[120%] bg-cover bg-center md:hidden"
+        style={{
+          backgroundImage: "url('/assets/canvas.png')",
+          willChange: "transform",
+        }}
+        aria-hidden="true"
+      />
+
+      {/* Desktop background — hero.jpg (16:9) */}
+      <div
+        ref={desktopBgRef}
+        className="absolute inset-x-0 -top-[20%] hidden h-[140%] bg-cover bg-center md:block"
         style={{
           backgroundImage: "url('/assets/hero.jpg')",
           willChange: "transform",
@@ -46,8 +63,8 @@ export function Hero() {
       {/* Content */}
       <div
         className={cn(
-          "relative z-10 flex w-full flex-col items-center px-6 pt-24 text-center",
-          "md:pt-28"
+          "relative z-10 flex h-full w-full flex-col items-center justify-center px-6 text-center",
+          "md:justify-start md:pt-28"
         )}
       >
         <h1
