@@ -10,14 +10,11 @@ import {
 import {
 	ArrowRightIcon,
 	BriefcaseBusinessIcon,
-	FacebookIcon,
 	HandshakeIcon,
-	LinkedinIcon,
-	TwitterIcon,
 	UsersRoundIcon,
 	VenetianMaskIcon,
-	YoutubeIcon,
 } from "lucide-react";
+import { socialLinks } from "@/config/socials";
 
 export function HeaderMenu() {
 	const [open, setOpen] = useState(false);
@@ -86,11 +83,11 @@ export function HeaderMenu() {
 						<Button
 							asChild
 							className="[&>svg]:text-primary/80"
-							key={`social-${item.link}-${index}`}
+							key={`social-${item.label}-${index}`}
 							size="icon-sm"
 							variant="outline"
 						>
-							<a href={item.link} target="_blank">
+							<a href={item.href} target="_blank">
 								{item.icon}
 							</a>
 						</Button>
@@ -124,22 +121,4 @@ const linkItems = [
 	},
 ];
 
-const socialLinks = [
-	{
-		icon: <FacebookIcon />,
-		link: "#",
-	},
-	{
-		icon: <LinkedinIcon />,
-		link: "#",
-	},
-	{
-		icon: <TwitterIcon />,
-		link: "#",
-	},
-	{
-		icon: <YoutubeIcon />,
-		link: "#",
-	},
-];
 
