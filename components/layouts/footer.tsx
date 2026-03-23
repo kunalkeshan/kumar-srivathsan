@@ -58,25 +58,27 @@ export function Footer() {
       </div>
 
       <div className="flex items-center justify-between gap-4 border-t py-4 text-sm text-muted-foreground">
-        <p>&copy; <CopyrightYear /> Kumar Srivathsan</p>
+        <p>
+          &copy; <CopyrightYear /> Kumar Srivathsan
+        </p>
 
         <p className="inline-flex items-center gap-1">
           <span>Built by</span>
           <a
             aria-label="x/twitter"
             className="inline-flex items-center gap-1 text-foreground/80 hover:text-foreground hover:underline"
-            href={"https://x.com/shabanhr"}
+            href={"https://x.com/_kunalkeshan_"}
             rel="noreferrer"
             target="_blank"
           >
             <img
-              alt="shaban"
+              alt="kunal"
               className="size-4 rounded-full"
               height="auto"
-              src="https://github.com/shabanhr.png"
+              src="https://github.com/kunalkeshan.png"
               width="auto"
             />
-            Shaban
+            Kunal
           </a>
         </p>
       </div>
