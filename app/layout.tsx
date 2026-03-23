@@ -3,6 +3,7 @@
 import type { Metadata } from "next"
 import { Space_Grotesk, DM_Serif_Text, IBM_Plex_Mono } from "next/font/google"
 import "./globals.css"
+import { Header } from "@/components/layouts/header"
 
 const fontSans = Space_Grotesk({
   subsets: ["latin"],
@@ -36,7 +37,8 @@ export default function RootLayout({
       <body
         className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} antialiased`}
       >
-        {children}
+        <Header />
+        <div className="pt-20">{children}</div>
       </body>
     </html>
   )
