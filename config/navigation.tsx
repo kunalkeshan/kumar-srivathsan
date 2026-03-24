@@ -14,7 +14,7 @@ export type NavLink = {
 };
 
 export const commonLinks: NavLink[] = [
-	{ label: "About", href: "#", isLive: true, icon: <InfoIcon /> },
+	{ label: "About", href: "#about", isLive: true, icon: <InfoIcon /> },
 	{ label: "Services", href: "#", isLive: true, icon: <SparklesIcon /> },
 	{ label: "Blog", href: "#", isLive: true, icon: <NotebookPenIcon /> },
 ];
