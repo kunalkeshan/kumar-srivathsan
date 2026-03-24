@@ -84,7 +84,12 @@ export function HeaderMenu() {
 							size="icon-sm"
 							variant="outline"
 						>
-							<a href={item.href} target="_blank">
+							<a
+								aria-label={item.label}
+								href={item.href}
+								rel="noopener noreferrer"
+								target="_blank"
+							>
 								{item.icon}
 							</a>
 						</Button>

@@ -58,6 +58,10 @@ export function About() {
               src="https://pagedone.io/asset/uploads/1724131218.png"
               alt="Maritime family legacy"
               className="h-auto w-full rounded-xl object-cover"
+              width={600}
+              height={400}
+              loading="lazy"
+              decoding="async"
             />
             <div className="flex w-full flex-col items-start justify-start gap-8">
               <div className="flex w-full flex-col items-start justify-start gap-1.5">
@@ -103,6 +107,10 @@ export function About() {
               src="https://pagedone.io/asset/uploads/1724131231.png"
               alt="Kumar Srivathsan, Navigation Officer"
               className="h-60 w-full rounded-xl object-cover lg:h-auto lg:w-72 lg:self-start"
+              width={288}
+              height={216}
+              loading="lazy"
+              decoding="async"
             />
 
             {/* Title + first para — row 1 col 2 on desktop */}
