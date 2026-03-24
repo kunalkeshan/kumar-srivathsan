@@ -74,7 +74,7 @@ export function HeaderMenu() {
 						</li>
 					))}
 				</ul>
-				<div className="flex justify-center gap-x-2 p-2">
+				<div className="flex flex-wrap gap-2 p-2">
 					{socialLinks.map((item, index) => (
 						<Button
 							asChild

@@ -23,7 +23,7 @@ export const navLinks: NavLink[] = [...commonLinks];
 
 export const footerLinks: NavLink[] = [
 	...commonLinks,
-	{ label: "Contact", href: "#", isLive: true },
+	{ label: "Contact", href: "/#contact", isLive: true },
 	{ label: "Privacy", href: "#", isLive: true },
 	{ label: "Terms", href: "#", isLive: true },
 ];
