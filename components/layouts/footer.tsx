@@ -29,9 +29,25 @@ export function Footer() {
             <ul className="flex flex-wrap gap-4 text-sm font-medium text-muted-foreground md:gap-6">
               {footerLinks.map((link) => (
                 <li key={link.label}>
-                  <a className="hover:text-foreground" href={link.href}>
-                    {link.label}
-                  </a>
+                  {link.isLive ? (
+                    <a className="hover:text-foreground" href={link.href}>
+                      {link.label}
+                    </a>
+                  ) : (
+                    <span
+                      aria-disabled="true"
+                      className="inline-flex cursor-not-allowed items-center gap-1.5 opacity-50"
+                    >
+                      {link.label}
+                      <span
+                        aria-hidden="true"
+                        className="rounded-full bg-muted px-1.5 py-0.5 text-xs font-medium"
+                      >
+                        soon
+                      </span>
+                      <span className="sr-only">(coming soon)</span>
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>

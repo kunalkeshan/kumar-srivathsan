@@ -15,8 +15,8 @@ export type NavLink = {
 
 export const commonLinks: NavLink[] = [
 	{ label: "About", href: "#about", isLive: true, icon: <InfoIcon /> },
-	{ label: "Services", href: "#", isLive: true, icon: <SparklesIcon /> },
-	{ label: "Blog", href: "#", isLive: true, icon: <NotebookPenIcon /> },
+	{ label: "Services", href: "#", isLive: false, icon: <SparklesIcon /> },
+	{ label: "Blog", href: "#", isLive: false, icon: <NotebookPenIcon /> },
 ];
 
 export const navLinks: NavLink[] = [...commonLinks];
@@ -24,6 +24,6 @@ export const navLinks: NavLink[] = [...commonLinks];
 export const footerLinks: NavLink[] = [
 	...commonLinks,
 	{ label: "Contact", href: "/#contact", isLive: true },
-	{ label: "Privacy", href: "#", isLive: true },
-	{ label: "Terms", href: "#", isLive: true },
+	{ label: "Privacy", href: "#", isLive: false },
+	{ label: "Terms", href: "#", isLive: false },
 ];
