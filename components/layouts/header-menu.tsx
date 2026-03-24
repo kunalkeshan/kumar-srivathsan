@@ -59,6 +59,7 @@ export function HeaderMenu() {
 							<a
 								className="rounded-md group flex w-full items-center justify-between px-3 py-2 font-medium hover:bg-muted active:bg-muted dark:hover:bg-muted/50"
 								href={item.href}
+								onClick={() => setOpen(false)}
 							>
 								<div className="flex items-center gap-2">
 									<div className="[&>svg]:size-4 [&>svg]:text-primary/80">
@@ -79,6 +80,7 @@ export function HeaderMenu() {
 							asChild
 							className="[&>svg]:text-primary/80"
 							key={`social-${item.label}-${index}`}
+							onClick={() => setOpen(false)}
 							size="icon-sm"
 							variant="outline"
 						>
