@@ -13,7 +13,7 @@ const stats = [
 
 export function About() {
   return (
-    <section id="about" className="py-24">
+    <section id="about" className="py-12">
       <Container className="flex w-full flex-col items-start justify-start gap-10 lg:gap-12">
         {/* Header row */}
         <div className="mx-auto flex w-full flex-col items-center justify-start gap-4 sm:max-w-lg lg:max-w-full lg:flex-row lg:items-center lg:gap-7">
@@ -148,8 +148,8 @@ export function About() {
             <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground lg:col-span-2">
               Safety is never an afterthought for Kumar — it is the foundation
               of every decision made on the bridge. From pre-departure planning
-              to post-arrival reviews, his approach is systematic, collaborative,
-              and always guided by international best practices.
+              to post-arrival reviews, his approach is systematic,
+              collaborative, and always guided by international best practices.
             </p>
           </div>
         </div>
