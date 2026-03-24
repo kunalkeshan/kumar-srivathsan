@@ -36,8 +36,9 @@ export function Header() {
             cornerShape: "squircle",
           }}
           variant="outline"
+          asChild
         >
-          Contact
+          <a href="/#contact">Contact</a>
         </Button>
         <HeaderMenu />
       </div>

@@ -56,25 +56,46 @@ export function HeaderMenu() {
 				<ul className="grid grid-cols-1 border-b bg-background p-2">
 					{navLinks.map((item) => (
 						<li className="w-full" key={item.label}>
-							<a
-								className="rounded-md group flex w-full items-center justify-between px-3 py-2 font-medium hover:bg-muted active:bg-muted dark:hover:bg-muted/50"
-								href={item.href}
-								onClick={() => setOpen(false)}
-							>
-								<div className="flex items-center gap-2">
-									<div className="[&>svg]:size-4 [&>svg]:text-primary/80">
-										{item.icon}
+							{item.isLive ? (
+								<a
+									className="group rounded-md flex w-full items-center justify-between px-3 py-2 font-medium hover:bg-muted active:bg-muted dark:hover:bg-muted/50"
+									href={item.href}
+									onClick={() => setOpen(false)}
+								>
+									<div className="flex items-center gap-2">
+										<div className="[&>svg]:size-4 [&>svg]:text-primary/80">
+											{item.icon}
+										</div>
+										<p className="md:text-sm">{item.label}</p>
 									</div>
-									<p className="md:text-sm">{item.label}</p>
-								</div>
-								<div className="relative ml-auto flex h-full w-4 items-center">
-									<ArrowRightIcon className="size-4 opacity-50 transition-all group-hover:translate-x-0 group-hover:opacity-50 md:-translate-x-2 md:opacity-0" />
-								</div>
-							</a>
+									<div className="relative ml-auto flex h-full w-4 items-center">
+										<ArrowRightIcon className="size-4 opacity-50 transition-all group-hover:translate-x-0 group-hover:opacity-50 md:-translate-x-2 md:opacity-0" />
+									</div>
+								</a>
+							) : (
+								<span
+									aria-disabled="true"
+									className="flex w-full cursor-not-allowed items-center justify-between rounded-md px-3 py-2 font-medium opacity-50"
+								>
+									<div className="flex items-center gap-2">
+										<div className="[&>svg]:size-4 [&>svg]:text-primary/80">
+											{item.icon}
+										</div>
+										<p className="md:text-sm">{item.label}</p>
+									</div>
+									<span
+										aria-hidden="true"
+										className="rounded-full bg-muted px-1.5 py-0.5 text-xs font-medium"
+									>
+										soon
+									</span>
+									<span className="sr-only">(coming soon)</span>
+								</span>
+							)}
 						</li>
 					))}
 				</ul>
-				<div className="flex justify-center gap-x-2 p-2">
+				<div className="flex flex-wrap gap-2 p-2">
 					{socialLinks.map((item, index) => (
 						<Button
 							asChild
@@ -87,8 +108,10 @@ export function HeaderMenu() {
 							<a
 								aria-label={item.label}
 								href={item.href}
-								rel="noopener noreferrer"
-								target="_blank"
+								{...(item.external !== false && {
+									target: "_blank",
+									rel: "noopener noreferrer",
+								})}
 							>
 								{item.icon}
 							</a>
@@ -99,4 +122,3 @@ export function HeaderMenu() {
 		</Popover>
 	);
 }
-
