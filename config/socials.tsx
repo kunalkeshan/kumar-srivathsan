@@ -12,6 +12,7 @@ export type SocialLink = {
 	href: string;
 	icon: ReactNode;
 	contactText?: string;
+	external?: boolean;
 };
 
 export const phoneLinks: PhoneLink[] = [
@@ -51,6 +52,6 @@ export const socialLinks: SocialLink[] = [
 		icon: <FacebookIcon />,
 		contactText: "Follow on Facebook",
 	},
-	{ label: "Phone", href: phoneLinks[0].href, icon: <PhoneIcon /> },
-	{ label: "Email", href: emailLinks[0].href, icon: <MailIcon /> },
+	{ label: "Phone", href: phoneLinks[0].href, icon: <PhoneIcon />, external: false },
+	{ label: "Email", href: emailLinks[0].href, icon: <MailIcon />, external: false },
 ];

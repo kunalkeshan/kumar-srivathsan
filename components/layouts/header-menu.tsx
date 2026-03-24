@@ -87,8 +87,10 @@ export function HeaderMenu() {
 							<a
 								aria-label={item.label}
 								href={item.href}
-								rel="noopener noreferrer"
-								target="_blank"
+								{...(item.external !== false && {
+									target: "_blank",
+									rel: "noopener noreferrer",
+								})}
 							>
 								{item.icon}
 							</a>
@@ -99,4 +101,3 @@ export function HeaderMenu() {
 		</Popover>
 	);
 }
-

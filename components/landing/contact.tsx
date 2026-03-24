@@ -55,7 +55,7 @@ export function Contact() {
                   {item.icon}
                 </div>
                 <div className="flex flex-col gap-y-0.5">
-                  <h2 className="text-sm">{item.title}</h2>
+                  <p className="text-sm">{item.title}</p>
                   <p className="text-xs text-muted-foreground">{item.value}</p>
                 </div>
               </a>
@@ -75,7 +75,7 @@ export function Contact() {
                 <Rocket />
               </div>
               <div className="flex flex-col gap-y-0.5">
-                <h2 className="text-sm">My Associations</h2>
+                <p className="text-sm">My Associations</p>
                 <p className="text-xs text-muted-foreground">
                   Nebula Pages &middot; From launch to orbit, we build for every
                   scale.

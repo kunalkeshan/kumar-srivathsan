@@ -5,10 +5,10 @@ import { Container } from "@/components/layouts/container"
 import { cn } from "@/lib/utils"
 
 const stats = [
-  { value: "8+", label: "Years at Sea" },
-  { value: "10+", label: "Vessels Served" },
+  { value: "1+", label: "Years at Sea" },
+  { value: "2+", label: "Vessel Categories" },
   { value: "30+", label: "Ports Visited" },
-  { value: "5+", label: "Certifications" },
+  { value: "12+", label: "Certifications" },
 ]
 
 export function About() {
