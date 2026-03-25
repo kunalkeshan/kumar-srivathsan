@@ -42,6 +42,28 @@ pnpm typecheck     # TypeScript type check (no emit)
 
 **Custom component registry**: `components.json` points to an Efferd registry. Requires `EFFERD_REGISTRY_TOKEN` in `.env` to install new shadcn components.
 
+## Metadata
+
+Base metadata is defined in `config/metadata.ts` and re-exported from `app/layout.tsx` as the site-wide default.
+
+**For new pages**, export a `Metadata` object with at minimum a canonical URL:
+
+```ts
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/your-path",
+  },
+}
+```
+
+Add `title` and `description` overrides only when the page content differs meaningfully from the site default. The root layout's title template (`%s | Kumar Srivathsan`) will automatically apply to any `title` string you provide.
+
+**For new sections/features** that need their own OG or Twitter overrides, extend the base from `config/metadata.ts` — never duplicate the `metadataBase`, `openGraph.siteName`, or `twitter.card` values inline.
+
+Icons, favicon, and OG images are not yet configured — see TODO comments in `config/metadata.ts`.
+
 ## Link Usage
 
 Always set `prefetch={false}` on every Next.js `<Link>` component:
