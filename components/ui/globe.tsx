@@ -97,7 +97,7 @@ export function Globe({ className, config, paused }: GlobeProps) {
     if (!isDraggingRef.current) return
     const dx = x - startXRef.current
     const dy = y - startYRef.current
-    phiRef.current = startPhiRef.current - dx / 200
+    phiRef.current = startPhiRef.current + dx / 200
     thetaRef.current = Math.max(
       THETA_MIN,
       Math.min(THETA_MAX, startThetaRef.current + dy / 200)

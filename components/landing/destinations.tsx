@@ -148,7 +148,7 @@ export function Destinations({ className }: DestinationsProps) {
           - COBE's anchor elements (inside its wrapper) share the same containing block
           - Our label elements (siblings) can reference those anchors via CSS Anchor Positioning
         */}
-        <div className="relative mx-auto w-full max-w-2xl">
+        <div className="relative mx-auto w-full max-w-2xl overflow-hidden">
           {/* Port code labels — always visible on the facing side, expand on click */}
           {PORTS.map((port) => {
             const isActive = activePortId === port.id
@@ -190,7 +190,8 @@ export function Destinations({ className }: DestinationsProps) {
 
         <p className="mt-4 text-center font-mono text-xs text-muted-foreground">
           Drag to rotate in any direction &middot; click a code to identify
-          &middot; {PORTS.length} ports &middot; {ROUTES.length} routes
+          &middot; {PORTS.length} ports
+          {/* &middot; {ROUTES.length} routes */}
         </p>
       </Container>
     </section>
