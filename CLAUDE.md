@@ -2,14 +2,18 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Package Manager
+
+Use **pnpm** for all package operations (e.g. `pnpm add`, `pnpm install`).
+
 ## Commands
 
 ```bash
-npm run dev        # Start dev server with Turbopack
-npm run build      # Production build
-npm run lint       # ESLint
-npm run format     # Prettier (TypeScript files)
-npm run typecheck  # TypeScript type check (no emit)
+pnpm dev           # Start dev server with Turbopack
+pnpm build         # Production build
+pnpm lint          # ESLint
+pnpm format        # Prettier (TypeScript files)
+pnpm typecheck     # TypeScript type check (no emit)
 ```
 
 ## Stack
