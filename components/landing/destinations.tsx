@@ -1,30 +1,30 @@
-"use client";
+"use client"
 
-import { useMemo, useState } from "react";
-import { useTheme } from "next-themes";
-import { Arc, COBEOptions } from "cobe";
-import { Container } from "@/components/layouts/container";
-import { Globe } from "@/components/ui/globe";
-import { PORTS, ROUTES, SHIP_ROUTE_IDS } from "@/config/destinations";
-import { cn } from "@/lib/utils";
+import { useMemo, useState } from "react"
+import { useTheme } from "next-themes"
+import { Arc, COBEOptions } from "cobe"
+import { Container } from "@/components/layouts/container"
+import { Globe } from "@/components/ui/globe"
+import { PORTS, ROUTES, SHIP_ROUTE_IDS } from "@/config/destinations"
+import { cn } from "@/lib/utils"
 
 interface DestinationsProps {
-  className?: string;
+  className?: string
 }
 
 function portCoords(id: string): [number, number] {
-  const p = PORTS.find((x) => x.id === id)!;
-  return [p.latitude, p.longitude];
+  const p = PORTS.find((x) => x.id === id)!
+  return [p.latitude, p.longitude]
 }
 
 /** Set to true to render shipping route arcs on the globe */
-const SHOW_ARCS = false;
+const SHOW_ARCS = false
 
 const MARKERS: COBEOptions["markers"] = PORTS.map((p) => ({
   location: [p.latitude, p.longitude],
   size: 0.04,
   id: p.id,
-}));
+}))
 
 const ARCS: Arc[] = ROUTES.map((r) => ({
   from: portCoords(r.from),
@@ -32,7 +32,7 @@ const ARCS: Arc[] = ROUTES.map((r) => ({
   ...(r.shipIconId
     ? { id: r.shipIconId, color: [0.2, 0.6, 1] as [number, number, number] }
     : {}),
-}));
+}))
 
 /**
  * Injected CSS that uses CSS Anchor Positioning (Chrome 125+, Firefox 147+).
@@ -86,13 +86,13 @@ ${SHIP_ROUTE_IDS.map(
   opacity: var(--cobe-visible-arc-${id}, 0);
 }`
 ).join("")}
-`;
+`
 
 export function Destinations({ className }: DestinationsProps) {
-  const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
-  const [activePortId, setActivePortId] = useState<string | null>(null);
-  const [labelsHovered, setLabelsHovered] = useState(false);
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === "dark"
+  const [activePortId, setActivePortId] = useState<string | null>(null)
+  const [labelsHovered, setLabelsHovered] = useState(false)
 
   const globeConfig = useMemo<Partial<COBEOptions>>(
     () => ({
@@ -106,15 +106,15 @@ export function Destinations({ className }: DestinationsProps) {
       arcColor: [0.3, 0.5, 1],
       arcWidth: 0.25,
       arcHeight: 0.4,
-      scale: 0.88,
+      scale: 1,
       markers: MARKERS,
       arcs: SHOW_ARCS ? ARCS : [],
     }),
     [isDark]
-  );
+  )
 
   const toggle = (id: string) =>
-    setActivePortId((prev) => (prev === id ? null : id));
+    setActivePortId((prev) => (prev === id ? null : id))
 
   return (
     <section id="destinations" className={cn("py-16 md:py-24", className)}>
@@ -123,7 +123,7 @@ export function Destinations({ className }: DestinationsProps) {
 
       <Container>
         <div className="mb-10 max-w-2xl">
-          <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+          <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
             Ports Visited
           </p>
           <h2 className="font-serif text-3xl leading-tight md:text-4xl">
@@ -144,7 +144,7 @@ export function Destinations({ className }: DestinationsProps) {
         <div className="relative mx-auto w-full max-w-2xl">
           {/* Port code labels — always visible on the facing side, expand on click */}
           {PORTS.map((port) => {
-            const isActive = activePortId === port.id;
+            const isActive = activePortId === port.id
             return (
               <button
                 key={port.id}
@@ -161,13 +161,18 @@ export function Destinations({ className }: DestinationsProps) {
               >
                 {isActive ? port.name : port.code}
               </button>
-            );
+            )
           })}
 
           {/* Ship emoji icons at long-haul arc midpoints (only when arcs visible) */}
           {SHOW_ARCS &&
             SHIP_ROUTE_IDS.map((id) => (
-              <span key={id} data-arc={id} className="ship-icon" aria-hidden="true">
+              <span
+                key={id}
+                data-arc={id}
+                className="ship-icon"
+                aria-hidden="true"
+              >
                 ⛴️
               </span>
             ))}
@@ -176,10 +181,10 @@ export function Destinations({ className }: DestinationsProps) {
         </div>
 
         <p className="mt-4 text-center font-mono text-xs text-muted-foreground">
-          Drag to rotate in any direction &middot; click a code to identify &middot;{" "}
-          {PORTS.length} ports &middot; {ROUTES.length} routes
+          Drag to rotate in any direction &middot; click a code to identify
+          &middot; {PORTS.length} ports &middot; {ROUTES.length} routes
         </p>
       </Container>
     </section>
-  );
+  )
 }

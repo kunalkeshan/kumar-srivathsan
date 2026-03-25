@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 import { ArrowRight } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -35,10 +37,10 @@ export function About() {
             size="default"
             variant="default"
           >
-            <a href="/#contact">
+            <Link href="/#contact">
               <span className="px-2 py-px">Let&apos;s Talk</span>
               <ArrowRight className="size-5" />
-            </a>
+            </Link>
           </Button>
         </div>
 
