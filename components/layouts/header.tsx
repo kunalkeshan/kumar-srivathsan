@@ -40,7 +40,7 @@ export function Header() {
           variant="outline"
           asChild
         >
-          <Link href="/#contact">Contact</Link>
+          <Link href="/#contact" prefetch={false}>Contact</Link>
         </Button>
         <HeaderMenu />
       </div>

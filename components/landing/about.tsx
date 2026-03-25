@@ -37,7 +37,7 @@ export function About() {
             size="default"
             variant="default"
           >
-            <Link href="/#contact">
+            <Link href="/#contact" prefetch={false}>
               <span className="px-2 py-px">Let&apos;s Talk</span>
               <ArrowRight className="size-5" />
             </Link>

@@ -41,3 +41,13 @@ pnpm typecheck     # TypeScript type check (no emit)
 **Styling**: Use `cn()` from `@/lib/utils` to merge Tailwind classes. Prettier auto-sorts Tailwind classes on save (configured for `cn()` and `cva()` functions).
 
 **Custom component registry**: `components.json` points to an Efferd registry. Requires `EFFERD_REGISTRY_TOKEN` in `.env` to install new shadcn components.
+
+## Link Usage
+
+Always set `prefetch={false}` on every Next.js `<Link>` component:
+
+```tsx
+<Link href="/some-path" prefetch={false}>Label</Link>
+```
+
+**Why**: Next.js prefetches linked pages automatically in production, which causes unnecessary network requests and can degrade performance. Disabling it gives explicit control over when prefetching occurs.
