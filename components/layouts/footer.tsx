@@ -1,3 +1,5 @@
+import Image from "next/image"
+
 import { Logo } from "@/components/layouts/logo"
 import { CopyrightYear } from "@/components/layouts/copyright-year"
 import { Button } from "@/components/ui/button"
@@ -65,15 +67,15 @@ export function Footer() {
               aria-label="x/twitter"
               className="inline-flex items-center gap-1 text-foreground/80 hover:text-foreground hover:underline"
               href={"https://x.com/_kunalkeshan_"}
-              rel="noreferrer"
+              rel="noopener noreferrer"
               target="_blank"
             >
-              <img
+              <Image
                 alt="kunal"
                 className="size-4 rounded-full"
-                height="auto"
+                height={16}
                 src="https://github.com/kunalkeshan.png"
-                width="auto"
+                width={16}
               />
               Kunal
             </a>

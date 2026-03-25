@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 import { cn } from "@/lib/utils"
 import { Logo } from "@/components/layouts/logo"
 import { Button } from "@/components/ui/button"
@@ -38,7 +40,7 @@ export function Header() {
           variant="outline"
           asChild
         >
-          <a href="/#contact">Contact</a>
+          <Link href="/#contact">Contact</Link>
         </Button>
         <HeaderMenu />
       </div>
