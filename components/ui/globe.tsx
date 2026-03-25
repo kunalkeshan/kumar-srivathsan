@@ -25,7 +25,6 @@ export function Globe({ className, config, paused }: GlobeProps) {
     pausedRef.current = paused ?? false
   }, [paused])
   const isDraggingRef = useRef(false)
-  const hasDraggedRef = useRef(false)
   const startXRef = useRef(0)
   const startYRef = useRef(0)
   const startPhiRef = useRef(0)
@@ -88,7 +87,6 @@ export function Globe({ className, config, paused }: GlobeProps) {
 
   const onDown = (x: number, y: number) => {
     isDraggingRef.current = true
-    hasDraggedRef.current = false
     startXRef.current = x
     startYRef.current = y
     startPhiRef.current = phiRef.current
@@ -99,7 +97,6 @@ export function Globe({ className, config, paused }: GlobeProps) {
     if (!isDraggingRef.current) return
     const dx = x - startXRef.current
     const dy = y - startYRef.current
-    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) hasDraggedRef.current = true
     phiRef.current = startPhiRef.current - dx / 200
     thetaRef.current = Math.max(
       THETA_MIN,
@@ -115,7 +112,7 @@ export function Globe({ className, config, paused }: GlobeProps) {
     <canvas
       ref={canvasRef}
       className={cn(
-        "aspect-square w-full cursor-grab active:cursor-grabbing",
+        "aspect-square w-full cursor-grab touch-none active:cursor-grabbing",
         className
       )}
       onMouseEnter={() => {

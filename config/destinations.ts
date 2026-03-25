@@ -109,3 +109,6 @@ export const ROUTES: Route[] = [
 export const SHIP_ROUTE_IDS = ROUTES.filter((r) => r.shipIconId).map(
   (r) => r.shipIconId!
 );
+
+/** Lookup map from port id → Port for O(1) access */
+export const PORT_MAP = new Map<string, Port>(PORTS.map((p) => [p.id, p]));

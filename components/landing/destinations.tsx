@@ -5,7 +5,7 @@ import { useTheme } from "next-themes"
 import { Arc, COBEOptions } from "cobe"
 import { Container } from "@/components/layouts/container"
 import { Globe } from "@/components/ui/globe"
-import { PORTS, ROUTES, SHIP_ROUTE_IDS } from "@/config/destinations"
+import { PORT_MAP, PORTS, ROUTES, SHIP_ROUTE_IDS } from "@/config/destinations"
 import { cn } from "@/lib/utils"
 
 interface DestinationsProps {
@@ -13,7 +13,8 @@ interface DestinationsProps {
 }
 
 function portCoords(id: string): [number, number] {
-  const p = PORTS.find((x) => x.id === id)!
+  const p = PORT_MAP.get(id)
+  if (!p) throw new Error(`Unknown port id: "${id}"`)
   return [p.latitude, p.longitude]
 }
 
@@ -57,6 +58,12 @@ const LABEL_CSS = `
   cursor: pointer;
   transition: opacity 0.2s, background 0.15s, color 0.15s;
   pointer-events: auto;
+}
+.port-label:hover {
+  z-index: 20;
+}
+.port-label[data-active="true"] {
+  z-index: 30;
 }
 
 .ship-icon {
@@ -149,6 +156,7 @@ export function Destinations({ className }: DestinationsProps) {
               <button
                 key={port.id}
                 data-port={port.id}
+                data-active={isActive}
                 className={cn(
                   "port-label",
                   "bg-blue-500 text-white hover:bg-blue-600",
