@@ -1,20 +1,22 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import Link from "next/link"
-import { motion, useScroll, useTransform } from "motion/react"
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { heroVideoUrl } from "@/config/media"
 
 // ── Parallax tuning ───────────────────────────────────────────────────────────
 const PARALLAX_ENABLED = true
-const PARALLAX_Y_END = "35%" // how far the video shifts up on scroll
-const PARALLAX_SCALE_END = 1.1 // zoom-in factor at full scroll
+const PARALLAX_Y_END = "35%" // how far the video shifts down on scroll
+const PARALLAX_SCALE_END = 1.2 // zoom-in factor at full scroll
 // ─────────────────────────────────────────────────────────────────────────────
 
 export function HeroVideo() {
   const sectionRef = useRef<HTMLElement>(null)
+  const [videoError, setVideoError] = useState(false)
+  const prefersReducedMotion = useReducedMotion()
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -28,7 +30,8 @@ export function HeroVideo() {
     [1, PARALLAX_SCALE_END]
   )
 
-  const parallaxStyle = PARALLAX_ENABLED
+  const parallaxActive = PARALLAX_ENABLED && !prefersReducedMotion
+  const parallaxStyle = parallaxActive
     ? { y: yMotion, scale: scaleMotion }
     : { y: "0%", scale: 1 }
 
@@ -37,21 +40,35 @@ export function HeroVideo() {
       ref={sectionRef}
       className="relative -mt-14 h-svh w-full overflow-hidden md:h-screen"
     >
-      {/* Video background with parallax */}
+      {/* Video background with parallax (falls back to static images on error) */}
       <motion.div
         className="absolute inset-x-0 top-0 h-[120%] w-full"
         style={parallaxStyle}
         aria-hidden="true"
       >
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          src={heroVideoUrl}
-          className="h-full w-full object-cover"
-        />
+        {videoError ? (
+          <>
+            <div
+              className="absolute inset-0 bg-cover bg-center md:hidden"
+              style={{ backgroundImage: "url('/assets/canvas.webp')" }}
+            />
+            <div
+              className="absolute inset-0 hidden bg-cover bg-center md:block"
+              style={{ backgroundImage: "url('/assets/hero.webp')" }}
+            />
+          </>
+        ) : (
+          <video
+            autoPlay={!prefersReducedMotion}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            src={heroVideoUrl}
+            className="h-full w-full object-cover"
+            onError={() => setVideoError(true)}
+          />
+        )}
       </motion.div>
 
       {/* Dark gradient overlay */}
