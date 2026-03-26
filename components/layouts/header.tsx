@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils"
 import { Logo } from "@/components/layouts/logo"
 import { Button } from "@/components/ui/button"
 import { HeaderMenu } from "@/components/layouts/header-menu"
+import { HashLink } from "@/components/ui/hash-link"
 
 export function Header() {
   return (
@@ -17,9 +18,10 @@ export function Header() {
         cornerShape: "squircle",
       }}
     >
-      <a
+      <Link
         className="flex h-10 cursor-pointer items-center justify-center rounded-full px-3 hover:bg-accent"
-        href="#"
+        href="/"
+        prefetch={false}
         style={{
           // @ts-expect-error cornerShape is a non-standard style prop
           cornerShape: "squircle",
@@ -27,7 +29,7 @@ export function Header() {
       >
         <Logo size="sm" />
         <span className="sr-only">Efferd Logo</span>
-      </a>
+      </Link>
 
       <div className="flex items-center gap-2">
         <Button
@@ -40,7 +42,7 @@ export function Header() {
           variant="outline"
           asChild
         >
-          <Link href="/#contact" prefetch={false}>Contact</Link>
+          <HashLink href="/#contact">Contact</HashLink>
         </Button>
         <HeaderMenu />
       </div>

@@ -1,8 +1,8 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { HashLink } from "@/components/ui/hash-link"
 import { cn } from "@/lib/utils"
 
 export function Hero() {
@@ -88,7 +88,7 @@ export function Hero() {
           )}
           asChild
         >
-          <Link href="/#contact" prefetch={false}>Get in Touch</Link>
+          <HashLink href="/#contact">Get in Touch</HashLink>
         </Button>
       </div>
     </section>

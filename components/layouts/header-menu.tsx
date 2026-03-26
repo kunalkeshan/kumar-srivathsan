@@ -10,6 +10,7 @@ import {
 import { ArrowRightIcon } from "lucide-react";
 import { socialLinks } from "@/config/socials";
 import { navLinks } from "@/config/navigation";
+import { HashLink } from "@/components/ui/hash-link";
 
 export function HeaderMenu() {
 	const [open, setOpen] = useState(false);
@@ -53,13 +54,14 @@ export function HeaderMenu() {
 			<PopoverContent
 				align="end"
 				className="-mr-2 w-[92svw] gap-0 overflow-hidden p-0 md:w-48"
+				onCloseAutoFocus={(event) => event.preventDefault()}
 				sideOffset={12}
 			>
 				<ul className="grid grid-cols-1 border-b bg-background p-2">
 					{navLinks.map((item) => (
 						<li className="w-full" key={item.label}>
 							{item.isLive ? (
-								<a
+								<HashLink
 									className="group rounded-md flex w-full items-center justify-between px-3 py-2 font-medium hover:bg-muted active:bg-muted dark:hover:bg-muted/50"
 									href={item.href}
 									onClick={() => setOpen(false)}
@@ -73,7 +75,7 @@ export function HeaderMenu() {
 									<div className="relative ml-auto flex h-full w-4 items-center">
 										<ArrowRightIcon className="size-4 opacity-50 transition-all group-hover:translate-x-0 group-hover:opacity-50 md:-translate-x-2 md:opacity-0" />
 									</div>
-								</a>
+								</HashLink>
 							) : (
 								<span
 									aria-disabled="true"

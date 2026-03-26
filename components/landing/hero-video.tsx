@@ -1,9 +1,9 @@
 "use client"
 
 import { useRef, useState } from "react"
-import Link from "next/link"
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { Button } from "@/components/ui/button"
+import { HashLink } from "@/components/ui/hash-link"
 import { cn } from "@/lib/utils"
 import { heroVideoUrl } from "@/config/media"
 
@@ -108,9 +108,7 @@ export function HeroVideo() {
           )}
           asChild
         >
-          <Link href="/#contact" prefetch={false}>
-            Get in Touch
-          </Link>
+          <HashLink href="/#contact">Get in Touch</HashLink>
         </Button>
       </div>
     </section>

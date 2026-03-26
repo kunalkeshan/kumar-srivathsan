@@ -1,9 +1,8 @@
-import Link from "next/link"
-
 import { ArrowRight } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Container } from "@/components/layouts/container"
+import { HashLink } from "@/components/ui/hash-link"
 import { cn } from "@/lib/utils"
 
 const stats = [
@@ -37,10 +36,10 @@ export function About() {
             size="default"
             variant="default"
           >
-            <Link href="/#contact" prefetch={false}>
+            <HashLink href="/#contact">
               <span className="px-2 py-px">Let&apos;s Talk</span>
               <ArrowRight className="size-5" />
-            </Link>
+            </HashLink>
           </Button>
         </div>
 

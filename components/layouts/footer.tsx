@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 
 import { Logo } from "@/components/layouts/logo"
 import { CopyrightYear } from "@/components/layouts/copyright-year"
@@ -6,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { socialLinks } from "@/config/socials"
 import { footerLinks } from "@/config/navigation"
 import { Container } from "@/components/layouts/container"
+import { HashLink } from "@/components/ui/hash-link"
 
 export function Footer() {
   return (
@@ -32,9 +34,19 @@ export function Footer() {
               {footerLinks.map((link) => (
                 <li key={link.label}>
                   {link.isLive ? (
-                    <a className="hover:text-foreground" href={link.href}>
-                      {link.label}
-                    </a>
+                    link.href.startsWith("/#") || link.href.startsWith("#") ? (
+                      <HashLink className="hover:text-foreground" href={link.href}>
+                        {link.label}
+                      </HashLink>
+                    ) : (
+                      <Link
+                        className="hover:text-foreground"
+                        href={link.href}
+                        prefetch={false}
+                      >
+                        {link.label}
+                      </Link>
+                    )
                   ) : (
                     <span
                       aria-disabled="true"
