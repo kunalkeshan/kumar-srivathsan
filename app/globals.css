@@ -38,7 +38,7 @@
   --sidebar-border: #e5e5e5;
   --sidebar-ring: #a1a1a1;
   --font-sans: Space Grotesk, ui-sans-serif, sans-serif, system-ui;
-  --font-serif: DM Serif Text, ui-serif, serif;
+  --font-serif: Source Serif 4, ui-serif, serif;
   --font-mono: IBM Plex Mono, ui-monospace, monospace;
   --radius: 0.625rem;
   --shadow-x: 0;
@@ -97,7 +97,7 @@
   --sidebar-border: #282828;
   --sidebar-ring: #525252;
   --font-sans: Space Grotesk, ui-sans-serif, sans-serif, system-ui;
-  --font-serif: DM Serif Text, ui-serif, serif;
+  --font-serif: Source Serif 4, ui-serif, serif;
   --font-mono: IBM Plex Mono, ui-monospace, monospace;
   --radius: 0.625rem;
   --shadow-x: 0;
@@ -178,6 +178,15 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif;
   }
 }

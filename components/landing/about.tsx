@@ -20,7 +20,7 @@ export function About() {
         {/* Header row */}
         <div className="mx-auto flex w-full flex-col items-center justify-start gap-4 sm:max-w-lg lg:max-w-full lg:flex-row lg:items-center lg:gap-7">
           <div className="inline-flex w-full flex-col items-center justify-start gap-3 lg:items-start">
-            <h2 className="text-center font-sans text-4xl leading-normal font-bold text-foreground lg:text-start">
+            <h2 className="text-center font-serif text-4xl leading-normal font-bold text-foreground lg:text-start">
               About
             </h2>
             <p className="w-full text-center text-lg leading-relaxed font-normal text-muted-foreground lg:max-w-3xl lg:text-start">
@@ -67,7 +67,7 @@ export function About() {
             />
             <div className="flex w-full flex-col items-start justify-start gap-8">
               <div className="flex w-full flex-col items-start justify-start gap-1.5">
-                <h3 className="font-sans text-2xl leading-9 font-semibold text-foreground">
+                <h3 className="font-serif text-2xl leading-9 font-semibold text-foreground">
                   A Family Rooted in the Sea
                 </h3>
                 <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground">
@@ -83,7 +83,7 @@ export function About() {
                 household, Kumar was drawn to the sea early. The values
                 instilled at home — precision, responsibility, and a respect for
                 the ocean&apos;s power — continue to shape how he approaches
-                every voyage.
+                every <span className="font-serif">voyage</span>.
               </p>
             </div>
           </div>
@@ -117,11 +117,12 @@ export function About() {
 
             {/* Title + first para — row 1 col 2 on desktop */}
             <div className="flex flex-col gap-2">
-              <h3 className="font-sans text-2xl leading-9 font-semibold text-foreground">
+              <h3 className="font-serif text-2xl leading-9 font-semibold text-foreground">
                 Charting His Own Course
               </h3>
               <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground">
-                With years of hands-on experience navigating commercial vessels
+                With years of hands-on <span className="font-serif">experience</span>{" "}
+                navigating commercial vessels
                 across international waters, Kumar Srivathsan has built a
                 reputation for meticulous route planning, bridge resource
                 management, and unwavering adherence to STCW and SOLAS

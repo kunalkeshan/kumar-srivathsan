@@ -50,7 +50,7 @@ const LABEL_CSS = `
   margin-bottom: 6px;
   padding: 2px 6px;
   border-radius: 4px;
-  font-family: var(--font-ibm-plex-mono, monospace);
+  font-family: var(--font-mono, monospace);
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.05em;

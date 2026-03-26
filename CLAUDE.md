@@ -73,3 +73,18 @@ Always set `prefetch={false}` on every Next.js `<Link>` component:
 ```
 
 **Why**: Next.js prefetches linked pages automatically in production, which causes unnecessary network requests and can degrade performance. Disabling it gives explicit control over when prefetching occurs.
+
+## Typography Guidelines
+Use fonts intentionally (semantic mapping):
+
+- Sans (default body): `Space Grotesk` (`font-sans`)
+- Serif (headings + emphasis words): `Source Serif 4` (`font-serif`)
+- Mono (data/log semantics): `IBM Plex Mono` (`font-mono`)
+
+Rules:
+- Headings (`h1`-`h6`) should be serif by default. If a specific word is intended to read like a heading (e.g. “Voyage”, “Experience”, “Logbook”), wrap just that word with `font-serif`.
+- Body text remains sans.
+- Mono for:
+  - Coordinates: `13.0827° N, 80.2707° E` (use `font-mono`)
+  - Dates: format in `UTC +05:30` (use `font-mono`)
+  - Logs: render like `ENTRY #042` (use `font-mono`)

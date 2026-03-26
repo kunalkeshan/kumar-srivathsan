@@ -1,6 +1,6 @@
 // For adding custom fonts with other frameworks, see:
 // https://tailwindcss.com/docs/font-family
-import { Space_Grotesk, DM_Serif_Text, IBM_Plex_Mono } from "next/font/google"
+import { Space_Grotesk, Source_Serif_4, IBM_Plex_Mono } from "next/font/google"
 import "./globals.css"
 import { Header } from "@/components/layouts/header"
 import { Footer } from "@/components/layouts/footer"
@@ -11,7 +11,7 @@ const fontSans = Space_Grotesk({
   variable: "--font-sans",
 })
 
-const fontSerif = DM_Serif_Text({
+const fontSerif = Source_Serif_4({
   subsets: ["latin"],
   variable: "--font-serif",
   weight: ["400"],

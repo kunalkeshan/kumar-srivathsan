@@ -61,7 +61,7 @@ export function Hero() {
       <div className="relative z-10 flex h-full w-full flex-col items-center justify-center px-6 text-center">
         <h1
           className={cn(
-            "font-sans text-4xl font-bold tracking-tight text-white",
+            "font-serif text-4xl font-bold tracking-tight text-white",
             "md:text-6xl lg:text-7xl"
           )}
         >
@@ -70,7 +70,7 @@ export function Hero() {
 
         <h2
           className={cn(
-            "mt-4 max-w-xl font-sans text-base font-normal text-white/80",
+            "mt-4 max-w-xl font-serif text-base font-normal text-white/80",
             "md:mt-6 md:max-w-2xl md:text-xl"
           )}
         >
