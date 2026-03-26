@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -26,10 +27,6 @@ export function Hero() {
     }
   }, [])
 
-  const handleContact = () => {
-    document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" })
-  }
-
   return (
     <section className="relative -mt-14 h-svh w-full overflow-hidden md:h-screen">
       {/* Mobile background — canvas.png (9:16) */}
@@ -37,7 +34,7 @@ export function Hero() {
         ref={mobileBgRef}
         className="absolute inset-x-0 top-0 h-[120%] bg-cover bg-center md:hidden"
         style={{
-          backgroundImage: "url('/assets/canvas.png')",
+          backgroundImage: "url('/assets/canvas.webp')",
           willChange: "transform",
         }}
         aria-hidden="true"
@@ -48,7 +45,7 @@ export function Hero() {
         ref={desktopBgRef}
         className="absolute inset-x-0 -top-[20%] hidden h-[140%] bg-cover bg-center md:block"
         style={{
-          backgroundImage: "url('/assets/hero.jpg')",
+          backgroundImage: "url('/assets/hero.webp')",
           willChange: "transform",
         }}
         aria-hidden="true"
@@ -61,12 +58,7 @@ export function Hero() {
       />
 
       {/* Content */}
-      <div
-        className={cn(
-          "relative z-10 flex h-full w-full flex-col items-center justify-center px-6 text-center",
-          "md:justify-start md:pt-28"
-        )}
-      >
+      <div className="relative z-10 flex h-full w-full flex-col items-center justify-center px-6 text-center">
         <h1
           className={cn(
             "font-sans text-4xl font-bold tracking-tight text-white",
@@ -89,14 +81,14 @@ export function Hero() {
 
         <Button
           size="lg"
-          onClick={handleContact}
+          variant="outline"
           className={cn(
-            "mt-8 rounded-full border-white/70 bg-transparent text-white hover:bg-white hover:text-black",
+            "mt-8 rounded-full border-white/70 bg-white text-black hover:bg-white/15 hover:text-white hover:backdrop-blur-sm",
             "md:mt-10"
           )}
-          variant="outline"
+          asChild
         >
-          Get in Touch
+          <Link href="/#contact" prefetch={false}>Get in Touch</Link>
         </Button>
       </div>
     </section>

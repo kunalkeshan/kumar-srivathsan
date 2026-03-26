@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { preload } from "react-dom"
 import { About } from "@/components/landing/about"
 import { Hero } from "@/components/landing/hero"
 import { Contact } from "@/components/landing/contact"
@@ -11,6 +12,17 @@ export const metadata: Metadata = {
 }
 
 export default function Page() {
+  preload("/assets/canvas.webp", {
+    as: "image",
+    fetchPriority: "high",
+    media: "(max-width: 767px)",
+  })
+  preload("/assets/hero.webp", {
+    as: "image",
+    fetchPriority: "high",
+    media: "(min-width: 768px)",
+  })
+
   return (
     <main>
       <Hero />
