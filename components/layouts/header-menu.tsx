@@ -28,7 +28,9 @@ export function HeaderMenu() {
 						cornerShape: "squircle",
 					}}
 				>
-					<span className="w-10 text-start">{open ? "Close" : "Menu"}</span>
+					<span className="hidden w-10 text-start md:block">
+						{open ? "Close" : "Menu"}
+					</span>
 					<div className="relative size-4 translate-y-px">
 						<span
 							className={cn(
