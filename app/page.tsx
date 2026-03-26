@@ -1,14 +1,15 @@
 import type { Metadata } from "next"
 import { preload } from "react-dom"
 import { About } from "@/components/landing/about"
-import { Hero } from "@/components/landing/hero"
+// import { Hero } from "@/components/landing/hero"
 import { Contact } from "@/components/landing/contact"
 import { Destinations } from "@/components/landing/destinations"
+import { HeroVideo } from "@/components/landing/hero-video"
 
 export const metadata: Metadata = {
-	alternates: {
-		canonical: "/",
-	},
+  alternates: {
+    canonical: "/",
+  },
 }
 
 export default function Page() {
@@ -25,7 +26,8 @@ export default function Page() {
 
   return (
     <main>
-      <Hero />
+      {/* <Hero /> */}
+      <HeroVideo />
       <About />
       <Destinations />
       <Contact />
