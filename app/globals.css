@@ -41,6 +41,8 @@
   --font-serif: Source Serif 4, ui-serif, serif;
   --font-mono: IBM Plex Mono, ui-monospace, monospace;
   --radius: 0.625rem;
+  --radius-button: 9999px;
+  --radius-surface: calc(var(--radius) + 4px);
   --shadow-x: 0;
   --shadow-y: 1px;
   --shadow-blur: 3px;
@@ -162,6 +164,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --radius-button: var(--radius-button);
+  --radius-surface: var(--radius-surface);
 
   --shadow-2xs: var(--shadow-2xs);
   --shadow-xs: var(--shadow-xs);

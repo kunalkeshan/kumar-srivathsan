@@ -33,7 +33,6 @@ export function Header() {
 
       <div className="flex items-center gap-2">
         <Button
-          className="rounded-full"
           size="lg"
           style={{
             // @ts-expect-error cornerShape is a non-standard style prop

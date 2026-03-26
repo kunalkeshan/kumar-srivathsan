@@ -35,7 +35,10 @@ export function Footer() {
                 <li key={link.label}>
                   {link.isLive ? (
                     link.href.startsWith("/#") || link.href.startsWith("#") ? (
-                      <HashLink className="hover:text-foreground" href={link.href}>
+                      <HashLink
+                        className="hover:text-foreground"
+                        href={link.href}
+                      >
                         {link.label}
                       </HashLink>
                     ) : (
@@ -78,7 +81,7 @@ export function Footer() {
             <a
               aria-label="x/twitter"
               className="inline-flex items-center gap-1 text-foreground/80 hover:text-foreground hover:underline"
-              href={"https://x.com/_kunalkeshan_"}
+              href={"https://kunalkeshan.dev"}
               rel="noopener noreferrer"
               target="_blank"
             >

@@ -74,6 +74,22 @@ Always set `prefetch={false}` on every Next.js `<Link>` component:
 
 **Why**: Next.js prefetches linked pages automatically in production, which causes unnecessary network requests and can degrade performance. Disabling it gives explicit control over when prefetching occurs.
 
+## UI Radius Standard
+
+Two semantic radius tokens control all component shape — defined in `app/globals.css` and mapped via `@theme inline`:
+
+| Token | Value | Tailwind utility | Use for |
+|---|---|---|---|
+| `--radius-button` | `9999px` | `rounded-button` | All `<Button>` instances (any size/variant) |
+| `--radius-surface` | `calc(--radius + 4px)` (~14px) | `rounded-surface` | `<Card>`, `<Accordion>` triggers, container surfaces |
+
+**Rules:**
+
+- **Buttons** (`components/ui/button.tsx`) default to `rounded-button` (pill). **Never** add `rounded-*` overrides to a `<Button>` usage in feature components — the primitive handles it.
+- **Cards** (`components/ui/card.tsx`) and **Accordions** (`components/ui/accordion.tsx`) use `rounded-surface` for outer containers and trigger focus rings.
+- **No hardcoded radius in feature components.** Use tokens only. Do not write `rounded-full`, `rounded-xl`, `rounded-2xl`, etc. directly on `<Button>`, `<Card>`, or `<Accordion>` instances in page/section components.
+- **Raw layout divs** (non-primitive containers in `components/landing/`) may use Tailwind radius utilities directly for their own visual design, but should prefer `rounded-surface` when mimicking a card-like shape.
+
 ## Typography Guidelines
 Use fonts intentionally (semantic mapping):
 
