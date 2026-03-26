@@ -22,7 +22,7 @@ export function HeaderMenu() {
 					aria-controls="mobile-menu"
 					aria-expanded={open}
 					aria-label="Toggle menu"
-					className="gap-1.5 rounded-full px-3"
+					className="gap-1.5 px-3"
 					size="lg"
 					style={{
 						// @ts-expect-error cornerShape is a non-standard style prop

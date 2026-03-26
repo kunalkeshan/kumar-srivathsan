@@ -83,7 +83,7 @@ export function Hero() {
           size="lg"
           variant="outline"
           className={cn(
-            "mt-8 rounded-full border-white/70 bg-white text-black hover:bg-white/15 hover:text-white hover:backdrop-blur-sm",
+            "mt-8 border-white/70 bg-white text-black hover:bg-white/15 hover:text-white hover:backdrop-blur-sm",
             "md:mt-10"
           )}
           asChild
