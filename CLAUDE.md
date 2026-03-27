@@ -87,6 +87,7 @@ Two semantic radius tokens control all component shape — defined in `app/globa
 
 - For `<Button>`, `<Card>`, and `<AccordionTrigger>`, `squircle` is already baked into the primitive base class. Do not add it again at call sites.
 - For non-primitive rounded containers (e.g. layout divs, link wrappers like the header logo link), add `squircle` alongside any `rounded-*` class.
+- **Any time you write a `rounded-*` class anywhere in the codebase, you must also add `squircle` on the same element.** No exceptions — this applies to cards, images, stat boxes, icon wrappers, layout divs, and any other element with rounded corners.
 - Browsers that don't support `corner-shape` render standard rounded corners — no fallback needed.
 
 **Rules:**

@@ -48,7 +48,7 @@ export function About() {
           {/* Left card — Family Legacy */}
           <div
             className={cn(
-              "col-span-12 inline-flex w-full flex-col items-start justify-start gap-5 rounded-2xl border border-border p-5",
+              "col-span-12 inline-flex w-full flex-col items-start justify-start gap-5 rounded-2xl squircle border border-border p-5",
               "shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]",
               "transition-all duration-700 ease-in-out hover:border-foreground/40",
               "lg:col-span-3 lg:p-3 xl:col-span-4 xl:p-5"
@@ -58,7 +58,7 @@ export function About() {
             <img
               src="https://pagedone.io/asset/uploads/1724131218.png"
               alt="Maritime family legacy"
-              className="h-auto w-full rounded-xl object-cover"
+              className="h-auto w-full rounded-xl squircle object-cover"
               width={600}
               height={400}
               loading="lazy"
@@ -96,7 +96,7 @@ export function About() {
           */}
           <div
             className={cn(
-              "col-span-12 flex w-full flex-col gap-6 rounded-2xl border border-border p-5",
+              "col-span-12 flex w-full flex-col gap-6 rounded-2xl squircle border border-border p-5",
               "shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]",
               "transition-all duration-700 ease-in-out hover:border-foreground/40",
               "lg:col-span-9 lg:grid lg:grid-cols-[auto_1fr] lg:gap-x-6 lg:gap-y-5 lg:p-3 xl:col-span-8 xl:p-5"
@@ -107,7 +107,7 @@ export function About() {
             <img
               src="https://pagedone.io/asset/uploads/1724131231.png"
               alt="Kumar Srivathsan, Navigation Officer"
-              className="h-60 w-full rounded-xl object-cover lg:h-auto lg:w-72 lg:self-start"
+              className="h-60 w-full rounded-xl squircle object-cover lg:h-auto lg:w-72 lg:self-start"
               width={288}
               height={216}
               loading="lazy"
@@ -134,7 +134,7 @@ export function About() {
               {stats.map(({ value, label }) => (
                 <div
                   key={label}
-                  className="inline-flex flex-col items-start justify-start gap-0.5 rounded-lg border border-border bg-background p-2.5"
+                  className="inline-flex flex-col items-start justify-start gap-0.5 rounded-lg squircle border border-border bg-background p-2.5"
                 >
                   <span className="font-sans text-2xl leading-9 font-bold text-foreground">
                     {value}

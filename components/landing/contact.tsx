@@ -48,7 +48,7 @@ export function Contact() {
               >
                 <div
                   className={cn(
-                    "flex size-12 shrink-0 items-center justify-center rounded-lg bg-muted/50 transition-colors group-hover:bg-background",
+                    "flex size-12 shrink-0 items-center justify-center rounded-lg squircle bg-muted/50 transition-colors group-hover:bg-background",
                     "[&_svg]:size-4 [&_svg]:text-muted-foreground [&_svg]:transition-transform [&_svg]:duration-300 [&_svg]:ease-in-out group-hover:[&_svg]:scale-110"
                   )}
                 >
@@ -68,7 +68,7 @@ export function Contact() {
             >
               <div
                 className={cn(
-                  "flex size-12 shrink-0 items-center justify-center rounded-lg bg-muted/50 transition-colors group-hover:bg-background",
+                  "flex size-12 shrink-0 items-center justify-center rounded-lg squircle bg-muted/50 transition-colors group-hover:bg-background",
                   "[&_svg]:size-4 [&_svg]:text-muted-foreground [&_svg]:transition-transform [&_svg]:duration-300 [&_svg]:ease-in-out group-hover:[&_svg]:scale-110"
                 )}
               >
