@@ -83,12 +83,18 @@ Two semantic radius tokens control all component shape — defined in `app/globa
 | `--radius-button` | `9999px` | `rounded-button` | All `<Button>` instances (any size/variant) |
 | `--radius-surface` | `calc(--radius + 4px)` (~14px) | `rounded-surface` | `<Card>`, `<Accordion>` triggers, container surfaces |
 
+**Squircle**: All rounded elements use `corner-shape: squircle` via the `squircle` CSS utility (defined in `app/globals.css`). This modifies how corners are drawn — producing a smooth superellipse curve — without changing the radius value.
+
+- For `<Button>`, `<Card>`, and `<AccordionTrigger>`, `squircle` is already baked into the primitive base class. Do not add it again at call sites.
+- For non-primitive rounded containers (e.g. layout divs, link wrappers like the header logo link), add `squircle` alongside any `rounded-*` class.
+- Browsers that don't support `corner-shape` render standard rounded corners — no fallback needed.
+
 **Rules:**
 
-- **Buttons** (`components/ui/button.tsx`) default to `rounded-button` (pill). **Never** add `rounded-*` overrides to a `<Button>` usage in feature components — the primitive handles it.
-- **Cards** (`components/ui/card.tsx`) and **Accordions** (`components/ui/accordion.tsx`) use `rounded-surface` for outer containers and trigger focus rings.
+- **Buttons** (`components/ui/button.tsx`) default to `rounded-button squircle` (pill + squircle). **Never** add `rounded-*` or `squircle` overrides to a `<Button>` usage in feature components — the primitive handles it.
+- **Cards** (`components/ui/card.tsx`) and **Accordions** (`components/ui/accordion.tsx`) use `rounded-surface squircle` for outer containers and trigger focus rings.
 - **No hardcoded radius in feature components.** Use tokens only. Do not write `rounded-full`, `rounded-xl`, `rounded-2xl`, etc. directly on `<Button>`, `<Card>`, or `<Accordion>` instances in page/section components.
-- **Raw layout divs** (non-primitive containers in `components/landing/`) may use Tailwind radius utilities directly for their own visual design, but should prefer `rounded-surface` when mimicking a card-like shape.
+- **Raw layout divs** (non-primitive containers in `components/landing/`) may use Tailwind radius utilities directly for their own visual design, but should prefer `rounded-surface squircle` when mimicking a card-like shape.
 
 ## Typography Guidelines
 Use fonts intentionally (semantic mapping):
