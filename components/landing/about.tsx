@@ -18,11 +18,11 @@ export function About() {
       <Container className="flex w-full flex-col items-start justify-start gap-10 lg:gap-12">
         {/* Header row */}
         <div className="mx-auto flex w-full flex-col items-center justify-start gap-4 sm:max-w-lg lg:max-w-full lg:flex-row lg:items-center lg:gap-7">
-          <div className="inline-flex w-full flex-col items-center justify-start gap-3 lg:items-start">
-            <h2 className="text-center font-serif text-4xl leading-normal font-bold text-foreground lg:text-start">
+          <div className="inline-flex w-full flex-col items-start justify-start gap-3">
+            <h2 className="w-full text-start font-serif text-4xl leading-normal font-bold text-foreground">
               About
             </h2>
-            <p className="w-full text-center text-lg leading-relaxed font-normal text-muted-foreground lg:max-w-3xl lg:text-start">
+            <p className="w-full text-start text-lg leading-relaxed font-normal text-muted-foreground lg:max-w-3xl">
               Kumar Srivathsan is a dedicated navigation officer committed to
               maritime excellence — charting safe passages, upholding
               international standards, and carrying a proud seafaring legacy
