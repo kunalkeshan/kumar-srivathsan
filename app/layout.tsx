@@ -4,6 +4,7 @@ import { Space_Grotesk, Source_Serif_4, IBM_Plex_Mono } from "next/font/google"
 import "./globals.css"
 import { Header } from "@/components/layouts/header"
 import { Footer } from "@/components/layouts/footer"
+import { Providers } from "@/components/providers"
 import { baseMetadata } from "@/config/metadata"
 
 const fontSans = Space_Grotesk({
@@ -31,13 +32,15 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="scroll-pt-12 scroll-smooth motion-reduce:scroll-auto lg:scroll-pt-16">
+    <html lang="en" suppressHydrationWarning className="scroll-pt-12 scroll-smooth motion-reduce:scroll-auto lg:scroll-pt-16">
       <body
         className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} antialiased`}
       >
-        <Header />
-        {children}
-        <Footer />
+        <Providers>
+          <Header />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   )
