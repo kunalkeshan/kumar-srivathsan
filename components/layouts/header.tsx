@@ -10,37 +10,21 @@ export function Header() {
   return (
     <header
       className={cn(
-        "sticky top-4 z-50 mx-auto flex h-14 w-[92svw] items-center justify-between rounded-full border bg-background/95 px-2 shadow-sm backdrop-blur-sm supports-backdrop-filter:bg-background/50",
+        "sticky top-4 z-50 mx-auto flex h-14 w-[92svw] items-center justify-between rounded-full squircle border bg-background/95 px-2 shadow-sm backdrop-blur-sm supports-backdrop-filter:bg-background/50",
         "md:max-w-3xl"
       )}
-      style={{
-        // @ts-expect-error cornerShape is a non-standard style prop
-        cornerShape: "squircle",
-      }}
     >
       <Link
-        className="flex h-10 cursor-pointer items-center justify-center rounded-full px-3 hover:bg-accent"
+        className="flex h-10 cursor-pointer items-center justify-center rounded-full squircle px-3 hover:bg-accent"
         href="/"
         prefetch={false}
-        style={{
-          // @ts-expect-error cornerShape is a non-standard style prop
-          cornerShape: "squircle",
-        }}
       >
         <Logo size="sm" />
         <span className="sr-only">Efferd Logo</span>
       </Link>
 
       <div className="flex items-center gap-2">
-        <Button
-          size="lg"
-          style={{
-            // @ts-expect-error cornerShape is a non-standard style prop
-            cornerShape: "squircle",
-          }}
-          variant="outline"
-          asChild
-        >
+        <Button size="lg" variant="outline" asChild>
           <HashLink href="/#contact">Contact</HashLink>
         </Button>
         <HeaderMenu />

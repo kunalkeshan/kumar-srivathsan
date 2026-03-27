@@ -24,10 +24,6 @@ export function HeaderMenu() {
 					aria-label="Toggle menu"
 					className="gap-1.5 px-3"
 					size="lg"
-					style={{
-						// @ts-expect-error cornerShape is a non-standard style prop
-						cornerShape: "squircle",
-					}}
 				>
 					<span className="hidden w-10 text-start md:block">
 						{open ? "Close" : "Menu"}
