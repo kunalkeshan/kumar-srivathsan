@@ -1,18 +1,42 @@
+/**
+ * Port and shipping route data for the interactive globe in the Destinations section.
+ *
+ * Exports:
+ * - {@link PORTS}         — all ports Kumar has visited, with coordinates for globe markers
+ * - {@link ROUTES}        — shipping routes drawn as arcs between ports
+ * - {@link SHIP_ROUTE_IDS} — IDs of long-haul routes that show a ship emoji at their midpoint
+ * - {@link PORT_MAP}      — `Map<id, Port>` for O(1) port lookups by ID
+ */
+
+/** A port visited by Kumar, used as a globe marker. */
 export type Port = {
+  /** Unique identifier used to reference this port in {@link Route} entries. */
   id: string;
-  /** 3-4 letter shortcode shown on the globe marker */
+  /** 3–4 letter shortcode shown on the globe label (e.g. `"SGP"`). */
   code: string;
+  /** Full port name shown when a label is expanded (e.g. `"Singapore"`). */
   name: string;
+  /** WGS 84 latitude in decimal degrees. */
   latitude: number;
+  /** WGS 84 longitude in decimal degrees. */
   longitude: number;
 };
 
+/** A shipping route drawn as an arc between two ports on the globe. */
 export type Route = {
-  from: string; // port id
-  to: string; // port id
-  shipIconId?: string; // set to give this arc a ship emoji overlay
+  /** ID of the departure port — must exist in {@link PORTS}. */
+  from: string;
+  /** ID of the destination port — must exist in {@link PORTS}. */
+  to: string;
+  /**
+   * When set, a ship emoji (⛴️) is rendered at the arc midpoint using CSS
+   * Anchor Positioning. Only set this on long-haul cross-ocean routes to
+   * avoid visual clutter on short regional arcs.
+   */
+  shipIconId?: string;
 };
 
+/** All ports visited by Kumar Srivathsan, ordered roughly by shipping region. */
 export const PORTS: Port[] = [
   { id: "singapore",      code: "SGP", name: "Singapore",           latitude: 1.25937,   longitude: 103.7544  },
   { id: "jebel-ali",      code: "JEA", name: "Jebel Ali",           latitude: 25.01126,  longitude: 55.06116  },

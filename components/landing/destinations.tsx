@@ -8,10 +8,16 @@ import { Globe } from "@/components/ui/globe"
 import { PORT_MAP, PORTS, ROUTES, SHIP_ROUTE_IDS } from "@/config/destinations"
 import { cn } from "@/lib/utils"
 
+/** Props for {@link Destinations} */
 interface DestinationsProps {
+  /** Additional Tailwind classes applied to the outer `<section>` element. */
   className?: string
 }
 
+/**
+ * Returns the `[latitude, longitude]` tuple for a port by its ID.
+ * Throws if the ID is not found in {@link PORT_MAP}.
+ */
 function portCoords(id: string): [number, number] {
   const p = PORT_MAP.get(id)
   if (!p) throw new Error(`Unknown port id: "${id}"`)
@@ -95,6 +101,23 @@ ${SHIP_ROUTE_IDS.map(
 ).join("")}
 `
 
+/**
+ * Interactive globe section displaying all ports visited by Kumar Srivathsan.
+ *
+ * Renders a COBE WebGL globe with port markers sourced from
+ * {@link PORTS} in `config/destinations.ts`. Each visible port on the
+ * facing hemisphere shows a clickable code label (e.g. `SGP`); clicking
+ * expands it to the full port name.
+ *
+ * Shipping route arcs are defined in {@link ROUTES} but hidden by default
+ * (`SHOW_ARCS = false`). Set `SHOW_ARCS = true` to render them, along with
+ * ship emoji icons at long-haul arc midpoints.
+ *
+ * Port label positioning uses the CSS Anchor Positioning API (Chrome 125+,
+ * Firefox 147+) injected via a `<style>` tag scoped to this section. The
+ * globe adapts its colour palette to the active theme (light/dark) via
+ * `next-themes`.
+ */
 export function Destinations({ className }: DestinationsProps) {
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === "dark"

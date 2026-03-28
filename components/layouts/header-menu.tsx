@@ -12,6 +12,19 @@ import { socialLinks } from "@/config/socials";
 import { navLinks } from "@/config/navigation";
 import { HashLink } from "@/components/ui/hash-link";
 
+/**
+ * Navigation popover triggered from the header.
+ *
+ * Renders a two-dot animated hamburger/close toggle button. When open,
+ * displays a {@link Popover} with:
+ * - A vertical nav list sourced from `config/navigation.ts`. Live links use
+ *   {@link HashLink} and close the popover on click; `isLive: false` links
+ *   render as disabled spans with a "soon" badge.
+ * - A row of social icon buttons sourced from `config/socials.ts`. External
+ *   links open in a new tab unless `external` is explicitly `false`.
+ *
+ * On mobile the popover spans 92svw; on desktop it is fixed at 192px (w-48).
+ */
 export function HeaderMenu() {
 	const [open, setOpen] = useState(false);
 

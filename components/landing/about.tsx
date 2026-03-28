@@ -6,6 +6,7 @@ import { HashLink } from "@/components/ui/hash-link"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 
+/** Career highlight statistics rendered in the Kumar's Story card. */
 const stats = [
   { value: "1+", label: "Years at Sea" },
   { value: "2+", label: "Vessel Categories" },
@@ -13,6 +14,19 @@ const stats = [
   { value: "12+", label: "Certifications" },
 ]
 
+/**
+ * About section presenting Kumar Srivathsan's professional background and
+ * family maritime legacy.
+ *
+ * Layout: two-column card grid on desktop (lg+).
+ * - Left card (col-span 3/4): Family Legacy — image + three paragraphs of
+ *   family maritime history.
+ * - Right card (col-span 9/8): Kumar's Story — profile image, bio paragraph,
+ *   stat grid, and two additional detail paragraphs.
+ *
+ * On mobile the Kumar card renders above the Family card via CSS `order`
+ * overrides, matching the visual priority expected on small screens.
+ */
 export function About() {
   return (
     <section id="about" className="py-12">

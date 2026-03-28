@@ -6,6 +6,14 @@ import { Button } from "@/components/ui/button"
 import { HeaderMenu } from "@/components/layouts/header-menu"
 import { HashLink } from "@/components/ui/hash-link"
 
+/**
+ * Site-wide sticky header rendered by the root layout.
+ *
+ * Floats 16px from the top of the viewport (`top-4`) with a blurred
+ * background and pill shape. Contains the {@link Logo}, a "Contact" CTA
+ * button that scrolls to the `#contact` section, and the {@link HeaderMenu}
+ * popover for navigation and social links.
+ */
 export function Header() {
   return (
     <header

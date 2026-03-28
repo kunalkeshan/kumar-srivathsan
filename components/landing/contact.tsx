@@ -1,3 +1,16 @@
+/**
+ * Contact section listing all ways to reach Kumar Srivathsan.
+ *
+ * Data is derived at module level by transforming the centralised config
+ * arrays from `config/socials.ts`:
+ * - {@link phoneLinks} → phone contact entries
+ * - {@link emailLinks} → email contact entries
+ * - {@link socialLinks} (filtered to those with a `contactText`) → social entries
+ *
+ * All entries are merged into a single `data` array and rendered as a
+ * responsive 3-column grid of anchor links. A fixed footer row links to
+ * Nebula Pages (the developer's agency).
+ */
 import { Phone, Mail, Rocket } from "lucide-react"
 
 import { cn } from "@/lib/utils"

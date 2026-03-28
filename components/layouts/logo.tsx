@@ -1,10 +1,25 @@
 import Image from "next/image"
 import { cn } from "@/lib/utils"
 
+/** Props for {@link Logo} */
 export type LogoProps = {
+  /** Additional Tailwind classes applied to the wrapper `<div>`. */
   className?: string
+  /**
+   * Size preset controlling both the image dimensions and the optional text size.
+   * @defaultValue `"md"`
+   */
   size?: "sm" | "md" | "lg"
+  /**
+   * When provided, renders the site name beside the logo image using
+   * `font-serif`. Omit to show the image only (e.g. in the footer icon buttons).
+   */
   text?: string
+  /**
+   * Forwarded to Next.js `<Image priority>`. Set `true` when the logo is
+   * above the fold (e.g. in the header) to hint the browser to preload it.
+   * @defaultValue `false`
+   */
   priority?: boolean
 }
 
@@ -14,6 +29,13 @@ const sizeConfig = {
   lg: { px: 40, imageClass: "size-10", textClass: "text-xl" },
 } as const
 
+/**
+ * Site logo — a circular profile image with an optional text label.
+ *
+ * Renders the logo image from `/assets/logo.jpeg` at one of three
+ * fixed size presets (`sm` / `md` / `lg`). When `text` is provided it
+ * appears to the right of the image in `font-serif`.
+ */
 export function Logo({
   size = "md",
   text,

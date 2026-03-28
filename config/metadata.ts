@@ -1,7 +1,20 @@
+/**
+ * Base SEO metadata shared across all pages.
+ *
+ * `baseMetadata` is exported from `app/layout.tsx` as the site-wide default.
+ * Individual pages should extend it by exporting their own `Metadata` object
+ * with at minimum a canonical URL — see CLAUDE.md § Metadata for the pattern.
+ *
+ * Current TODOs (tracked via inline comments below):
+ * - Add `icons` (favicon, apple-touch-icon) once the final logo asset is ready.
+ * - Add `twitter.creator` / `twitter.site` once a Twitter/X handle exists.
+ */
 import type { Metadata } from "next"
 import { siteOrigin } from "@/config/site"
 
+/** Display name used in the page title template and OG tags. */
 export const siteTitle = "Kumar Srivathsan"
+/** One-line site description used in `<meta name="description">` and OG/Twitter tags. */
 export const siteDescription =
 	"Navigation Officer charting safe passages across the world's oceans — precision, discipline, and seamless coordination at every voyage."
 
