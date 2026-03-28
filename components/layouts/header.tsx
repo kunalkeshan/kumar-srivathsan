@@ -6,16 +6,24 @@ import { Button } from "@/components/ui/button"
 import { HeaderMenu } from "@/components/layouts/header-menu"
 import { HashLink } from "@/components/ui/hash-link"
 
+/**
+ * Site-wide sticky header rendered by the root layout.
+ *
+ * Floats 16px from the top of the viewport (`top-4`) with a blurred
+ * background and pill shape. Contains the {@link Logo}, a "Contact" CTA
+ * button that scrolls to the `#contact` section, and the {@link HeaderMenu}
+ * popover for navigation and social links.
+ */
 export function Header() {
   return (
     <header
       className={cn(
-        "sticky top-4 z-50 mx-auto flex h-14 w-[92svw] items-center justify-between rounded-full squircle border bg-background/95 px-2 shadow-sm backdrop-blur-sm supports-backdrop-filter:bg-background/50",
+        "sticky top-4 z-50 mx-auto flex h-14 w-[92svw] items-center justify-between rounded-full border bg-background/95 px-2 shadow-sm backdrop-blur-sm squircle supports-backdrop-filter:bg-background/50",
         "md:max-w-3xl"
       )}
     >
       <Link
-        className="flex h-10 cursor-pointer items-center justify-center rounded-full squircle px-3 hover:bg-accent"
+        className="flex h-10 cursor-pointer items-center justify-center rounded-full px-3 squircle hover:bg-accent"
         href="/"
         prefetch={false}
       >

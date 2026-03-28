@@ -37,7 +37,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="scroll-pt-12 scroll-smooth motion-reduce:scroll-auto lg:scroll-pt-16">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className="scroll-pt-12 scroll-smooth motion-reduce:scroll-auto lg:scroll-pt-16"
+    >
       <body
         className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} antialiased`}
       >
@@ -47,7 +51,9 @@ export default function RootLayout({
           <Footer />
         </Providers>
         <MicrosoftClarity />
-        {googleAnalyticsId ? <GoogleAnalytics gaId={googleAnalyticsId} /> : null}
+        {googleAnalyticsId ? (
+          <GoogleAnalytics gaId={googleAnalyticsId} />
+        ) : null}
       </body>
     </html>
   )

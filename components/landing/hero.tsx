@@ -5,6 +5,14 @@ import { Button } from "@/components/ui/button"
 import { HashLink } from "@/components/ui/hash-link"
 import { cn } from "@/lib/utils"
 
+/**
+ * Full-viewport hero section with a parallax background image.
+ *
+ * Renders separate mobile (9:16) and desktop (16:9) background images that
+ * shift downward as the user scrolls via a passive `scroll`/`touchmove`
+ * listener. This component is the static-image fallback used when
+ * {@link HeroVideo} is not rendered.
+ */
 export function Hero() {
   const mobileBgRef = useRef<HTMLDivElement>(null)
   const desktopBgRef = useRef<HTMLDivElement>(null)

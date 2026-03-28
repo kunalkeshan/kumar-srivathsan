@@ -1,3 +1,16 @@
+/**
+ * Contact section listing all ways to reach Kumar Srivathsan.
+ *
+ * Data is derived at module level by transforming the centralised config
+ * arrays from `config/socials.ts`:
+ * - {@link phoneLinks} → phone contact entries
+ * - {@link emailLinks} → email contact entries
+ * - {@link socialLinks} (filtered to those with a `contactText`) → social entries
+ *
+ * All entries are merged into a single `data` array and rendered as a
+ * responsive 3-column grid of anchor links. A fixed footer row links to
+ * Nebula Pages (the developer's agency).
+ */
 import { Phone, Mail, Rocket } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -48,7 +61,7 @@ export function Contact() {
               >
                 <div
                   className={cn(
-                    "flex size-12 shrink-0 items-center justify-center rounded-lg squircle bg-muted/50 transition-colors group-hover:bg-background",
+                    "flex size-12 shrink-0 items-center justify-center rounded-lg bg-muted/50 transition-colors squircle group-hover:bg-background",
                     "[&_svg]:size-4 [&_svg]:text-muted-foreground [&_svg]:transition-transform [&_svg]:duration-300 [&_svg]:ease-in-out group-hover:[&_svg]:scale-110"
                   )}
                 >
@@ -68,7 +81,7 @@ export function Contact() {
             >
               <div
                 className={cn(
-                  "flex size-12 shrink-0 items-center justify-center rounded-lg squircle bg-muted/50 transition-colors group-hover:bg-background",
+                  "flex size-12 shrink-0 items-center justify-center rounded-lg bg-muted/50 transition-colors squircle group-hover:bg-background",
                   "[&_svg]:size-4 [&_svg]:text-muted-foreground [&_svg]:transition-transform [&_svg]:duration-300 [&_svg]:ease-in-out group-hover:[&_svg]:scale-110"
                 )}
               >

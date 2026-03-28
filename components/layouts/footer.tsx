@@ -9,6 +9,18 @@ import { footerLinks } from "@/config/navigation"
 import { Container } from "@/components/layouts/container"
 import { HashLink } from "@/components/ui/hash-link"
 
+/**
+ * Site-wide footer rendered by the root layout.
+ *
+ * Structure:
+ * - Top row: {@link Logo} (links home) + social icon buttons sourced from
+ *   `config/socials.ts`.
+ * - Nav row: footer links from `config/navigation.ts`. Links with
+ *   `isLive: false` render as disabled `<span>` elements with a "soon" badge.
+ *   Hash links use {@link HashLink}; page links use `<Link prefetch={false}>`.
+ * - Bottom bar: copyright year range via {@link CopyrightYear} and a
+ *   "Built by Kunal" credit with GitHub avatar.
+ */
 export function Footer() {
   return (
     <footer>

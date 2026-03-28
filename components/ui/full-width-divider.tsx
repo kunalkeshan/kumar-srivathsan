@@ -17,7 +17,7 @@ export function FullWidthDivider({
       className={cn(
         "pointer-events-none absolute h-px bg-border",
         // full-bleed (default)
-        "data-[contained=false]:left-[calc(50%-50dvw)] data-[contained=false]:right-[calc(50%-50dvw)] data-[contained=false]:w-auto",
+        "data-[contained=false]:right-[calc(50%-50dvw)] data-[contained=false]:left-[calc(50%-50dvw)] data-[contained=false]:w-auto",
         // contained
         "data-[contained=true]:inset-x-0 data-[contained=true]:w-full",
         // position

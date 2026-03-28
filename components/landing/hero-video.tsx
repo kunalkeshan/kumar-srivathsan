@@ -8,11 +8,26 @@ import { cn } from "@/lib/utils"
 import { heroVideoUrl } from "@/config/media"
 
 // ── Parallax tuning ───────────────────────────────────────────────────────────
+/** Set to `false` to disable the scroll-driven parallax on the video background. */
 const PARALLAX_ENABLED = true
 const PARALLAX_Y_END = "35%" // how far the video shifts down on scroll
 const PARALLAX_SCALE_END = 1.2 // zoom-in factor at full scroll
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * Full-viewport hero section with an autoplaying background video and
+ * scroll-driven parallax effect powered by Motion's `useScroll` and
+ * `useTransform`.
+ *
+ * Behaviour details:
+ * - Video is fetched from {@link heroVideoUrl} (external CDN).
+ * - If the video fails to load (`onError`), falls back to static WebP images
+ *   (mobile: `canvas.webp`, desktop: `hero.webp`).
+ * - Parallax and autoplay are disabled when the user prefers reduced motion
+ *   (`prefers-reduced-motion: reduce`).
+ * - Tuning constants (`PARALLAX_ENABLED`, `PARALLAX_Y_END`, `PARALLAX_SCALE_END`)
+ *   are defined at the top of the file.
+ */
 export function HeroVideo() {
   const sectionRef = useRef<HTMLElement>(null)
   const [videoError, setVideoError] = useState(false)
