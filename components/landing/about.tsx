@@ -37,25 +37,24 @@ export function About() {
             size="default"
             variant="default"
           >
-            <HashLink href="/#contact">
+            <HashLink href="/#contact" prefetch={false}>
               <span className="px-2 py-px">Let&apos;s Talk</span>
               <ArrowRight className="size-5" />
             </HashLink>
           </Button>
         </div>
 
-        {/* Cards grid */}
+        {/* Cards grid — on mobile only, Kumar card (2nd column on desktop) stacks above Family */}
         <div className="mx-auto grid w-full grid-cols-1 gap-y-6 sm:max-w-lg lg:max-w-full lg:grid-cols-12 lg:gap-x-4 lg:gap-y-0 xl:gap-8">
           {/* Left card — Family Legacy */}
           <div
             className={cn(
-              "col-span-12 inline-flex w-full flex-col items-start justify-start gap-5 rounded-2xl border border-border p-5 squircle",
+              "order-2 col-span-12 inline-flex w-full flex-col items-start justify-start gap-5 rounded-2xl border border-border p-5 squircle",
               "shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]",
               "transition-all duration-700 ease-in-out hover:border-foreground/40",
-              "lg:col-span-3 lg:p-3 xl:col-span-4 xl:p-5"
+              "lg:order-0 lg:col-span-3 lg:p-3 xl:col-span-4 xl:p-5"
             )}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <Image
               src="/assets/family.jpeg"
               alt="Maritime family legacy"
@@ -99,10 +98,10 @@ export function About() {
           {/* Right card — Kumar's Story */}
           <div
             className={cn(
-              "col-span-12 flex w-full flex-col gap-6 rounded-2xl border border-border p-5 squircle",
+              "order-1 col-span-12 flex w-full flex-col gap-6 rounded-2xl border border-border p-5 squircle",
               "shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]",
               "transition-all duration-700 ease-in-out hover:border-foreground/40",
-              "lg:col-span-9 lg:p-3 xl:col-span-8 xl:p-5"
+              "lg:order-0 lg:col-span-9 lg:p-3 xl:col-span-8 xl:p-5"
             )}
           >
             {/* Top row: image + title/para side by side on desktop */}
