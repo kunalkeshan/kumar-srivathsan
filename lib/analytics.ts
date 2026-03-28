@@ -1,0 +1,4 @@
+export const ANALYTICS_IDS = {
+  GOOGLE_ANALYTICS: process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID ?? "",
+  CLARITY_PROJECT: process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID ?? "",
+} as const

@@ -13,6 +13,8 @@
     "convert-images": "node scripts/convert-images.mjs"
   },
   "dependencies": {
+    "@microsoft/clarity": "^1.0.2",
+    "@next/third-parties": "16.1.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cobe": "^2.0.1",
