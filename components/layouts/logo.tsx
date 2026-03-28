@@ -24,9 +24,9 @@ export type LogoProps = {
 }
 
 const sizeConfig = {
-  sm: { px: 24, imageClass: "size-6", textClass: "text-base" },
-  md: { px: 32, imageClass: "size-8", textClass: "text-lg" },
-  lg: { px: 40, imageClass: "size-10", textClass: "text-xl" },
+  sm: { px: 24, imageClass: "size-6", textClass: "text-sm md:text-base" },
+  md: { px: 32, imageClass: "size-8", textClass: "text-base md:text-lg" },
+  lg: { px: 40, imageClass: "size-10", textClass: "text-lg md:text-xl" },
 } as const
 
 /**
