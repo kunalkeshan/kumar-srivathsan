@@ -20,13 +20,18 @@ export const baseMetadata: Metadata = {
 		locale: "en_US",
 		type: "website",
 		url: "/",
-		// TODO: add images once OG image is ready
+		images: [
+			{
+				url: "/assets/kumar.jpg",
+				alt: siteTitle,
+			},
+		],
 	},
 	twitter: {
 		card: "summary_large_image",
 		title: siteTitle,
 		description: siteDescription,
-		// TODO: add images once OG/Twitter card image is ready
+		images: ["/assets/kumar.jpg"],
 		// TODO: add creator/site once a Twitter/X handle exists
 	},
 }
