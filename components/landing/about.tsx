@@ -4,11 +4,12 @@ import { Button } from "@/components/ui/button"
 import { Container } from "@/components/layouts/container"
 import { HashLink } from "@/components/ui/hash-link"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 
 const stats = [
   { value: "1+", label: "Years at Sea" },
   { value: "2+", label: "Vessel Categories" },
-  { value: "30+", label: "Ports Visited" },
+  { value: "40+", label: "Ports Visited" },
   { value: "12+", label: "Certifications" },
 ]
 
@@ -48,7 +49,7 @@ export function About() {
           {/* Left card — Family Legacy */}
           <div
             className={cn(
-              "col-span-12 inline-flex w-full flex-col items-start justify-start gap-5 rounded-2xl squircle border border-border p-5",
+              "col-span-12 inline-flex w-full flex-col items-start justify-start gap-5 rounded-2xl border border-border p-5 squircle",
               "shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]",
               "transition-all duration-700 ease-in-out hover:border-foreground/40",
               "lg:col-span-3 lg:p-3 xl:col-span-4 xl:p-5"
@@ -58,7 +59,7 @@ export function About() {
             <img
               src="https://pagedone.io/asset/uploads/1724131218.png"
               alt="Maritime family legacy"
-              className="h-auto w-full rounded-xl squircle object-cover"
+              className="h-auto w-full rounded-xl object-cover squircle"
               width={600}
               height={400}
               loading="lazy"
@@ -81,10 +82,10 @@ export function About() {
               <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground">
                 His father then took to sea and rose to a senior
                 management-level position, gaining extensive experience across
-                oil tankers, container ships, roll-on/roll-off vessels, and
-                bulk carriers. Kumar&apos;s brother continues the family
-                tradition as a junior management-level officer with significant
-                dry bulk expertise.
+                oil tankers, container ships, roll-on/roll-off vessels, and bulk
+                carriers. Kumar&apos;s brother continues the family tradition as
+                a junior management-level officer with significant dry bulk
+                expertise.
               </p>
               <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground">
                 Kumar serves as a junior operational officer with hands-on
@@ -104,7 +105,7 @@ export function About() {
           */}
           <div
             className={cn(
-              "col-span-12 flex w-full flex-col gap-6 rounded-2xl squircle border border-border p-5",
+              "col-span-12 flex w-full flex-col gap-6 rounded-2xl border border-border p-5 squircle",
               "shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]",
               "transition-all duration-700 ease-in-out hover:border-foreground/40",
               "lg:col-span-9 lg:grid lg:grid-cols-[auto_1fr] lg:gap-x-6 lg:gap-y-5 lg:p-3 xl:col-span-8 xl:p-5"
@@ -112,10 +113,10 @@ export function About() {
           >
             {/* Image — row 1 col 1 on desktop */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="https://pagedone.io/asset/uploads/1724131231.png"
+            <Image
+              src="/assets/kumar.jpg"
               alt="Kumar Srivathsan, Navigation Officer"
-              className="h-60 w-full rounded-xl squircle object-cover lg:h-auto lg:w-72 lg:self-start"
+              className="h-60 w-full rounded-xl object-cover squircle lg:h-auto lg:w-72 lg:self-start"
               width={288}
               height={216}
               loading="lazy"
@@ -130,10 +131,10 @@ export function About() {
               <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground">
                 With years of hands-on{" "}
                 <span className="font-serif">experience</span> navigating
-                commercial vessels across international waters, Kumar
-                Srivathsan has developed a strong reputation for precision in
-                route planning, effective bridge resource management, and
-                strict adherence to STCW and SOLAS regulations. His operational
+                commercial vessels across international waters, Kumar Srivathsan
+                has developed a strong reputation for precision in route
+                planning, effective bridge resource management, and strict
+                adherence to STCW and SOLAS regulations. His operational
                 expertise extends beyond navigation into comprehensive cargo
                 management across container and Ro-Ro vessels while maintaining
                 vessel stability and cargo integrity.
@@ -145,7 +146,7 @@ export function About() {
               {stats.map(({ value, label }) => (
                 <div
                   key={label}
-                  className="inline-flex flex-col items-start justify-start gap-0.5 rounded-lg squircle border border-border bg-background p-2.5"
+                  className="inline-flex flex-col items-start justify-start gap-0.5 rounded-lg border border-border bg-background p-2.5 squircle"
                 >
                   <span className="font-sans text-2xl leading-9 font-bold text-foreground">
                     {value}
@@ -159,12 +160,12 @@ export function About() {
 
             {/* Safety para — row 3, spans both columns on desktop */}
             <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground lg:col-span-2">
-              He possesses in-depth experience in the maintenance, testing,
-              and operational readiness of critical bridge and safety
-              equipment, ensuring compliance with statutory and class
-              requirements. His proactive approach to planned maintenance
-              systems and safety protocols helps minimize operational risks and
-              strengthen onboard safety culture.
+              He possesses in-depth experience in the maintenance, testing, and
+              operational readiness of critical bridge and safety equipment,
+              ensuring compliance with statutory and class requirements. His
+              proactive approach to planned maintenance systems and safety
+              protocols helps minimize operational risks and strengthen onboard
+              safety culture.
             </p>
             <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground lg:col-span-2">
               Kumar has also played a key role in preparing vessels for and
