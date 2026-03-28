@@ -56,7 +56,7 @@ export function About() {
             )}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            {/* <img
               src="https://pagedone.io/asset/uploads/1724131218.png"
               alt="Maritime family legacy"
               className="h-auto w-full rounded-xl object-cover squircle"
@@ -64,7 +64,7 @@ export function About() {
               height={400}
               loading="lazy"
               decoding="async"
-            />
+            /> */}
             <div className="flex w-full flex-col items-start justify-start gap-8">
               <div className="flex w-full flex-col items-start justify-start gap-1.5">
                 <h3 className="font-serif text-2xl leading-9 font-semibold text-foreground">
@@ -110,7 +110,7 @@ export function About() {
               {/* Image wrapper — self-stretch makes it match the text height on desktop */}
               <div className="relative aspect-square w-full overflow-hidden rounded-xl squircle lg:aspect-auto lg:h-auto lg:w-72 lg:shrink-0 lg:self-stretch">
                 <Image
-                  src="/assets/kumar.jpg"
+                  src="/assets/kumar-2.jpeg"
                   alt="Kumar Srivathsan, Navigation Officer"
                   className="absolute inset-0 h-full w-full object-cover object-top"
                   fill
@@ -134,7 +134,8 @@ export function About() {
                   strict adherence to STCW and SOLAS regulations. His
                   operational expertise extends beyond navigation into
                   comprehensive cargo management across container and Ro-Ro
-                  vessels while maintaining vessel stability and cargo integrity.
+                  vessels while maintaining vessel stability and cargo
+                  integrity.
                 </p>
               </div>
             </div>
