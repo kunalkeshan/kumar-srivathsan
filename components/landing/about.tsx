@@ -128,14 +128,15 @@ export function About() {
                 About Kumar
               </h3>
               <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground">
-                With years of hands-on experience navigating commercial vessels
-                across international waters, Kumar Srivathsan has developed a
-                strong reputation for precision in route planning, effective
-                bridge resource management, and strict adherence to STCW and
-                SOLAS regulations. His operational expertise extends beyond
-                navigation into comprehensive cargo management across container
-                and Ro-Ro vessels while maintaining vessel stability and cargo
-                integrity.
+                With years of hands-on{" "}
+                <span className="font-serif">experience</span> navigating
+                commercial vessels across international waters, Kumar
+                Srivathsan has developed a strong reputation for precision in
+                route planning, effective bridge resource management, and
+                strict adherence to STCW and SOLAS regulations. His operational
+                expertise extends beyond navigation into comprehensive cargo
+                management across container and Ro-Ro vessels while maintaining
+                vessel stability and cargo integrity.
               </p>
             </div>
 
