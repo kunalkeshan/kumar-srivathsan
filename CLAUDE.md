@@ -111,3 +111,16 @@ Rules:
   - Coordinates: `13.0827° N, 80.2707° E` (use `font-mono`)
   - Dates: format in `UTC +05:30` (use `font-mono`)
   - Logs: render like `ENTRY #042` (use `font-mono`)
+
+## Documentation Hygiene
+
+When making a change that introduces, modifies, or removes a pattern, convention, or architectural decision, update the relevant section of CLAUDE.md in the same PR/commit.
+
+Examples of changes that require a CLAUDE.md update:
+- Adding a new CSS utility or Tailwind token
+- Changing the radius, typography, or squircle rules
+- Introducing a new component convention or config pattern
+- Modifying the folder structure or import conventions
+- Adding or removing a dependency that affects how components are built
+
+CLAUDE.md is the authoritative guide for future Claude sessions. Keeping it in sync prevents stale advice from being applied to new code.
