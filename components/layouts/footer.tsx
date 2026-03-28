@@ -15,9 +15,9 @@ export function Footer() {
       <Container>
         <div className="flex flex-col gap-6 py-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Logo size="sm" />
-            </div>
+            <Link href="/" className="flex items-center gap-2" prefetch={false}>
+              <Logo size="sm" text="Kumar Srivathsan" />
+            </Link>
             <div className="flex items-center">
               {socialLinks.map(({ href, label, icon }) => (
                 <Button asChild key={label} size="icon-sm" variant="ghost">

@@ -19,8 +19,7 @@ export function Header() {
         href="/"
         prefetch={false}
       >
-        <Logo size="sm" />
-        <span className="sr-only">Efferd Logo</span>
+        <Logo size="sm" text="Kumar Srivathsan" priority />
       </Link>
 
       <div className="flex items-center gap-2">
