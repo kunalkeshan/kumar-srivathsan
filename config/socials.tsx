@@ -16,39 +16,39 @@ export type SocialLink = {
 };
 
 export const phoneLinks: PhoneLink[] = [
-	{ label: "Primary", phone: "+91 XXXXX XXXXX", href: "tel:+91XXXXXXXXXX" },
+	{ label: "Primary", phone: "+91 7358338788", href: "tel:+917358338788" },
 ];
 
 export const emailLinks: EmailLink[] = [
 	{
 		label: "Personal",
-		email: "kumar@example.com",
-		href: "mailto:kumar@example.com",
+		email: "kumarsrivathsan02@gmail.com",
+		href: "mailto:kumarsrivathsan02@gmail.com",
 	},
 ];
 
 export const socialLinks: SocialLink[] = [
 	{
 		label: "LinkedIn",
-		href: "#",
+		href: "https://www.linkedin.com/in/kumar-srivathsan-251003377/",
 		icon: <LinkedInIcon />,
 		contactText: "Connect on LinkedIn",
 	},
 	{
 		label: "Instagram",
-		href: "#",
+		href: "https://www.instagram.com/kumar_srivat",
 		icon: <InstagramIcon />,
 		contactText: "DM on Instagram",
 	},
 	{
 		label: "WhatsApp",
-		href: "#",
+		href: "https://wa.me/917358338799",
 		icon: <WhatsAppIcon />,
 		contactText: "Message on WhatsApp",
 	},
 	{
 		label: "Facebook",
-		href: "#",
+		href: "https://www.facebook.com/kumar.srivat",
 		icon: <FacebookIcon />,
 		contactText: "Follow on Facebook",
 	},
