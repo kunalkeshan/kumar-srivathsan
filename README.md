@@ -105,7 +105,7 @@ The dev server starts at [http://localhost:3000](http://localhost:3000) with Tur
 
 ## Environment Variables
 
-Copy `.env.example` to `.env` and set the following:
+Copy `.env.example` to `.env.local` and set the following:
 
 | Variable                          | Required | Description                                             |
 | --------------------------------- | -------- | ------------------------------------------------------- |

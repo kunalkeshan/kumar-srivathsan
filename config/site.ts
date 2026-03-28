@@ -13,11 +13,11 @@ export const siteUrl: string =
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
     : process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000");
+      : "http://localhost:3000")
 
 /**
  * Parsed `URL` object derived from {@link siteUrl}.
  * Used as `metadataBase` in Next.js metadata config to resolve relative
  * Open Graph and Twitter image paths to absolute URLs.
  */
-export const siteOrigin: URL = new URL(siteUrl);
+export const siteOrigin: URL = new URL(siteUrl)

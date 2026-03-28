@@ -5,7 +5,10 @@
  * which causes the respective analytics integrations to be silently skipped
  * (Google Analytics and Microsoft Clarity both no-op on an empty ID).
  *
- * Set the corresponding env vars in `.env` (see `.env.example`):
+ * Set the corresponding env vars in `.env.local` for local development
+ * (copy `.env.example` as a starting point). For deployed environments,
+ * configure them in your hosting provider's environment variable settings
+ * (e.g. Vercel project env vars):
  * - `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID` — Google Analytics measurement ID (`G-XXXXXXXXXX`)
  * - `NEXT_PUBLIC_CLARITY_PROJECT_ID`  — Microsoft Clarity project ID
  */
