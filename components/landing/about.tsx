@@ -96,53 +96,51 @@ export function About() {
             </div>
           </div>
 
-          {/* Right card — Kumar's Story
-               Mobile:  flex-col (image → title/para → stats → safety)
-               Desktop: 2-col grid
-                 row 1: [image] [title + para]
-                 row 2: [stats — col-span-2]
-                 row 3: [safety para — col-span-2]
-          */}
+          {/* Right card — Kumar's Story */}
           <div
             className={cn(
               "col-span-12 flex w-full flex-col gap-6 rounded-2xl border border-border p-5 squircle",
               "shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]",
               "transition-all duration-700 ease-in-out hover:border-foreground/40",
-              "lg:col-span-9 lg:grid lg:grid-cols-[auto_1fr] lg:gap-x-6 lg:gap-y-5 lg:p-3 xl:col-span-8 xl:p-5"
+              "lg:col-span-9 lg:p-3 xl:col-span-8 xl:p-5"
             )}
           >
-            {/* Image — row 1 col 1 on desktop */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <Image
-              src="/assets/kumar.jpg"
-              alt="Kumar Srivathsan, Navigation Officer"
-              className="h-60 w-full rounded-xl object-cover squircle lg:h-auto lg:w-72 lg:self-start"
-              width={288}
-              height={216}
-              loading="lazy"
-              decoding="async"
-            />
+            {/* Top row: image + title/para side by side on desktop */}
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-stretch lg:gap-6">
+              {/* Image wrapper — self-stretch makes it match the text height on desktop */}
+              <div className="relative aspect-square w-full overflow-hidden rounded-xl squircle lg:aspect-auto lg:h-auto lg:w-72 lg:shrink-0 lg:self-stretch">
+                <Image
+                  src="/assets/kumar.jpg"
+                  alt="Kumar Srivathsan, Navigation Officer"
+                  className="absolute inset-0 h-full w-full object-cover object-top"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 288px"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
 
-            {/* Title + first para — row 1 col 2 on desktop */}
-            <div className="flex flex-col gap-2">
-              <h3 className="font-serif text-2xl leading-9 font-semibold text-foreground">
-                About Kumar
-              </h3>
-              <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground">
-                With years of hands-on{" "}
-                <span className="font-serif">experience</span> navigating
-                commercial vessels across international waters, Kumar Srivathsan
-                has developed a strong reputation for precision in route
-                planning, effective bridge resource management, and strict
-                adherence to STCW and SOLAS regulations. His operational
-                expertise extends beyond navigation into comprehensive cargo
-                management across container and Ro-Ro vessels while maintaining
-                vessel stability and cargo integrity.
-              </p>
+              {/* Title + first para */}
+              <div className="flex flex-col gap-2">
+                <h3 className="font-serif text-2xl leading-9 font-semibold text-foreground">
+                  About Kumar
+                </h3>
+                <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground">
+                  With years of hands-on{" "}
+                  <span className="font-serif">experience</span> navigating
+                  commercial vessels across international waters, Kumar
+                  Srivathsan has developed a strong reputation for precision in
+                  route planning, effective bridge resource management, and
+                  strict adherence to STCW and SOLAS regulations. His
+                  operational expertise extends beyond navigation into
+                  comprehensive cargo management across container and Ro-Ro
+                  vessels while maintaining vessel stability and cargo integrity.
+                </p>
+              </div>
             </div>
 
-            {/* Stats — row 2, spans both columns on desktop */}
-            <div className="grid grid-cols-2 gap-5 lg:col-span-2">
+            {/* Stats */}
+            <div className="grid grid-cols-2 gap-5">
               {stats.map(({ value, label }) => (
                 <div
                   key={label}
@@ -158,8 +156,8 @@ export function About() {
               ))}
             </div>
 
-            {/* Safety para — row 3, spans both columns on desktop */}
-            <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground lg:col-span-2">
+            {/* Safety para */}
+            <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground">
               He possesses in-depth experience in the maintenance, testing, and
               operational readiness of critical bridge and safety equipment,
               ensuring compliance with statutory and class requirements. His
@@ -167,7 +165,7 @@ export function About() {
               protocols helps minimize operational risks and strengthen onboard
               safety culture.
             </p>
-            <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground lg:col-span-2">
+            <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground">
               Kumar has also played a key role in preparing vessels for and
               clearing regulatory inspections and audits, including Flag State
               and Port State Control inspections. Through thorough
