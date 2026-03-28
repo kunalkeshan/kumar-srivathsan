@@ -4,11 +4,12 @@ import { Button } from "@/components/ui/button"
 import { Container } from "@/components/layouts/container"
 import { HashLink } from "@/components/ui/hash-link"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 
 const stats = [
   { value: "1+", label: "Years at Sea" },
   { value: "2+", label: "Vessel Categories" },
-  { value: "30+", label: "Ports Visited" },
+  { value: "40+", label: "Ports Visited" },
   { value: "12+", label: "Certifications" },
 ]
 
@@ -48,7 +49,7 @@ export function About() {
           {/* Left card — Family Legacy */}
           <div
             className={cn(
-              "col-span-12 inline-flex w-full flex-col items-start justify-start gap-5 rounded-2xl squircle border border-border p-5",
+              "col-span-12 inline-flex w-full flex-col items-start justify-start gap-5 rounded-2xl border border-border p-5 squircle",
               "shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]",
               "transition-all duration-700 ease-in-out hover:border-foreground/40",
               "lg:col-span-3 lg:p-3 xl:col-span-4 xl:p-5"
@@ -58,7 +59,7 @@ export function About() {
             <img
               src="https://pagedone.io/asset/uploads/1724131218.png"
               alt="Maritime family legacy"
-              className="h-auto w-full rounded-xl squircle object-cover"
+              className="h-auto w-full rounded-xl object-cover squircle"
               width={600}
               height={400}
               loading="lazy"
@@ -67,74 +68,83 @@ export function About() {
             <div className="flex w-full flex-col items-start justify-start gap-8">
               <div className="flex w-full flex-col items-start justify-start gap-1.5">
                 <h3 className="font-serif text-2xl leading-9 font-semibold text-foreground">
-                  A Family Rooted in the Sea
+                  Family Maritime Legacy
                 </h3>
                 <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground">
-                  Maritime service runs deep in the Srivathsan family.
-                  Kumar&apos;s father and brother are both merchant navy
-                  officers — a lineage of seafarers who have collectively
-                  crossed the world&apos;s great oceans and dedicated their
-                  lives to the maritime profession.
+                  For three generations, Kumar&apos;s family has shared a
+                  deep-rooted connection with the maritime industry. Their
+                  journey began with his grandfather, an instructor at
+                  India&apos;s first marine engineering college, who helped
+                  shape generations of marine engineering talent through
+                  dedicated teaching and mentorship.
                 </p>
               </div>
               <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground">
-                Growing up surrounded by the discipline and pride of a naval
-                household, Kumar was drawn to the sea early. The values
-                instilled at home — precision, responsibility, and a respect for
-                the ocean&apos;s power — continue to shape how he approaches
-                every <span className="font-serif">voyage</span>.
+                His father then took to sea and rose to a senior
+                management-level position, gaining extensive experience across
+                oil tankers, container ships, roll-on/roll-off vessels, and bulk
+                carriers. Kumar&apos;s brother continues the family tradition as
+                a junior management-level officer with significant dry bulk
+                expertise.
+              </p>
+              <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground">
+                Kumar serves as a junior operational officer with hands-on
+                experience in container and Ro-Ro vessels. Together, their
+                family&apos;s legacy reflects a lasting commitment to maritime
+                education, leadership, and operational excellence at sea.
               </p>
             </div>
           </div>
 
-          {/* Right card — Kumar's Story
-               Mobile:  flex-col (image → title/para → stats → safety)
-               Desktop: 2-col grid
-                 row 1: [image] [title + para]
-                 row 2: [stats — col-span-2]
-                 row 3: [safety para — col-span-2]
-          */}
+          {/* Right card — Kumar's Story */}
           <div
             className={cn(
-              "col-span-12 flex w-full flex-col gap-6 rounded-2xl squircle border border-border p-5",
+              "col-span-12 flex w-full flex-col gap-6 rounded-2xl border border-border p-5 squircle",
               "shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]",
               "transition-all duration-700 ease-in-out hover:border-foreground/40",
-              "lg:col-span-9 lg:grid lg:grid-cols-[auto_1fr] lg:gap-x-6 lg:gap-y-5 lg:p-3 xl:col-span-8 xl:p-5"
+              "lg:col-span-9 lg:p-3 xl:col-span-8 xl:p-5"
             )}
           >
-            {/* Image — row 1 col 1 on desktop */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="https://pagedone.io/asset/uploads/1724131231.png"
-              alt="Kumar Srivathsan, Navigation Officer"
-              className="h-60 w-full rounded-xl squircle object-cover lg:h-auto lg:w-72 lg:self-start"
-              width={288}
-              height={216}
-              loading="lazy"
-              decoding="async"
-            />
+            {/* Top row: image + title/para side by side on desktop */}
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-stretch lg:gap-6">
+              {/* Image wrapper — self-stretch makes it match the text height on desktop */}
+              <div className="relative aspect-square w-full overflow-hidden rounded-xl squircle lg:aspect-auto lg:h-auto lg:w-72 lg:shrink-0 lg:self-stretch">
+                <Image
+                  src="/assets/kumar.jpg"
+                  alt="Kumar Srivathsan, Navigation Officer"
+                  className="absolute inset-0 h-full w-full object-cover object-top"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 288px"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
 
-            {/* Title + first para — row 1 col 2 on desktop */}
-            <div className="flex flex-col gap-2">
-              <h3 className="font-serif text-2xl leading-9 font-semibold text-foreground">
-                Charting His Own Course
-              </h3>
-              <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground">
-                With years of hands-on <span className="font-serif">experience</span>{" "}
-                navigating commercial vessels
-                across international waters, Kumar Srivathsan has built a
-                reputation for meticulous route planning, bridge resource
-                management, and unwavering adherence to STCW and SOLAS
-                standards.
-              </p>
+              {/* Title + first para */}
+              <div className="flex flex-col gap-2">
+                <h3 className="font-serif text-2xl leading-9 font-semibold text-foreground">
+                  About Kumar
+                </h3>
+                <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground">
+                  With years of hands-on{" "}
+                  <span className="font-serif">experience</span> navigating
+                  commercial vessels across international waters, Kumar
+                  Srivathsan has developed a strong reputation for precision in
+                  route planning, effective bridge resource management, and
+                  strict adherence to STCW and SOLAS regulations. His
+                  operational expertise extends beyond navigation into
+                  comprehensive cargo management across container and Ro-Ro
+                  vessels while maintaining vessel stability and cargo integrity.
+                </p>
+              </div>
             </div>
 
-            {/* Stats — row 2, spans both columns on desktop */}
-            <div className="grid grid-cols-2 gap-5 lg:col-span-2">
+            {/* Stats */}
+            <div className="grid grid-cols-2 gap-5">
               {stats.map(({ value, label }) => (
                 <div
                   key={label}
-                  className="inline-flex flex-col items-start justify-start gap-0.5 rounded-lg squircle border border-border bg-background p-2.5"
+                  className="inline-flex flex-col items-start justify-start gap-0.5 rounded-lg border border-border bg-background p-2.5 squircle"
                 >
                   <span className="font-sans text-2xl leading-9 font-bold text-foreground">
                     {value}
@@ -146,12 +156,22 @@ export function About() {
               ))}
             </div>
 
-            {/* Safety para — row 3, spans both columns on desktop */}
-            <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground lg:col-span-2">
-              Safety is never an afterthought for Kumar — it is the foundation
-              of every decision made on the bridge. From pre-departure planning
-              to post-arrival reviews, his approach is systematic,
-              collaborative, and always guided by international best practices.
+            {/* Safety para */}
+            <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground">
+              He possesses in-depth experience in the maintenance, testing, and
+              operational readiness of critical bridge and safety equipment,
+              ensuring compliance with statutory and class requirements. His
+              proactive approach to planned maintenance systems and safety
+              protocols helps minimize operational risks and strengthen onboard
+              safety culture.
+            </p>
+            <p className="font-sans text-base leading-relaxed font-normal text-muted-foreground">
+              Kumar has also played a key role in preparing vessels for and
+              clearing regulatory inspections and audits, including Flag State
+              and Port State Control inspections. Through thorough
+              documentation, adherence to international conventions, and close
+              attention to detail, he consistently supports positive inspection
+              outcomes.
             </p>
           </div>
         </div>
