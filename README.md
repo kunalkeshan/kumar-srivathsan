@@ -10,6 +10,7 @@ Personal portfolio website for Kumar Srivathsan, a Navigation Officer charting s
 ![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-latest-000000)
 ![pnpm](https://img.shields.io/badge/pnpm-package_manager-F69220?logo=pnpm&logoColor=white)
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed_on-Vercel-000000?logo=vercel)](https://vercel.com)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
@@ -161,4 +162,4 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for coding standards and the pull reque
 
 ## License
 
-A license has not yet been added to this repository. Until one is added, standard copyright law applies — the code is **not** freely reusable without explicit permission.
+[MIT](./LICENSE) © Kunal Keshan
