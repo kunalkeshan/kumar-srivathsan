@@ -26,7 +26,7 @@ export function Logo({
     <div className={cn("flex items-center gap-x-2", className)}>
       <Image
         src="/assets/logo.jpeg"
-        alt="Kumar Srivathsan logo"
+        alt={text ? "" : "Kumar Srivathsan logo"}
         width={px}
         height={px}
         className={cn("rounded-surface object-contain squircle", imageClass)}
