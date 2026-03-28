@@ -56,15 +56,15 @@ export function About() {
             )}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            {/* <img
-              src="https://pagedone.io/asset/uploads/1724131218.png"
+            <Image
+              src="/assets/family.jpeg"
               alt="Maritime family legacy"
               className="h-auto w-full rounded-xl object-cover squircle"
               width={600}
               height={400}
               loading="lazy"
               decoding="async"
-            /> */}
+            />
             <div className="flex w-full flex-col items-start justify-start gap-8">
               <div className="flex w-full flex-col items-start justify-start gap-1.5">
                 <h3 className="font-serif text-2xl leading-9 font-semibold text-foreground">
