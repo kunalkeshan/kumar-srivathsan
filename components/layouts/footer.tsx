@@ -8,6 +8,7 @@ import { socialLinks } from "@/config/socials"
 import { footerLinks } from "@/config/navigation"
 import { Container } from "@/components/layouts/container"
 import { HashLink } from "@/components/ui/hash-link"
+import { APP_VERSION } from "@/config/version"
 
 /**
  * Site-wide footer rendered by the root layout.
@@ -18,7 +19,9 @@ import { HashLink } from "@/components/ui/hash-link"
  * - Nav row: footer links from `config/navigation.ts`. Links with
  *   `isLive: false` render as disabled `<span>` elements with a "soon" badge.
  *   Hash links use {@link HashLink}; page links use `<Link prefetch={false}>`.
- * - Bottom bar: copyright year range via {@link CopyrightYear} and a
+ * - Bottom bar: copyright year range via {@link CopyrightYear}, package
+ *   version (from `config/version.ts`) linking to
+ *   latest GitHub release, and a
  *   "Built by Kunal" credit with GitHub avatar.
  */
 export function Footer() {
@@ -85,7 +88,17 @@ export function Footer() {
 
         <div className="flex items-center justify-between gap-4 border-t py-4 text-sm text-muted-foreground">
           <p>
-            &copy; <CopyrightYear /> Kumar Srivathsan
+            &copy; <CopyrightYear /> Kumar Srivathsan{" "}
+            <span aria-hidden="true">•</span>{" "}
+            <Link
+              className="text-muted-foreground hover:text-foreground hover:underline"
+              href="https://github.com/kunalkeshan/kumar-srivathsan/releases/latest"
+              prefetch={false}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              v{APP_VERSION}
+            </Link>
           </p>
 
           <p className="inline-flex items-center gap-1">
