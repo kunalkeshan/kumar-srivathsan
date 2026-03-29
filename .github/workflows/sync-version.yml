@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Version to set (e.g. v1.2.3 or 1.2.3). Leave empty to use latest release tag"
+        description: "Version to set (e.g. v1.2.3 or 1.2.3). Leave empty to use latest release"
         required: false
 
 jobs:
@@ -24,18 +24,29 @@ jobs:
 
       - name: Resolve version
         run: |
-          # If manually triggered and version provided → use it
-          if [ -n "${{ github.event.inputs.version }}" ]; then
+          echo "Event: ${{ github.event_name }}"
+
+          # Case 1: Manual run with input
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ github.event.inputs.version }}" ]; then
             TAG_NAME="${{ github.event.inputs.version }}"
             echo "Using manual version: $TAG_NAME"
-          else
+
+          # Case 2: Release trigger
+          elif [ "${{ github.event_name }}" = "release" ]; then
             TAG_NAME="${{ github.event.release.tag_name }}"
             echo "Using release tag: $TAG_NAME"
-          fi
 
-          if [ -z "$TAG_NAME" ]; then
-            echo "No version provided, exiting"
-            exit 1
+          # Case 3: Manual run WITHOUT input → fetch latest release
+          else
+            echo "Fetching latest release from GitHub API..."
+            TAG_NAME=$(curl --silent "https://api.github.com/repos/${{ github.repository }}/releases/latest" | jq -r .tag_name)
+
+            if [ "$TAG_NAME" = "null" ] || [ -z "$TAG_NAME" ]; then
+              echo "No releases found, exiting"
+              exit 1
+            fi
+
+            echo "Using latest release tag: $TAG_NAME"
           fi
 
           echo "APP_VERSION=$TAG_NAME" >> $GITHUB_ENV
