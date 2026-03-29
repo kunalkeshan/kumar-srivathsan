@@ -26,17 +26,14 @@ jobs:
         run: |
           echo "Event: ${{ github.event_name }}"
 
-          # Case 1: Manual run with input
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ github.event.inputs.version }}" ]; then
             TAG_NAME="${{ github.event.inputs.version }}"
             echo "Using manual version: $TAG_NAME"
 
-          # Case 2: Release trigger
           elif [ "${{ github.event_name }}" = "release" ]; then
             TAG_NAME="${{ github.event.release.tag_name }}"
             echo "Using release tag: $TAG_NAME"
 
-          # Case 3: Manual run WITHOUT input → fetch latest release
           else
             echo "Fetching latest release from GitHub API..."
             TAG_NAME=$(curl --silent "https://api.github.com/repos/${{ github.repository }}/releases/latest" | jq -r .tag_name)
@@ -67,6 +64,10 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
-          git add package.json package-lock.json || true
-          git commit -m "chore: sync package.json version to $APP_VERSION" || echo "No changes to commit"
+          # Stage only relevant files
+          git add package.json pnpm-lock.yaml 2>/dev/null || git add package.json
+
+          # Commit only if there are changes
+          git diff --cached --quiet || git commit -m "chore: sync package.json version to $APP_VERSION"
+
           git push origin main
