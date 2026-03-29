@@ -113,6 +113,18 @@ Rules:
   - Dates: format in `UTC +05:30` (use `font-mono`)
   - Logs: render like `ENTRY #042` (use `font-mono`)
 
+## Content Image Protection
+
+`components/protected-image.tsx` exports `ProtectedImage`, a client-side drop-in for `next/image` that suppresses the browser context menu on right-click by calling `e.preventDefault()` in an `onContextMenu` handler. Any `onContextMenu` prop passed by the caller is chained after prevention.
+
+**Scope**: Use `ProtectedImage` only for editorial/content photos where discouraging casual download is desired (e.g. the About section's `/assets/family.jpeg` and `/assets/kumar-2.jpeg`). Do **not** apply it to the site logo, footer GitHub avatar, or any UI icons.
+
+**Trade-offs and limits**:
+- Removes the browser context-menu on those images (users lose "Open image in new tab", "Copy image", etc.).
+- Keyboard navigation and screen readers are unaffected.
+- This is deterrence, not cryptographic protection. DevTools, the network tab, screenshots, and browser caching all still expose the assets.
+- Mobile long-press image preview is a separate browser mechanism and is not blocked.
+
 ## Documentation Hygiene
 
 When making a change that introduces, modifies, or removes a pattern, convention, or architectural decision, update the relevant section of CLAUDE.md in the same PR/commit.
