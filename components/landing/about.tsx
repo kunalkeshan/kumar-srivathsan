@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Container } from "@/components/layouts/container"
 import { HashLink } from "@/components/ui/hash-link"
 import { cn } from "@/lib/utils"
-import Image from "next/image"
+import { ProtectedImage as Image } from "@/components/protected-image"
 
 /** Career highlight statistics rendered in the Kumar's Story card. */
 const stats = [
