@@ -31,7 +31,8 @@ pnpm typecheck     # TypeScript type check (no emit)
 **Component organization**:
 - `components/ui/` — shadcn/ui primitives (Button, Accordion, etc.)
 - `components/layouts/` — structural components (Header, Footer, Logo, Container)
-- `components/landing/` — page-specific sections (Hero)
+- `components/landing/` — home page sections (Hero, About, etc.)
+- `components/*.tsx` at the root of `components/` — app-wide route UI not scoped to a single page (e.g. `not-found-page.tsx` for `app/not-found.tsx`)
 - `components/icons/` — custom SVG icon components
 
 **Centralized config**: Navigation links and social media links are defined in `config/` and imported by Header/Footer — add new nav items there, not directly in components.
