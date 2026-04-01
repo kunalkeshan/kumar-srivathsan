@@ -79,6 +79,7 @@ export function HeroVideo() {
             loop
             playsInline
             preload="metadata"
+            poster="/assets/canvas.webp"
             src={heroVideoUrl}
             className="h-full w-full object-cover"
             onError={() => setVideoError(true)}

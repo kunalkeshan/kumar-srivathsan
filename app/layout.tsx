@@ -26,7 +26,7 @@ const fontSerif = Source_Serif_4({
 const fontMono = IBM_Plex_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
-  weight: ["100", "200", "300", "400", "500", "600", "700"],
+  weight: ["400", "500"],
 })
 
 export const metadata = baseMetadata
