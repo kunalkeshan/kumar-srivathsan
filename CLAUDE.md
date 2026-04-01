@@ -113,7 +113,7 @@ Rules:
   - Dates: format in `UTC +05:30` (use `font-mono`)
   - Logs: render like `ENTRY #042` (use `font-mono`)
 
-**IBM Plex Mono font weights**: Only weight `400` is loaded (configured in `app/layout.tsx`). If you add mono text that uses a different weight (e.g. `font-semibold`, `font-bold`), you must add that weight to the `weight` array in `app/layout.tsx` — otherwise the browser will synthesize the weight, producing blurry or distorted text.
+**IBM Plex Mono font weights**: Weights `400` and `500` are loaded (configured in `app/layout.tsx`). Weight 500 is used by the Destinations port labels via injected CSS. If you add mono text that uses a different weight (e.g. `font-semibold`, `font-bold`), you must add that weight to the `weight` array in `app/layout.tsx` — otherwise the browser will synthesize the weight, producing blurry or distorted text.
 
 ## Content Image Protection
 
