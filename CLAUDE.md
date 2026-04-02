@@ -127,6 +127,59 @@ Rules:
 - This is deterrence, not cryptographic protection. DevTools, the network tab, screenshots, and browser caching all still expose the assets.
 - Mobile long-press image preview is a separate browser mechanism and is not blocked.
 
+## Sanity CMS
+
+Sanity is integrated for content management. The infrastructure lives in `sanity/` and the studio is embedded at `/cms`.
+
+**Skill to use:** When working on any Sanity-related task (schema design, GROQ queries, Visual Editing, images, TypeGen, Studio structure, revalidation), invoke the `/sanity-best-practices` skill first and load the relevant reference file(s) before writing or modifying any code.
+
+**Directory layout:**
+- `sanity/env.ts` — env var validation using `assertValue` from `lib/utils.ts`
+- `sanity/schemaTypes/` — schema type definitions (`index.ts` exports the schema object)
+- `sanity/studio-structure.ts` — Studio sidebar structure (singletons, dividers)
+- `sanity/lib/client.ts` — `createClient` instance
+- `sanity/lib/image.ts` — `urlFor()` URL builder for Sanity image assets
+- `sanity/lib/sanity-fetch.ts` — `sanityFetch<T>()` server-side fetch with on-demand ISR tags
+- `sanity/lib/cache-tags.ts` — typed `CollectionTag` / `DocumentTag` helpers
+- `sanity/queries/` — GROQ queries wrapped in `defineQuery` for TypeGen support
+- `sanity.config.ts` — embedded Studio config (`basePath: "/cms"`)
+- `sanity.cli.ts` — CLI + TypeGen config (outputs to `types/cms.d.ts`)
+
+**Naming note:** The Studio structure file is `sanity/studio-structure.ts` (NOT `sanity/structure.ts`). The name `sanity/structure.ts` conflicts with the `sanity/structure` npm subpath and causes TypeScript to resolve imports to the local file instead of the package.
+
+**assertValue:** Lives in `lib/utils.ts` alongside `cn()`. Used in `sanity/env.ts` to validate required env vars at startup.
+
+**TypeGen — mandatory workflow:**
+
+> Run `pnpm generate:types` after **every** schema change or new/modified GROQ query without exception.
+
+1. Change schema (`sanity/schemaTypes/`) or add/edit a query (`sanity/queries/`)
+2. Run `pnpm generate:types` → regenerates `types/cms.d.ts`
+3. Use the generated types as the **source of truth** for all TypeScript — never hand-write types for Sanity data shapes
+4. Import query result types as `import type { SITE_CONFIG_QUERYResult } from "@/types/cms"`
+5. Pass generated types to `sanityFetch<T>()` — do not use `any` or manually-typed interfaces
+
+TypeGen auto-runs during `sanity dev` via `sanity.cli.ts`, but always run it manually before implementing a fetch against a new or changed query.
+
+**Schema conventions:**
+- Always use `defineType` / `defineField` / `defineArrayMember` — never plain objects
+- Model what content *is*, not how it looks (no `bigHeroText`, `threeColumnRow`, etc.)
+- Singletons (like `siteConfig`) must be pinned with a fixed `documentId` in `sanity/studio-structure.ts` and filtered out of the default document list
+
+**Query conventions:**
+- Wrap every GROQ query in `defineQuery` from `next-sanity`
+- Always project `_key` in array items for React reconciliation
+- Place queries in `sanity/queries/` — one file per document type
+
+**Revalidation:** Webhook-based on-demand ISR via `app/api/revalidate/route.ts`. Configure a Sanity webhook pointing to `{SITE_URL}/api/revalidate` with `SANITY_WEBHOOK_SECRET`. Use `revalidateTag(tag, "max")` — Next.js 16 requires the second `profile` argument. Add a `case` for each new document type added to the schema.
+
+**Required env vars** (see `.env.example`):
+- `NEXT_PUBLIC_SANITY_PROJECT_ID`
+- `NEXT_PUBLIC_SANITY_DATASET`
+- `NEXT_PUBLIC_SANITY_API_VERSION` (optional, defaults to `2025-04-03`)
+- `SANITY_API_READ_TOKEN`
+- `SANITY_WEBHOOK_SECRET`
+
 ## Documentation Hygiene
 
 When making a change that introduces, modifies, or removes a pattern, convention, or architectural decision, update the relevant section of CLAUDE.md in the same PR/commit.
