@@ -127,6 +127,39 @@ Rules:
 - This is deterrence, not cryptographic protection. DevTools, the network tab, screenshots, and browser caching all still expose the assets.
 - Mobile long-press image preview is a separate browser mechanism and is not blocked.
 
+## Sanity CMS
+
+Sanity is integrated for content management. The infrastructure lives in `sanity/` and the studio is embedded at `/cms`.
+
+**Directory layout:**
+- `sanity/env.ts` — env var validation using `assertValue` from `lib/utils.ts`
+- `sanity/schemaTypes/` — schema type definitions (`index.ts` exports the schema object)
+- `sanity/studio-structure.ts` — Studio sidebar structure (singletons, dividers)
+- `sanity/lib/client.ts` — `createClient` instance
+- `sanity/lib/image.ts` — `urlFor()` URL builder for Sanity image assets
+- `sanity/lib/sanity-fetch.ts` — `sanityFetch<T>()` server-side fetch with on-demand ISR tags
+- `sanity/lib/cache-tags.ts` — typed `CollectionTag` / `DocumentTag` helpers
+- `sanity/queries/` — GROQ queries wrapped in `defineQuery` for TypeGen support
+- `sanity.config.ts` — embedded Studio config (`basePath: "/cms"`)
+- `sanity.cli.ts` — CLI + TypeGen config (outputs to `types/cms.d.ts`)
+
+**Naming note:** The Studio structure file is `sanity/studio-structure.ts` (NOT `sanity/structure.ts`). The name `sanity/structure.ts` conflicts with the `sanity/structure` npm subpath and causes TypeScript to resolve imports to the local file instead of the package.
+
+**assertValue:** Lives in `lib/utils.ts` alongside `cn()`. Used in `sanity/env.ts` to validate required env vars at startup.
+
+**TypeGen:** Run `pnpm generate:types` (`sanity schema extract && sanity typegen generate`) after changing any schema or query. Output: `types/cms.d.ts`. TypeGen auto-runs during `sanity dev` via `sanity.cli.ts`.
+
+**Queries:** Always wrap GROQ in `defineQuery` from `next-sanity`. Put queries in `sanity/queries/`. Include `_key` in any array projection for React reconciliation.
+
+**Revalidation:** Webhook-based on-demand ISR via `app/api/revalidate/route.ts`. Configure a Sanity webhook pointing to `{SITE_URL}/api/revalidate` with `SANITY_WEBHOOK_SECRET`. The `revalidateTag(tag, "max")` call (Next.js 16 requires the second `profile` argument) busts the cache for the affected document type.
+
+**Required env vars** (see `.env.example`):
+- `NEXT_PUBLIC_SANITY_PROJECT_ID`
+- `NEXT_PUBLIC_SANITY_DATASET`
+- `NEXT_PUBLIC_SANITY_API_VERSION` (optional, defaults to `2025-04-03`)
+- `SANITY_API_READ_TOKEN`
+- `SANITY_WEBHOOK_SECRET`
+
 ## Documentation Hygiene
 
 When making a change that introduces, modifies, or removes a pattern, convention, or architectural decision, update the relevant section of CLAUDE.md in the same PR/commit.
