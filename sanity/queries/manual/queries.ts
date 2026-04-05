@@ -7,7 +7,9 @@ const manualCardFields = `
   summary,
   author,
   thumbnail { asset->, alt, hotspot, crop },
-  _updatedAt
+  _createdAt,
+  _updatedAt,
+  "plainBody": pt::text(body)
 `
 
 export const MANUALS_LIST_QUERY = defineQuery(`
@@ -32,6 +34,7 @@ export const MANUAL_BY_SLUG_QUERY = defineQuery(`
     thumbnail { asset->, alt, hotspot, crop },
     _createdAt,
     _updatedAt,
+    "plainBody": pt::text(body),
     body[]{
       ...,
       markDefs[]{
@@ -51,7 +54,10 @@ export const MANUAL_BY_SLUG_QUERY = defineQuery(`
       title,
       slug,
       summary,
-      thumbnail { asset->, alt, hotspot, crop }
+      author,
+      thumbnail { asset->, alt, hotspot, crop },
+      _createdAt,
+      "plainBody": pt::text(body)
     }
   }
 `)

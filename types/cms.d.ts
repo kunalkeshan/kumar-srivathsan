@@ -312,7 +312,7 @@ export type DESTINATIONS_QUERY_RESULT = Array<{
 
 // Source: sanity/queries/manual/queries.ts
 // Variable: MANUALS_LIST_QUERY
-// Query: *[_type == "manual" && defined(slug.current)] | order(_createdAt desc) {      _id,  title,  slug,  summary,  author,  thumbnail { asset->, alt, hotspot, crop },  _updatedAt  }
+// Query: *[_type == "manual" && defined(slug.current)] | order(_createdAt desc) {      _id,  title,  slug,  summary,  author,  thumbnail { asset->, alt, hotspot, crop },  _createdAt,  _updatedAt,  "plainBody": pt::text(body)  }
 export type MANUALS_LIST_QUERY_RESULT = Array<{
   _id: string
   title: string | null
@@ -346,12 +346,14 @@ export type MANUALS_LIST_QUERY_RESULT = Array<{
     hotspot: SanityImageHotspot | null
     crop: SanityImageCrop | null
   } | null
+  _createdAt: string
   _updatedAt: string
+  plainBody: string
 }>
 
 // Source: sanity/queries/manual/queries.ts
 // Variable: MANUALS_LATEST_QUERY
-// Query: *[_type == "manual" && defined(slug.current)] | order(_createdAt desc) [0...5] {      _id,  title,  slug,  summary,  author,  thumbnail { asset->, alt, hotspot, crop },  _updatedAt  }
+// Query: *[_type == "manual" && defined(slug.current)] | order(_createdAt desc) [0...5] {      _id,  title,  slug,  summary,  author,  thumbnail { asset->, alt, hotspot, crop },  _createdAt,  _updatedAt,  "plainBody": pt::text(body)  }
 export type MANUALS_LATEST_QUERY_RESULT = Array<{
   _id: string
   title: string | null
@@ -385,12 +387,14 @@ export type MANUALS_LATEST_QUERY_RESULT = Array<{
     hotspot: SanityImageHotspot | null
     crop: SanityImageCrop | null
   } | null
+  _createdAt: string
   _updatedAt: string
+  plainBody: string
 }>
 
 // Source: sanity/queries/manual/queries.ts
 // Variable: MANUAL_BY_SLUG_QUERY
-// Query: *[_type == "manual" && slug.current == $slug][0] {    _id,    title,    slug,    summary,    author,    thumbnail { asset->, alt, hotspot, crop },    _createdAt,    _updatedAt,    body[]{      ...,      markDefs[]{        ...,      },      _type == "image" => {        _key,        _type,        alt,        asset->,        hotspot,        crop      }    },    relatedManuals[]->{      _id,      title,      slug,      summary,      thumbnail { asset->, alt, hotspot, crop }    }  }
+// Query: *[_type == "manual" && slug.current == $slug][0] {    _id,    title,    slug,    summary,    author,    thumbnail { asset->, alt, hotspot, crop },    _createdAt,    _updatedAt,    "plainBody": pt::text(body),    body[]{      ...,      markDefs[]{        ...,      },      _type == "image" => {        _key,        _type,        alt,        asset->,        hotspot,        crop      }    },    relatedManuals[]->{      _id,      title,      slug,      summary,      author,      thumbnail { asset->, alt, hotspot, crop },      _createdAt,      "plainBody": pt::text(body)    }  }
 export type MANUAL_BY_SLUG_QUERY_RESULT = {
   _id: string
   title: string | null
@@ -426,6 +430,7 @@ export type MANUAL_BY_SLUG_QUERY_RESULT = {
   } | null
   _createdAt: string
   _updatedAt: string
+  plainBody: string
   body: Array<
     | {
         children?: Array<{
@@ -490,6 +495,7 @@ export type MANUAL_BY_SLUG_QUERY_RESULT = {
     title: string | null
     slug: Slug | null
     summary: string | null
+    author: string | null
     thumbnail: {
       asset: {
         _id: string
@@ -517,6 +523,8 @@ export type MANUAL_BY_SLUG_QUERY_RESULT = {
       hotspot: SanityImageHotspot | null
       crop: SanityImageCrop | null
     } | null
+    _createdAt: string
+    plainBody: string
   }> | null
 } | null
 
@@ -661,9 +669,9 @@ import "@sanity/client"
 declare module "@sanity/client" {
   interface SanityQueries {
     '\n  *[_type == "destination"] | order(name asc) {\n    _id,\n    code,\n    name,\n    latitude,\n    longitude\n  }\n': DESTINATIONS_QUERY_RESULT
-    '\n  *[_type == "manual" && defined(slug.current)] | order(_createdAt desc) {\n    \n  _id,\n  title,\n  slug,\n  summary,\n  author,\n  thumbnail { asset->, alt, hotspot, crop },\n  _updatedAt\n\n  }\n': MANUALS_LIST_QUERY_RESULT
-    '\n  *[_type == "manual" && defined(slug.current)] | order(_createdAt desc) [0...5] {\n    \n  _id,\n  title,\n  slug,\n  summary,\n  author,\n  thumbnail { asset->, alt, hotspot, crop },\n  _updatedAt\n\n  }\n': MANUALS_LATEST_QUERY_RESULT
-    '\n  *[_type == "manual" && slug.current == $slug][0] {\n    _id,\n    title,\n    slug,\n    summary,\n    author,\n    thumbnail { asset->, alt, hotspot, crop },\n    _createdAt,\n    _updatedAt,\n    body[]{\n      ...,\n      markDefs[]{\n        ...,\n      },\n      _type == "image" => {\n        _key,\n        _type,\n        alt,\n        asset->,\n        hotspot,\n        crop\n      }\n    },\n    relatedManuals[]->{\n      _id,\n      title,\n      slug,\n      summary,\n      thumbnail { asset->, alt, hotspot, crop }\n    }\n  }\n': MANUAL_BY_SLUG_QUERY_RESULT
+    '\n  *[_type == "manual" && defined(slug.current)] | order(_createdAt desc) {\n    \n  _id,\n  title,\n  slug,\n  summary,\n  author,\n  thumbnail { asset->, alt, hotspot, crop },\n  _createdAt,\n  _updatedAt,\n  "plainBody": pt::text(body)\n\n  }\n': MANUALS_LIST_QUERY_RESULT
+    '\n  *[_type == "manual" && defined(slug.current)] | order(_createdAt desc) [0...5] {\n    \n  _id,\n  title,\n  slug,\n  summary,\n  author,\n  thumbnail { asset->, alt, hotspot, crop },\n  _createdAt,\n  _updatedAt,\n  "plainBody": pt::text(body)\n\n  }\n': MANUALS_LATEST_QUERY_RESULT
+    '\n  *[_type == "manual" && slug.current == $slug][0] {\n    _id,\n    title,\n    slug,\n    summary,\n    author,\n    thumbnail { asset->, alt, hotspot, crop },\n    _createdAt,\n    _updatedAt,\n    "plainBody": pt::text(body),\n    body[]{\n      ...,\n      markDefs[]{\n        ...,\n      },\n      _type == "image" => {\n        _key,\n        _type,\n        alt,\n        asset->,\n        hotspot,\n        crop\n      }\n    },\n    relatedManuals[]->{\n      _id,\n      title,\n      slug,\n      summary,\n      author,\n      thumbnail { asset->, alt, hotspot, crop },\n      _createdAt,\n      "plainBody": pt::text(body)\n    }\n  }\n': MANUAL_BY_SLUG_QUERY_RESULT
     '\n  *[_type == "manual" && defined(slug.current)] {\n    "slug": slug.current,\n    _updatedAt\n  }\n': MANUALS_SITEMAP_QUERY_RESULT
     '\n  *[_type == "routesConfig"][0] {\n    _id,\n    routes[] {\n      _key,\n      from->{ _id },\n      to->{ _id },\n      shipIconId\n    }\n  }\n': ROUTES_CONFIG_QUERY_RESULT
     '\n  *[_id == "siteConfig"][0] {\n    _id,\n    title,\n    description,\n    ogImage { asset->, alt, hotspot, crop },\n    twitterImage { asset->, alt, hotspot, crop },\n    socialMedia[] { _key, platform, url, label, contactText },\n    heroVideoUrl,\n    showRouteArcs\n  }\n': SITE_CONFIG_QUERY_RESULT

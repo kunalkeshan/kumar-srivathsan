@@ -33,6 +33,7 @@ pnpm typecheck     # TypeScript type check (no emit)
 - `components/ui/` — shadcn/ui primitives (Button, Accordion, etc.)
 - `components/layouts/` — structural components (Header, Footer, Logo, Container)
 - `components/landing/` — home page sections (Hero, About, etc.)
+- `components/manuals/` — manuals UI: `ManualCard`, `ManualsSection`, `ManualArticle`, `ManualPortableText`
 - `components/*.tsx` at the root of `components/` — app-wide route UI not scoped to a single page (e.g. `not-found-page.tsx` for `app/not-found.tsx`)
 - `components/icons/` — custom SVG icon components
 
@@ -81,7 +82,7 @@ Always set `prefetch={false}` on every Next.js `<Link>` component:
 Rich HTML from Sanity (Portable Text) should be wrapped with the shared **`.prose-cms`** preset or the **`CmsProse`** component from `components/cms-prose.tsx`. The preset extends `prose prose-neutral max-w-none dark:prose-invert` and maps colors to theme tokens (`foreground`, `primary`, `muted`, `border`), **serif headings** and **sans body** per typography guidelines, **`font-mono`** for `code` / `pre`, and **`rounded-surface squircle`** on content images.
 
 - Do not add a second `prose` class when using `CmsProse` / `.prose-cms` (the preset already includes `prose`).
-- For manual pages, combine `CmsProse` with `<PortableText />` and custom `block` components (e.g. map PT `h1` → `<h2>` so the document title remains the only page-level `h1`).
+- For manual pages, combine `CmsProse` with `<PortableText />` and custom `block` components (e.g. map PT `h1` → `<h2>` so the document title remains the only page-level `h1`). The `/manuals/[slug]` page also mounts **`ScrollProgress`** (`components/ui/scroll-progress.tsx`) — a fixed top progress bar using the site **chart** color gradient (`chart-5` → `chart-3` → `chart-1`) at `z-[60]` so it sits above the sticky header (`z-50`).
 
 ## UI Radius Standard
 
@@ -201,6 +202,7 @@ TypeGen auto-runs during `sanity dev` via `sanity.cli.ts`, but always run it man
    - `socialMedia` → `<Contact>`
    - `destinations.length` → `<About portsCount>` (drives the "Ports Visited" stat as `{n}+`)
    - `destinations`, `routesConfig.routes`, `siteConfig.showRouteArcs` → `<DestinationsLoader>`
+   - `getLatestManuals()` → `<ManualsSection>` (after About, before Destinations)
 3. `app/layout.tsx` `generateMetadata()` calls `getSiteConfig()` for SEO metadata.
 4. `React.cache()` in each fetch function deduplicates all calls within the same HTTP request.
 
