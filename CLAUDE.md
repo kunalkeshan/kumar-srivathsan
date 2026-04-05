@@ -35,7 +35,7 @@ pnpm typecheck     # TypeScript type check (no emit)
 - `components/*.tsx` at the root of `components/` — app-wide route UI not scoped to a single page (e.g. `not-found-page.tsx` for `app/not-found.tsx`)
 - `components/icons/` — custom SVG icon components
 
-**Centralized config**: Navigation links and social media links are defined in `config/` and imported by Header/Footer — add new nav items there, not directly in components.
+**Centralized config**: Navigation links are defined in `config/navigation.tsx`. Social media links are sourced exclusively from Sanity siteConfig at runtime via the mapping utilities in `config/socials.tsx` — see the Sanity CMS section for the data flow. Add new nav items in `config/`, never directly in components.
 
 **New components**: Wrap content with `<Container>` from `@/components/layouts/container.tsx` for consistent max-width and horizontal padding. Follow the same prop pattern as existing components — accept `className?: string` and spread it into `cn()` for extensibility.
 
@@ -45,7 +45,7 @@ pnpm typecheck     # TypeScript type check (no emit)
 
 ## Metadata
 
-Base metadata is defined in `config/metadata.ts` and re-exported from `app/layout.tsx` as the site-wide default.
+`config/metadata.ts` provides `baseMetadata` (used only for its `metadataBase` / site origin). The root layout (`app/layout.tsx`) exports an async `generateMetadata()` function that fetches Sanity siteConfig and uses `title`, `description`, `ogImage`, and `twitterImage` exclusively from the CMS — no hardcoded content strings substitute for missing values. Fields absent from siteConfig are simply omitted from the returned metadata object.
 
 **For new pages**, export a `Metadata` object with at minimum a canonical URL:
 
@@ -59,11 +59,11 @@ export const metadata: Metadata = {
 }
 ```
 
-Add `title` and `description` overrides only when the page content differs meaningfully from the site default. The root layout's title template (`%s | Kumar Srivathsan`) will automatically apply to any `title` string you provide.
+Add `title` and `description` overrides only when the page content differs meaningfully from the site default. The root layout's title template (sourced from `siteConfig.title`) will automatically apply to any `title` string you provide.
 
-**For new sections/features** that need their own OG or Twitter overrides, extend the base from `config/metadata.ts` — never duplicate the `metadataBase`, `openGraph.siteName`, or `twitter.card` values inline.
+**For new sections/features** that need their own OG or Twitter overrides, never duplicate `metadataBase` or `twitter.card` inline — extend from `config/metadata.ts` for the structural parts only.
 
-Icons, favicon, and OG images are not yet configured — see TODO comments in `config/metadata.ts`.
+OG and Twitter images are served from Sanity CDN via `urlFor()`. If siteConfig has no image set, no image tag is emitted.
 
 ## Link Usage
 
@@ -140,6 +140,7 @@ Sanity is integrated for content management. The infrastructure lives in `sanity
 - `sanity/lib/client.ts` — `createClient` instance
 - `sanity/lib/image.ts` — `urlFor()` URL builder for Sanity image assets
 - `sanity/lib/sanity-fetch.ts` — `sanityFetch<T>()` server-side fetch with on-demand ISR tags
+- `sanity/lib/get-site-config.ts` — `getSiteConfig()` — React.cache-wrapped fetch for the siteConfig singleton; use this everywhere instead of calling `sanityFetch` directly for siteConfig
 - `sanity/lib/cache-tags.ts` — typed `CollectionTag` / `DocumentTag` helpers
 - `sanity/queries/` — GROQ queries wrapped in `defineQuery` for TypeGen support
 - `sanity.config.ts` — embedded Studio config (`basePath: "/cms"`)
@@ -156,7 +157,7 @@ Sanity is integrated for content management. The infrastructure lives in `sanity
 1. Change schema (`sanity/schemaTypes/`) or add/edit a query (`sanity/queries/`)
 2. Run `pnpm generate:types` → regenerates `types/cms.d.ts`
 3. Use the generated types as the **source of truth** for all TypeScript — never hand-write types for Sanity data shapes
-4. Import query result types as `import type { SITE_CONFIG_QUERYResult } from "@/types/cms"`
+4. Import query result types as `import type { SITE_CONFIG_QUERY_RESULT } from "@/types/cms"`
 5. Pass generated types to `sanityFetch<T>()` — do not use `any` or manually-typed interfaces
 
 TypeGen auto-runs during `sanity dev` via `sanity.cli.ts`, but always run it manually before implementing a fetch against a new or changed query.
@@ -170,6 +171,19 @@ TypeGen auto-runs during `sanity dev` via `sanity.cli.ts`, but always run it man
 - Wrap every GROQ query in `defineQuery` from `next-sanity`
 - Always project `_key` in array items for React reconciliation
 - Place queries in `sanity/queries/` — one file per document type
+
+**siteConfig data-flow pattern:**
+
+`siteConfig` is the singleton Sanity document that drives site-wide runtime data (title, description, OG images, social links, hero video URL). The established prop-passing pattern is:
+
+1. `app/(site)/layout.tsx` calls `getSiteConfig()` once and passes derived values as props to `<Header>` and `<Footer>`.
+2. `app/(site)/page.tsx` calls `getSiteConfig()` once and passes `heroVideoUrl` to `<HeroVideo>` and `socialMedia` to `<Contact>`.
+3. `app/layout.tsx` `generateMetadata()` calls `getSiteConfig()` for SEO metadata.
+4. `React.cache()` in `getSiteConfig()` deduplicates all calls within the same HTTP request.
+
+For social links: `mapSanityMediaToSocialLinks()` in `config/socials.tsx` maps the Sanity `socialMedia[]` array to `SocialLink[]`. Returns `[]` when `socialMedia` is null or empty — **no static fallback**. `PLATFORM_ICONS` in the same file is the centralized `platform → ReactNode` mapping — do not define icons anywhere else.
+
+For contact entries: `mapSanityMediaToContactEntries()` in `config/socials.tsx` maps `socialMedia[]` to the contact grid format. Returns `[]` when null or empty — **no static fallback**. Phone/email display values are extracted by stripping `tel:`/`mailto:` from the URL field.
 
 **Revalidation:** Webhook-based on-demand ISR via `app/api/revalidate/route.ts`. Configure a Sanity webhook pointing to `{SITE_URL}/api/revalidate` with `SANITY_WEBHOOK_SECRET`. Use `revalidateTag(tag, "max")` — Next.js 16 requires the second `profile` argument. Add a `case` for each new document type added to the schema.
 
