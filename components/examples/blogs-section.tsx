@@ -1,3 +1,7 @@
+/**
+ * Static layout reference only — not imported by any `app/` route. Safe to delete
+ * if you no longer need a blogs-style grid example alongside `ManualsSection`.
+ */
 import { cn } from "@/lib/utils"
 import { LazyImage } from "@/components/ui/lazy-image"
 import { FullWidthDivider } from "@/components/ui/full-width-divider"

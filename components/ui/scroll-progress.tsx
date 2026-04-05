@@ -1,21 +1,19 @@
 "use client"
 
+import * as React from "react"
 import { motion, useScroll, type MotionProps } from "motion/react"
 
 import { cn } from "@/lib/utils"
 
-interface ScrollProgressProps extends Omit<
-  React.HTMLAttributes<HTMLElement>,
+export type ScrollProgressProps = Omit<
+  React.HTMLAttributes<HTMLDivElement>,
   keyof MotionProps
-> {
-  ref?: React.Ref<HTMLDivElement>
-}
+>
 
-export function ScrollProgress({
-  className,
-  ref,
-  ...props
-}: ScrollProgressProps) {
+export const ScrollProgress = React.forwardRef<
+  HTMLDivElement,
+  ScrollProgressProps
+>(function ScrollProgress({ className, ...props }, ref) {
   const { scrollYProgress } = useScroll()
 
   return (
@@ -31,4 +29,5 @@ export function ScrollProgress({
       {...props}
     />
   )
-}
+})
+ScrollProgress.displayName = "ScrollProgress"

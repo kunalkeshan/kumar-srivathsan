@@ -2,7 +2,7 @@ const WORDS_PER_MINUTE = 200
 
 /**
  * Estimated reading time from plain text (e.g. GROQ `pt::text(body)`).
- * Returns at least 1 minute when there is any content.
+ * Always returns at least **1** so cards always show a read time (empty body → `"1 min read"`).
  */
 export function estimateReadTimeMinutes(
   plainBody: string | null | undefined

@@ -8,6 +8,7 @@ import { ScrollProgress } from "@/components/ui/scroll-progress"
 import { getManualBySlug } from "@/sanity/queries/manual"
 import { urlFor } from "@/sanity/lib/image"
 
+/** Next.js 15+ passes `params` as a `Promise` for async server pages. */
 type PageProps = {
   params: Promise<{ slug: string }>
 }
