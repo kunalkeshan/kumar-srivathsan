@@ -1,49 +1,28 @@
 /**
  * Contact section listing all ways to reach Kumar Srivathsan.
  *
- * Data is derived at module level by transforming the centralised config
- * arrays from `config/socials.ts`:
- * - {@link phoneLinks} → phone contact entries
- * - {@link emailLinks} → email contact entries
- * - {@link socialLinks} (filtered to those with a `contactText`) → social entries
+ * Accepts a `socialMedia` prop (from Sanity siteConfig) and uses
+ * {@link mapSanityMediaToContactEntries} to derive the contact grid entries.
+ * Falls back to the static config arrays in `config/socials.ts` when the
+ * prop is null or empty (e.g. siteConfig not yet published in Sanity).
  *
- * All entries are merged into a single `data` array and rendered as a
- * responsive 3-column grid of anchor links. A fixed footer row links to
- * Nebula Pages (the developer's agency).
+ * All entries are merged into a single array and rendered as a responsive
+ * 3-column grid of anchor links. A fixed footer row links to Nebula Pages.
  */
-import { Phone, Mail, Rocket } from "lucide-react"
+import { Rocket } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { FullWidthDivider } from "@/components/ui/full-width-divider"
 import { Container } from "@/components/layouts/container"
-import { phoneLinks, emailLinks, socialLinks } from "@/config/socials"
+import { mapSanityMediaToContactEntries } from "@/config/socials"
+import type { SITE_CONFIG_QUERY_RESULT } from "@/types/cms"
 
-const phones = phoneLinks.map((p) => ({
-  title: p.label,
-  value: p.phone,
-  href: p.href,
-  icon: <Phone />,
-}))
+type ContactProps = {
+  socialMedia: NonNullable<SITE_CONFIG_QUERY_RESULT>["socialMedia"]
+}
 
-const emails = emailLinks.map((e) => ({
-  title: e.label,
-  value: e.email,
-  href: e.href,
-  icon: <Mail />,
-}))
-
-const socials = socialLinks
-  .filter((s) => s.contactText)
-  .map((s) => ({
-    title: s.contactText!,
-    value: s.label,
-    href: s.href,
-    icon: s.icon,
-  }))
-
-const data = [...phones, ...emails, ...socials]
-
-export function Contact() {
+export function Contact({ socialMedia }: ContactProps) {
+  const data = mapSanityMediaToContactEntries(socialMedia)
   return (
     <section id="contact" className="py-12">
       <Container>
