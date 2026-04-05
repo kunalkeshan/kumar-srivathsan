@@ -8,9 +8,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { ArrowRightIcon } from "lucide-react"
-import { socialLinks } from "@/config/socials"
+import type { SocialLink } from "@/config/socials"
 import { navLinks } from "@/config/navigation"
 import { HashLink } from "@/components/ui/hash-link"
+
+type HeaderMenuProps = {
+  socialLinks: SocialLink[]
+}
 
 /**
  * Navigation popover triggered from the header.
@@ -20,12 +24,13 @@ import { HashLink } from "@/components/ui/hash-link"
  * - A vertical nav list sourced from `config/navigation.ts`. Live links use
  *   {@link HashLink} and close the popover on click; `isLive: false` links
  *   render as disabled spans with a "soon" badge.
- * - A row of social icon buttons sourced from `config/socials.ts`. External
- *   links open in a new tab unless `external` is explicitly `false`.
+ * - A row of social icon buttons from the `socialLinks` prop (sourced from
+ *   Sanity siteConfig). External links open in a new tab unless `external`
+ *   is explicitly `false` (e.g. `tel:` / `mailto:` links).
  *
  * On mobile the popover spans 92svw; on desktop it is fixed at 192px (w-48).
  */
-export function HeaderMenu() {
+export function HeaderMenu({ socialLinks }: HeaderMenuProps) {
   const [open, setOpen] = useState(false)
 
   return (

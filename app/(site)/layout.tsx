@@ -4,19 +4,32 @@ import { Footer } from "@/components/layouts/footer"
 import MicrosoftClarity from "@/components/analytics/microsoft-clarity"
 import { Providers } from "@/components/providers"
 import { ANALYTICS_IDS } from "@/lib/analytics"
+import { getSiteConfig } from "@/sanity/lib/get-site-config"
+import { mapSanityMediaToSocialLinks } from "@/config/socials"
 
 const googleAnalyticsId = ANALYTICS_IDS.GOOGLE_ANALYTICS
 
-export default function SiteLayout({
+export default async function SiteLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const siteConfig = await getSiteConfig()
+
+  if (!siteConfig?.title?.trim()) {
+    throw new Error(
+      "siteConfig is missing or has no title. Publish the siteConfig document in Sanity Studio before deploying."
+    )
+  }
+
+  const siteTitle = siteConfig.title
+  const socialLinks = mapSanityMediaToSocialLinks(siteConfig.socialMedia ?? null)
+
   return (
     <Providers>
-      <Header />
+      <Header siteTitle={siteTitle} socialLinks={socialLinks} />
       {children}
-      <Footer />
+      <Footer siteTitle={siteTitle} socialLinks={socialLinks} />
       <MicrosoftClarity />
       {googleAnalyticsId ? (
         <GoogleAnalytics gaId={googleAnalyticsId} />

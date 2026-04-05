@@ -5,6 +5,12 @@ import { Logo } from "@/components/layouts/logo"
 import { Button } from "@/components/ui/button"
 import { HeaderMenu } from "@/components/layouts/header-menu"
 import { HashLink } from "@/components/ui/hash-link"
+import type { SocialLink } from "@/config/socials"
+
+type HeaderProps = {
+  siteTitle: string
+  socialLinks: SocialLink[]
+}
 
 /**
  * Site-wide sticky header rendered by the root layout.
@@ -13,8 +19,11 @@ import { HashLink } from "@/components/ui/hash-link"
  * background and pill shape. Contains the {@link Logo}, a "Contact" CTA
  * button that scrolls to the `#contact` section, and the {@link HeaderMenu}
  * popover for navigation and social links.
+ *
+ * `siteTitle` and `socialLinks` are fetched server-side in the site layout
+ * and passed as props so that this component has no direct Sanity dependency.
  */
-export function Header() {
+export function Header({ siteTitle, socialLinks }: HeaderProps) {
   return (
     <header
       className={cn(
@@ -27,14 +36,14 @@ export function Header() {
         href="/"
         prefetch={false}
       >
-        <Logo size="sm" text="Kumar Srivathsan" priority />
+        <Logo size="sm" text={siteTitle} priority />
       </Link>
 
       <div className="flex items-center gap-2">
         <Button size="lg" variant="outline" asChild>
           <HashLink href="/#contact">Contact</HashLink>
         </Button>
-        <HeaderMenu />
+        <HeaderMenu socialLinks={socialLinks} />
       </div>
     </header>
   )

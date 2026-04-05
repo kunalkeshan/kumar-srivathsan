@@ -5,7 +5,6 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { Button } from "@/components/ui/button"
 import { HashLink } from "@/components/ui/hash-link"
 import { cn } from "@/lib/utils"
-import { heroVideoUrl } from "@/config/media"
 
 // ── Parallax tuning ───────────────────────────────────────────────────────────
 /** Set to `false` to disable the scroll-driven parallax on the video background. */
@@ -14,21 +13,26 @@ const PARALLAX_Y_END = "35%" // how far the video shifts down on scroll
 const PARALLAX_SCALE_END = 1.2 // zoom-in factor at full scroll
 // ─────────────────────────────────────────────────────────────────────────────
 
+type HeroVideoProps = {
+  /** URL of the hero background video sourced from Sanity siteConfig. */
+  heroVideoUrl?: string
+}
+
 /**
  * Full-viewport hero section with an autoplaying background video and
  * scroll-driven parallax effect powered by Motion's `useScroll` and
  * `useTransform`.
  *
  * Behaviour details:
- * - Video is fetched from {@link heroVideoUrl} (external CDN).
- * - If the video fails to load (`onError`), falls back to static WebP images
- *   (mobile: `canvas.webp`, desktop: `hero.webp`).
+ * - Video URL comes exclusively from the `heroVideoUrl` prop (Sanity siteConfig).
+ * - When no URL is provided or the video fails to load (`onError`), static
+ *   WebP images are shown instead (mobile: `canvas.webp`, desktop: `hero.webp`).
  * - Parallax and autoplay are disabled when the user prefers reduced motion
  *   (`prefers-reduced-motion: reduce`).
  * - Tuning constants (`PARALLAX_ENABLED`, `PARALLAX_Y_END`, `PARALLAX_SCALE_END`)
  *   are defined at the top of the file.
  */
-export function HeroVideo() {
+export function HeroVideo({ heroVideoUrl }: HeroVideoProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const [videoError, setVideoError] = useState(false)
   const prefersReducedMotion = useReducedMotion()
@@ -55,13 +59,13 @@ export function HeroVideo() {
       ref={sectionRef}
       className="relative -mt-14 h-svh w-full overflow-hidden md:h-screen"
     >
-      {/* Video background with parallax (falls back to static images on error) */}
+      {/* Video background with parallax (shows static images when no URL or on error) */}
       <motion.div
         className="absolute inset-x-0 top-0 h-[120%] w-full"
         style={parallaxStyle}
         aria-hidden="true"
       >
-        {videoError ? (
+        {videoError || !heroVideoUrl ? (
           <>
             <div
               className="absolute inset-0 bg-cover bg-center md:hidden"

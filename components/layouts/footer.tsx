@@ -4,18 +4,23 @@ import Link from "next/link"
 import { Logo } from "@/components/layouts/logo"
 import { CopyrightYear } from "@/components/layouts/copyright-year"
 import { Button } from "@/components/ui/button"
-import { socialLinks } from "@/config/socials"
+import type { SocialLink } from "@/config/socials"
 import { footerLinks } from "@/config/navigation"
 import { Container } from "@/components/layouts/container"
 import { HashLink } from "@/components/ui/hash-link"
 import { APP_VERSION } from "@/config/version"
 
+type FooterProps = {
+  siteTitle: string
+  socialLinks: SocialLink[]
+}
+
 /**
  * Site-wide footer rendered by the root layout.
  *
  * Structure:
- * - Top row: {@link Logo} (links home) + social icon buttons sourced from
- *   `config/socials.ts`.
+ * - Top row: {@link Logo} (links home) + social icon buttons from the
+ *   `socialLinks` prop (sourced from Sanity siteConfig).
  * - Nav row: footer links from `config/navigation.ts`. Links with
  *   `isLive: false` render as disabled `<span>` elements with a "soon" badge.
  *   Hash links use {@link HashLink}; page links use `<Link prefetch={false}>`.
@@ -24,14 +29,14 @@ import { APP_VERSION } from "@/config/version"
  *   latest GitHub release, and a
  *   "Built by Kunal" credit with GitHub avatar.
  */
-export function Footer() {
+export function Footer({ siteTitle, socialLinks }: FooterProps) {
   return (
     <footer>
       <Container>
         <div className="flex flex-col gap-6 py-6">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center gap-2" prefetch={false}>
-              <Logo size="sm" text="Kumar Srivathsan" />
+              <Logo size="sm" text={siteTitle} />
             </Link>
             <div className="flex items-center">
               {socialLinks.map(({ href, label, icon }) => (
@@ -88,7 +93,7 @@ export function Footer() {
 
         <div className="flex items-center justify-between gap-4 border-t py-4 text-sm text-muted-foreground">
           <p>
-            &copy; <CopyrightYear /> Kumar Srivathsan{" "}
+            &copy; <CopyrightYear /> {siteTitle}{" "}
             <span aria-hidden="true">•</span>{" "}
             <Link
               className="text-muted-foreground hover:text-foreground hover:underline"
