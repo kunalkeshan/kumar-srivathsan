@@ -143,8 +143,9 @@ type SanityMediaItem = NonNullable<SanityMediaArray>[number]
  * Maps a Sanity `socialMedia` array to the {@link SocialLink} shape used by
  * Header (HeaderMenu) and Footer social icon rows.
  *
- * Falls back to the hardcoded {@link socialLinks} when the Sanity array is
- * null or empty (e.g. siteConfig not yet published).
+ * Returns `[]` when `socialMedia` is null or empty — no static fallback.
+ * `tel:` and `mailto:` URLs (platform `phone` / `email`) set `external: false`
+ * so they are not opened with `target="_blank"`.
  */
 export function mapSanityMediaToSocialLinks(
   socialMedia: SanityMediaArray
@@ -155,17 +156,26 @@ export function mapSanityMediaToSocialLinks(
       (item: SanityMediaItem): item is SanityMediaItem =>
         !!item?.url && !!item?.label
     )
-    .map((item: SanityMediaItem) => ({
-      label: item.label!,
-      href: item.url!,
-      icon: item.platform ? (PLATFORM_ICONS[item.platform] ?? null) : null,
-      external: true,
-      contactText: item.contactText ?? undefined,
-    }))
+    .map((item: SanityMediaItem) => {
+      const isContactLink =
+        item.platform === "phone" ||
+        item.platform === "email" ||
+        item.url!.startsWith("tel:") ||
+        item.url!.startsWith("mailto:")
+      return {
+        label: item.label!,
+        href: item.url!,
+        icon: item.platform ? (PLATFORM_ICONS[item.platform] ?? null) : null,
+        external: !isContactLink,
+        contactText: item.contactText ?? undefined,
+      }
+    })
 }
 
 /** A single entry in the Contact section grid. */
 export type ContactEntry = {
+  /** Stable key from the Sanity array item — use this as the React `key` prop. */
+  _key: string
   title: string
   value: string
   href: string
@@ -181,8 +191,7 @@ export type ContactEntry = {
  * - All other entries appear only when `contactText` is set; `contactText`
  *   becomes the grid tile title and `label` becomes the subtitle value.
  *
- * Falls back to the static {@link phoneLinks}, {@link emailLinks}, and
- * {@link socialLinks} data when the Sanity array is null or empty.
+ * Returns `[]` when `socialMedia` is null or empty — no static fallback.
  */
 export function mapSanityMediaToContactEntries(
   socialMedia: SanityMediaArray
@@ -194,6 +203,7 @@ export function mapSanityMediaToContactEntries(
       if (!item?.url || !item?.label) return null
       if (item.platform === "phone") {
         return {
+          _key: item._key,
           title: item.label,
           value: item.url.replace("tel:", ""),
           href: item.url,
@@ -202,6 +212,7 @@ export function mapSanityMediaToContactEntries(
       }
       if (item.platform === "email") {
         return {
+          _key: item._key,
           title: item.label,
           value: item.url.replace("mailto:", ""),
           href: item.url,
@@ -210,6 +221,7 @@ export function mapSanityMediaToContactEntries(
       }
       if (item.contactText) {
         return {
+          _key: item._key,
           title: item.contactText,
           value: item.label,
           href: item.url,

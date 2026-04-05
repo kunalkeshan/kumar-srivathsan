@@ -181,9 +181,11 @@ TypeGen auto-runs during `sanity dev` via `sanity.cli.ts`, but always run it man
 3. `app/layout.tsx` `generateMetadata()` calls `getSiteConfig()` for SEO metadata.
 4. `React.cache()` in `getSiteConfig()` deduplicates all calls within the same HTTP request.
 
-For social links: `mapSanityMediaToSocialLinks()` in `config/socials.tsx` maps the Sanity `socialMedia[]` array to `SocialLink[]`. Returns `[]` when `socialMedia` is null or empty — **no static fallback**. `PLATFORM_ICONS` in the same file is the centralized `platform → ReactNode` mapping — do not define icons anywhere else.
+For social links: `mapSanityMediaToSocialLinks()` in `config/socials.tsx` maps the Sanity `socialMedia[]` array to `SocialLink[]`. Returns `[]` when `socialMedia` is null or empty — **no static fallback**. `tel:` / `mailto:` entries automatically get `external: false` (no `target="_blank"`). `PLATFORM_ICONS` in the same file is the centralized `platform → ReactNode` mapping — do not define icons anywhere else.
 
-For contact entries: `mapSanityMediaToContactEntries()` in `config/socials.tsx` maps `socialMedia[]` to the contact grid format. Returns `[]` when null or empty — **no static fallback**. Phone/email display values are extracted by stripping `tel:`/`mailto:` from the URL field.
+For contact entries: `mapSanityMediaToContactEntries()` in `config/socials.tsx` maps `socialMedia[]` to the contact grid format. Returns `[]` when null or empty — **no static fallback**. Each `ContactEntry` carries `_key` from the Sanity item — always use `_key` as the React `key` prop, never `title` or `href`. Phone/email display values are extracted by stripping `tel:`/`mailto:` from the URL field.
+
+**Fail-loud guard**: `app/(site)/layout.tsx` throws an `Error` if `siteConfig.title` is missing or empty. The site cannot render without a published siteConfig title — ensure the document is published in Sanity Studio before deploying.
 
 **Revalidation:** Webhook-based on-demand ISR via `app/api/revalidate/route.ts`. Configure a Sanity webhook pointing to `{SITE_URL}/api/revalidate` with `SANITY_WEBHOOK_SECRET`. Use `revalidateTag(tag, "max")` — Next.js 16 requires the second `profile` argument. Add a `case` for each new document type added to the schema.
 

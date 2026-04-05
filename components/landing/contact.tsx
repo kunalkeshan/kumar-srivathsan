@@ -3,11 +3,11 @@
  *
  * Accepts a `socialMedia` prop (from Sanity siteConfig) and uses
  * {@link mapSanityMediaToContactEntries} to derive the contact grid entries.
- * Falls back to the static config arrays in `config/socials.ts` when the
- * prop is null or empty (e.g. siteConfig not yet published in Sanity).
+ * When the prop is null or empty the grid renders no entries — no static
+ * fallback is used.
  *
- * All entries are merged into a single array and rendered as a responsive
- * 3-column grid of anchor links. A fixed footer row links to Nebula Pages.
+ * Entries are rendered as a responsive 3-column grid of anchor links.
+ * A fixed footer row links to Nebula Pages.
  */
 import { Rocket } from "lucide-react"
 
@@ -34,7 +34,7 @@ export function Contact({ socialMedia }: ContactProps) {
           <div className="grid gap-px overflow-hidden bg-border px-px md:grid-cols-3">
             {data.map((item) => (
               <a
-                key={item.title}
+                key={item._key}
                 href={item.href}
                 className="group flex items-center gap-3 bg-background p-2 shadow-xs transition-colors hover:bg-muted/20"
               >

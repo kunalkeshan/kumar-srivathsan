@@ -15,8 +15,15 @@ export default async function SiteLayout({
   children: React.ReactNode
 }>) {
   const siteConfig = await getSiteConfig()
-  const siteTitle = siteConfig?.title ?? ""
-  const socialLinks = mapSanityMediaToSocialLinks(siteConfig?.socialMedia ?? null)
+
+  if (!siteConfig?.title?.trim()) {
+    throw new Error(
+      "siteConfig is missing or has no title. Publish the siteConfig document in Sanity Studio before deploying."
+    )
+  }
+
+  const siteTitle = siteConfig.title
+  const socialLinks = mapSanityMediaToSocialLinks(siteConfig.socialMedia ?? null)
 
   return (
     <Providers>

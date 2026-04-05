@@ -20,8 +20,7 @@ type FooterProps = {
  *
  * Structure:
  * - Top row: {@link Logo} (links home) + social icon buttons from the
- *   `socialLinks` prop (sourced from Sanity siteConfig, with fallback to
- *   `config/socials.ts`).
+ *   `socialLinks` prop (sourced from Sanity siteConfig).
  * - Nav row: footer links from `config/navigation.ts`. Links with
  *   `isLive: false` render as disabled `<span>` elements with a "soon" badge.
  *   Hash links use {@link HashLink}; page links use `<Link prefetch={false}>`.

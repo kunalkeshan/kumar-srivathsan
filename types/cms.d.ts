@@ -198,86 +198,97 @@ export type AllSanitySchemaTypes =
 
 // Source: sanity/queries/site-config.ts
 // Variable: SITE_CONFIG_QUERY
-// Query: *[_type == "siteConfig"][0] {    _id,    title,    description,    ogImage { asset->, alt, hotspot, crop },    twitterImage { asset->, alt, hotspot, crop },    socialMedia[] { _key, platform, url, label, contactText },    heroVideoUrl  }
-export type SITE_CONFIG_QUERY_RESULT = {
-  _id: string
-  title: string | null
-  description: string | null
-  ogImage: {
-    asset: {
-      _id: string
-      _type: "sanity.imageAsset"
-      _createdAt: string
-      _updatedAt: string
-      _rev: string
-      originalFilename?: string
-      label?: string
-      title?: string
-      description?: string
-      altText?: string
-      sha1hash?: string
-      extension?: string
-      mimeType?: string
-      size?: number
-      assetId?: string
-      uploadId?: string
-      path?: string
-      url?: string
-      metadata?: SanityImageMetadata
-      source?: SanityAssetSourceData
-    } | null
-    alt: string | null
-    hotspot: SanityImageHotspot | null
-    crop: SanityImageCrop | null
-  } | null
-  twitterImage: {
-    asset: {
-      _id: string
-      _type: "sanity.imageAsset"
-      _createdAt: string
-      _updatedAt: string
-      _rev: string
-      originalFilename?: string
-      label?: string
-      title?: string
-      description?: string
-      altText?: string
-      sha1hash?: string
-      extension?: string
-      mimeType?: string
-      size?: number
-      assetId?: string
-      uploadId?: string
-      path?: string
-      url?: string
-      metadata?: SanityImageMetadata
-      source?: SanityAssetSourceData
-    } | null
-    alt: string | null
-    hotspot: SanityImageHotspot | null
-    crop: SanityImageCrop | null
-  } | null
-  socialMedia: Array<{
-    _key: string
-    platform:
-      | "email"
-      | "facebook"
-      | "instagram"
-      | "linkedin"
-      | "phone"
-      | "whatsapp"
-      | null
-    url: string | null
-    label: string | null
-    contactText: string | null
-  }> | null
-  heroVideoUrl: string | null
-} | null
+// Query: *[_id == "siteConfig"][0] {    _id,    title,    description,    ogImage { asset->, alt, hotspot, crop },    twitterImage { asset->, alt, hotspot, crop },    socialMedia[] { _key, platform, url, label, contactText },    heroVideoUrl  }
+export type SITE_CONFIG_QUERY_RESULT =
+  | {
+      _id: "siteConfig"
+      title: string | null
+      description: string | null
+      ogImage: null
+      twitterImage: null
+      socialMedia: null
+      heroVideoUrl: null
+    }
+  | {
+      _id: "siteConfig"
+      title: string | null
+      description: string | null
+      ogImage: {
+        asset: {
+          _id: string
+          _type: "sanity.imageAsset"
+          _createdAt: string
+          _updatedAt: string
+          _rev: string
+          originalFilename?: string
+          label?: string
+          title?: string
+          description?: string
+          altText?: string
+          sha1hash?: string
+          extension?: string
+          mimeType?: string
+          size?: number
+          assetId?: string
+          uploadId?: string
+          path?: string
+          url?: string
+          metadata?: SanityImageMetadata
+          source?: SanityAssetSourceData
+        } | null
+        alt: string | null
+        hotspot: SanityImageHotspot | null
+        crop: SanityImageCrop | null
+      } | null
+      twitterImage: {
+        asset: {
+          _id: string
+          _type: "sanity.imageAsset"
+          _createdAt: string
+          _updatedAt: string
+          _rev: string
+          originalFilename?: string
+          label?: string
+          title?: string
+          description?: string
+          altText?: string
+          sha1hash?: string
+          extension?: string
+          mimeType?: string
+          size?: number
+          assetId?: string
+          uploadId?: string
+          path?: string
+          url?: string
+          metadata?: SanityImageMetadata
+          source?: SanityAssetSourceData
+        } | null
+        alt: string | null
+        hotspot: SanityImageHotspot | null
+        crop: SanityImageCrop | null
+      } | null
+      socialMedia: Array<{
+        _key: string
+        platform:
+          | "email"
+          | "facebook"
+          | "instagram"
+          | "linkedin"
+          | "phone"
+          | "whatsapp"
+          | null
+        url: string | null
+        label: string | null
+        contactText: string | null
+      }> | null
+      heroVideoUrl: string | null
+    }
+  | null
 
 // Query TypeMap
 import "@sanity/client"
 declare module "@sanity/client" {
   interface SanityQueries {
-    '\n  *[_type == "siteConfig"][0] {\n    _id,\n    title,\n    description,\n    ogImage { asset->, alt, hotspot, crop },\n    twitterImage { asset->, alt, hotspot, crop },\n    socialMedia[] { _key, platform, url, label, contactText },\n    heroVideoUrl\n  }\n': SITE_CONFIG_QUERY_RESULT
+    '\n  *[_id == "siteConfig"][0] {\n    _id,\n    title,\n    description,\n    ogImage { asset->, alt, hotspot, crop },\n    twitterImage { asset->, alt, hotspot, crop },\n    socialMedia[] { _key, platform, url, label, contactText },\n    heroVideoUrl\n  }\n': SITE_CONFIG_QUERY_RESULT
   }
 }

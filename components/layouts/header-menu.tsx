@@ -25,8 +25,8 @@ type HeaderMenuProps = {
  *   {@link HashLink} and close the popover on click; `isLive: false` links
  *   render as disabled spans with a "soon" badge.
  * - A row of social icon buttons from the `socialLinks` prop (sourced from
- *   Sanity siteConfig, with fallback to `config/socials.ts`). External links
- *   open in a new tab unless `external` is explicitly `false`.
+ *   Sanity siteConfig). External links open in a new tab unless `external`
+ *   is explicitly `false` (e.g. `tel:` / `mailto:` links).
  *
  * On mobile the popover spans 92svw; on desktop it is fixed at 192px (w-48).
  */
