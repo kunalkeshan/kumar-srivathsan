@@ -2,51 +2,116 @@
 
 import { useMemo, useState } from "react"
 import { useTheme } from "next-themes"
-import { Arc, COBEOptions } from "cobe"
+import { type Arc, type COBEOptions } from "cobe"
 import { Container } from "@/components/layouts/container"
 import { Globe } from "@/components/ui/globe"
-import { PORT_MAP, PORTS, ROUTES, SHIP_ROUTE_IDS } from "@/config/destinations"
 import { cn } from "@/lib/utils"
+import type {
+  DESTINATIONS_QUERY_RESULT,
+  ROUTES_CONFIG_QUERY_RESULT,
+} from "@/types/cms"
+
+/** Routes array extracted from the routesConfig query result. */
+type Routes = NonNullable<NonNullable<ROUTES_CONFIG_QUERY_RESULT>["routes"]>
 
 /** Props for {@link Destinations} */
 interface DestinationsProps {
   /** Additional Tailwind classes applied to the outer `<section>` element. */
   className?: string
+  /** All destination ports fetched from Sanity, used to render globe markers and labels. */
+  ports: DESTINATIONS_QUERY_RESULT
+  /** Shipping routes from Sanity, used to draw arcs between ports. */
+  routes: Routes
+  /**
+   * When true, shipping route arcs are drawn between ports on the globe.
+   * Controlled via the `showRouteArcs` field in the Sanity siteConfig document.
+   * Defaults to false.
+   */
+  showArcs: boolean
 }
 
 /**
- * Returns the `[latitude, longitude]` tuple for a port by its ID.
- * Throws if the ID is not found in {@link PORT_MAP}.
+ * Interactive globe section displaying all ports visited by Kumar Srivathsan.
+ *
+ * Renders a COBE WebGL globe with port markers sourced from Sanity destination
+ * documents. Each visible port on the facing hemisphere shows a clickable code
+ * label (e.g. `SGP`); clicking expands it to the full port name.
+ *
+ * Shipping route arcs are defined in the Sanity routesConfig document and
+ * toggled via `showArcs` (driven by `siteConfig.showRouteArcs`). When enabled,
+ * ship emoji icons are shown at long-haul arc midpoints.
+ *
+ * Port label positioning uses the CSS Anchor Positioning API (Chrome 125+,
+ * Firefox 147+) injected via a `<style>` tag scoped to this section. The
+ * globe adapts its colour palette to the active theme (light/dark) via
+ * `next-themes`.
  */
-function portCoords(id: string): [number, number] {
-  const p = PORT_MAP.get(id)
-  if (!p) throw new Error(`Unknown port id: "${id}"`)
-  return [p.latitude, p.longitude]
-}
+export function Destinations({ className, ports, routes, showArcs }: DestinationsProps) {
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === "dark"
+  const [activePortId, setActivePortId] = useState<string | null>(null)
+  const [labelsHovered, setLabelsHovered] = useState(false)
 
-/** Set to true to render shipping route arcs on the globe */
-const SHOW_ARCS = false
+  /** O(1) lookup map from destination _id → port data. */
+  const portMap = useMemo(
+    () => new Map(ports.map((p) => [p._id, p])),
+    [ports]
+  )
 
-const MARKERS: COBEOptions["markers"] = PORTS.map((p) => ({
-  location: [p.latitude, p.longitude],
-  size: 0.04,
-  id: p.id,
-}))
+  const markers = useMemo<COBEOptions["markers"]>(
+    () =>
+      ports.map((p) => ({
+        location: [p.latitude ?? 0, p.longitude ?? 0] as [number, number],
+        size: 0.04,
+        id: p._id,
+      })),
+    [ports]
+  )
 
-const ARCS: Arc[] = ROUTES.map((r) => ({
-  from: portCoords(r.from),
-  to: portCoords(r.to),
-  ...(r.shipIconId
-    ? { id: r.shipIconId, color: [0.2, 0.6, 1] as [number, number, number] }
-    : {}),
-}))
+  const arcs = useMemo<Arc[]>(
+    () =>
+      routes
+        .map((r) => {
+          const fromPort = r.from ? portMap.get(r.from._id) : null
+          const toPort = r.to ? portMap.get(r.to._id) : null
+          if (
+            !fromPort ||
+            !toPort ||
+            fromPort.latitude == null ||
+            fromPort.longitude == null ||
+            toPort.latitude == null ||
+            toPort.longitude == null
+          ) {
+            return null
+          }
+          return {
+            from: [fromPort.latitude, fromPort.longitude] as [number, number],
+            to: [toPort.latitude, toPort.longitude] as [number, number],
+            ...(r.shipIconId
+              ? {
+                  id: r.shipIconId,
+                  color: [0.2, 0.6, 1] as [number, number, number],
+                }
+              : {}),
+          }
+        })
+        .filter((a): a is Arc => a !== null),
+    [routes, portMap]
+  )
 
-/**
- * Injected CSS that uses CSS Anchor Positioning (Chrome 125+, Firefox 147+).
- * Per-port rules set `position-anchor` and `opacity` via COBE's CSS variables.
- * The shared `.port-label` class places each label above its marker.
- */
-const LABEL_CSS = `
+  const shipRouteIds = useMemo(
+    () =>
+      routes.filter((r) => r.shipIconId).map((r) => r.shipIconId as string),
+    [routes]
+  )
+
+  /**
+   * Injected CSS that uses CSS Anchor Positioning (Chrome 125+, Firefox 147+).
+   * Per-port rules set `position-anchor` and `opacity` via COBE's CSS variables.
+   * The shared `.port-label` class places each label above its marker.
+   */
+  const labelCss = useMemo(
+    () => `
 .port-label {
   position: absolute;
   z-index: 10;
@@ -84,45 +149,28 @@ const LABEL_CSS = `
   transition: opacity 0.2s;
 }
 
-${PORTS.map(
-  (p) => `
-[data-port="${p.id}"] {
-  position-anchor: --cobe-${p.id};
-  opacity: var(--cobe-visible-${p.id}, 0);
+${ports
+  .map(
+    (p) => `
+[data-port="${p._id}"] {
+  position-anchor: --cobe-${p._id};
+  opacity: var(--cobe-visible-${p._id}, 0);
 }`
-).join("")}
+  )
+  .join("")}
 
-${SHIP_ROUTE_IDS.map(
-  (id) => `
+${shipRouteIds
+  .map(
+    (id) => `
 [data-arc="${id}"] {
   position-anchor: --cobe-arc-${id};
   opacity: var(--cobe-visible-arc-${id}, 0);
 }`
-).join("")}
-`
-
-/**
- * Interactive globe section displaying all ports visited by Kumar Srivathsan.
- *
- * Renders a COBE WebGL globe with port markers sourced from
- * {@link PORTS} in `config/destinations.ts`. Each visible port on the
- * facing hemisphere shows a clickable code label (e.g. `SGP`); clicking
- * expands it to the full port name.
- *
- * Shipping route arcs are defined in {@link ROUTES} but hidden by default
- * (`SHOW_ARCS = false`). Set `SHOW_ARCS = true` to render them, along with
- * ship emoji icons at long-haul arc midpoints.
- *
- * Port label positioning uses the CSS Anchor Positioning API (Chrome 125+,
- * Firefox 147+) injected via a `<style>` tag scoped to this section. The
- * globe adapts its colour palette to the active theme (light/dark) via
- * `next-themes`.
- */
-export function Destinations({ className }: DestinationsProps) {
-  const { resolvedTheme } = useTheme()
-  const isDark = resolvedTheme === "dark"
-  const [activePortId, setActivePortId] = useState<string | null>(null)
-  const [labelsHovered, setLabelsHovered] = useState(false)
+  )
+  .join("")}
+`,
+    [ports, shipRouteIds]
+  )
 
   const globeConfig = useMemo<Partial<COBEOptions>>(
     () => ({
@@ -137,10 +185,10 @@ export function Destinations({ className }: DestinationsProps) {
       arcWidth: 0.25,
       arcHeight: 0.4,
       scale: 1,
-      markers: MARKERS,
-      arcs: SHOW_ARCS ? ARCS : [],
+      markers,
+      arcs: showArcs ? arcs : [],
     }),
-    [isDark]
+    [isDark, markers, arcs, showArcs]
   )
 
   const toggle = (id: string) =>
@@ -149,7 +197,7 @@ export function Destinations({ className }: DestinationsProps) {
   return (
     <section id="destinations" className={cn("py-16 md:py-24", className)}>
       {/* CSS Anchor Positioning styles — scoped to this section */}
-      <style>{LABEL_CSS}</style>
+      <style>{labelCss}</style>
 
       <Container>
         <div className="mb-10 max-w-2xl">
@@ -160,7 +208,7 @@ export function Destinations({ className }: DestinationsProps) {
             Destinations &amp; Ports
           </h2>
           <p className="mt-3 text-muted-foreground">
-            {PORTS.length} ports across the globe — from Southeast Asia and the
+            {ports.length} ports across the globe — from Southeast Asia and the
             Pacific to the Middle East, Africa, Europe, and the Americas. Click
             any label to reveal the port name.
           </p>
@@ -173,31 +221,31 @@ export function Destinations({ className }: DestinationsProps) {
         */}
         <div className="relative mx-auto w-full max-w-2xl overflow-hidden">
           {/* Port code labels — always visible on the facing side, expand on click */}
-          {PORTS.map((port) => {
-            const isActive = activePortId === port.id
+          {ports.map((port) => {
+            const isActive = activePortId === port._id
             return (
               <button
-                key={port.id}
-                data-port={port.id}
+                key={port._id}
+                data-port={port._id}
                 data-active={isActive}
                 className={cn(
                   "port-label",
                   "bg-blue-500 text-white hover:bg-blue-600",
                   isActive && "bg-blue-600"
                 )}
-                onClick={() => toggle(port.id)}
+                onClick={() => toggle(port._id)}
                 onMouseEnter={() => setLabelsHovered(true)}
                 onMouseLeave={() => setLabelsHovered(false)}
-                aria-label={port.name}
+                aria-label={port.name ?? port.code ?? port._id}
               >
-                {isActive ? port.name : port.code}
+                {isActive ? (port.name ?? port.code) : port.code}
               </button>
             )
           })}
 
           {/* Ship emoji icons at long-haul arc midpoints (only when arcs visible) */}
-          {SHOW_ARCS &&
-            SHIP_ROUTE_IDS.map((id) => (
+          {showArcs &&
+            shipRouteIds.map((id) => (
               <span
                 key={id}
                 data-arc={id}
@@ -213,8 +261,8 @@ export function Destinations({ className }: DestinationsProps) {
 
         <p className="mt-4 text-center font-mono text-xs text-muted-foreground">
           Drag to rotate in any direction &middot; click a code to identify
-          &middot; {PORTS.length} ports
-          {/* &middot; {ROUTES.length} routes */}
+          &middot; {ports.length} ports
+          {/* &middot; {routes.length} routes */}
         </p>
       </Container>
     </section>
