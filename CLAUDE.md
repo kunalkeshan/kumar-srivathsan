@@ -21,6 +21,7 @@ pnpm typecheck     # TypeScript type check (no emit)
 - **Next.js 16** with App Router and React Server Components
 - **TypeScript** (strict mode, path alias `@/*` → project root)
 - **Tailwind CSS v4** via `@tailwindcss/postcss`
+- **@tailwindcss/typography** — registered in `app/globals.css` with `@plugin "@tailwindcss/typography"` (v4 CSS-first plugin API; see [Typography plugin](https://github.com/tailwindlabs/tailwindcss-typography))
 - **shadcn/ui** with Radix UI primitives and Lucide icons
 - **next-themes** for dark mode
 
@@ -74,6 +75,13 @@ Always set `prefetch={false}` on every Next.js `<Link>` component:
 ```
 
 **Why**: Next.js prefetches linked pages automatically in production, which causes unnecessary network requests and can degrade performance. Disabling it gives explicit control over when prefetching occurs.
+
+## Tailwind Typography (CMS / Portable Text)
+
+Rich HTML from Sanity (Portable Text) should be wrapped with the shared **`.prose-cms`** preset or the **`CmsProse`** component from `components/cms-prose.tsx`. The preset extends `prose prose-neutral max-w-none dark:prose-invert` and maps colors to theme tokens (`foreground`, `primary`, `muted`, `border`), **serif headings** and **sans body** per typography guidelines, **`font-mono`** for `code` / `pre`, and **`rounded-surface squircle`** on content images.
+
+- Do not add a second `prose` class when using `CmsProse` / `.prose-cms` (the preset already includes `prose`).
+- For manual pages, combine `CmsProse` with `<PortableText />` and custom `block` components (e.g. map PT `h1` → `<h2>` so the document title remains the only page-level `h1`).
 
 ## UI Radius Standard
 

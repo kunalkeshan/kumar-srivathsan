@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
@@ -179,6 +180,28 @@
 
 @utility squircle {
   corner-shape: squircle;
+}
+
+/**
+ * Typography preset for CMS / Portable Text (Sanity manual body, etc.).
+ * Use on the wrapper around `<PortableText />` — pairs with `prose-neutral` + `dark:prose-invert`,
+ * site fonts (serif headings, sans body, mono code), and squircle image corners per project rules.
+ */
+@layer components {
+  .prose-cms {
+    @apply prose prose-neutral max-w-none dark:prose-invert;
+    @apply prose-headings:font-serif prose-p:font-sans prose-li:font-sans;
+    @apply prose-headings:text-foreground prose-p:text-foreground;
+    @apply prose-a:text-primary prose-a:underline prose-a:underline-offset-4;
+    @apply prose-a:hover:text-primary/80;
+    @apply prose-strong:text-foreground;
+    @apply prose-blockquote:border-border prose-blockquote:text-muted-foreground;
+    @apply prose-code:rounded-md prose-code:bg-muted/80 prose-code:px-1 prose-code:py-0.5 prose-code:font-mono prose-code:text-foreground;
+    @apply prose-pre:bg-muted prose-pre:text-foreground prose-pre:font-mono;
+    @apply prose-img:rounded-surface prose-img:squircle;
+    @apply prose-hr:border-border;
+    @apply prose-th:border-border prose-td:border-border;
+  }
 }
 
 @layer base {
