@@ -52,20 +52,36 @@ export function Destinations({ className, ports, routes, showArcs }: Destination
   const [activePortId, setActivePortId] = useState<string | null>(null)
   const [labelsHovered, setLabelsHovered] = useState(false)
 
-  /** O(1) lookup map from destination _id → port data. */
-  const portMap = useMemo(
-    () => new Map(ports.map((p) => [p._id, p])),
+  /**
+   * Ports that have all required fields for globe rendering.
+   * Filters out any destination documents missing code, latitude, or longitude
+   * to avoid rendering bogus markers at [0, 0] (off the coast of Africa).
+   */
+  const validPorts = useMemo(
+    () =>
+      ports.filter(
+        (
+          p
+        ): p is typeof p & { code: string; latitude: number; longitude: number } =>
+          p.code != null && p.latitude != null && p.longitude != null
+      ),
     [ports]
+  )
+
+  /** O(1) lookup map from destination _id → valid port data. */
+  const portMap = useMemo(
+    () => new Map(validPorts.map((p) => [p._id, p])),
+    [validPorts]
   )
 
   const markers = useMemo<COBEOptions["markers"]>(
     () =>
-      ports.map((p) => ({
-        location: [p.latitude ?? 0, p.longitude ?? 0] as [number, number],
+      validPorts.map((p) => ({
+        location: [p.latitude, p.longitude] as [number, number],
         size: 0.04,
         id: p._id,
       })),
-    [ports]
+    [validPorts]
   )
 
   const arcs = useMemo<Arc[]>(
@@ -99,10 +115,14 @@ export function Destinations({ className, ports, routes, showArcs }: Destination
     [routes, portMap]
   )
 
+  /**
+   * Ship icon IDs derived from actually-rendered arcs only.
+   * Arcs with missing/invalid port references are dropped during arc construction,
+   * so deriving from `arcs` ensures every ship emoji has a matching CSS anchor.
+   */
   const shipRouteIds = useMemo(
-    () =>
-      routes.filter((r) => r.shipIconId).map((r) => r.shipIconId as string),
-    [routes]
+    () => arcs.map((a) => a.id).filter((id): id is string => typeof id === "string"),
+    [arcs]
   )
 
   /**
@@ -149,7 +169,7 @@ export function Destinations({ className, ports, routes, showArcs }: Destination
   transition: opacity 0.2s;
 }
 
-${ports
+${validPorts
   .map(
     (p) => `
 [data-port="${p._id}"] {
@@ -169,7 +189,7 @@ ${shipRouteIds
   )
   .join("")}
 `,
-    [ports, shipRouteIds]
+    [validPorts, shipRouteIds]
   )
 
   const globeConfig = useMemo<Partial<COBEOptions>>(
@@ -221,7 +241,7 @@ ${shipRouteIds
         */}
         <div className="relative mx-auto w-full max-w-2xl overflow-hidden">
           {/* Port code labels — always visible on the facing side, expand on click */}
-          {ports.map((port) => {
+          {validPorts.map((port) => {
             const isActive = activePortId === port._id
             return (
               <button
@@ -236,7 +256,7 @@ ${shipRouteIds
                 onClick={() => toggle(port._id)}
                 onMouseEnter={() => setLabelsHovered(true)}
                 onMouseLeave={() => setLabelsHovered(false)}
-                aria-label={port.name ?? port.code ?? port._id}
+                aria-label={port.name ?? port.code}
               >
                 {isActive ? (port.name ?? port.code) : port.code}
               </button>

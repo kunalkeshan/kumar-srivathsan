@@ -36,7 +36,16 @@ export const routesConfigType = defineType({
               title: "Ship Icon ID",
               type: "string",
               description:
-                "CSS anchor ID used to position a ⛴️ emoji at this arc's midpoint on the globe. Only set on long-haul cross-ocean routes (e.g. jp-sea, sea-au). Leave blank for short/regional arcs.",
+                "CSS anchor ID used to position a ⛴️ emoji at this arc's midpoint on the globe. Only set on long-haul cross-ocean routes (e.g. jp-sea, sea-au). Leave blank for short/regional arcs. Must contain only lowercase letters, numbers, and hyphens.",
+              validation: (rule) =>
+                rule.custom((value) => {
+                  if (value === undefined) return true
+                  if (typeof value !== "string" || value.length === 0)
+                    return "Ship Icon ID must be omitted or set to a non-empty value."
+                  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value))
+                    return "Ship Icon ID may only contain lowercase letters, numbers, and single hyphens between segments (e.g. jp-sea)."
+                  return true
+                }),
             }),
           ],
           preview: {
