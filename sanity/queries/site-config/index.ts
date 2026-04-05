@@ -1,7 +1,7 @@
 import { cache } from "react"
-import { sanityFetch } from "./sanity-fetch"
-import { SITE_CONFIG_QUERY } from "@/sanity/queries/site-config"
-import { createCollectionTag } from "./cache-tags"
+import { sanityFetch } from "@/sanity/lib/sanity-fetch"
+import { SITE_CONFIG_QUERY } from "./queries"
+import { createCollectionTag } from "@/sanity/lib/cache-tags"
 import type { SITE_CONFIG_QUERY_RESULT } from "@/types/cms"
 
 /**

@@ -15,6 +15,39 @@
 export declare const internalGroqTypeReferenceTo: unique symbol
 
 // Source: schema.json
+export type DestinationReference = {
+  _ref: string
+  _type: "reference"
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: "destination"
+}
+
+export type RoutesConfig = {
+  _id: string
+  _type: "routesConfig"
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  routes?: Array<{
+    from?: DestinationReference
+    to?: DestinationReference
+    shipIconId?: string
+    _key: string
+  }>
+}
+
+export type Destination = {
+  _id: string
+  _type: "destination"
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  code?: string
+  name?: string
+  latitude?: number
+  longitude?: number
+}
+
 export type SanityImageAssetReference = {
   _ref: string
   _type: "reference"
@@ -60,6 +93,7 @@ export type SiteConfig = {
     _key: string
   }>
   heroVideoUrl?: string
+  showRouteArcs?: boolean
 }
 
 export type SanityImageCrop = {
@@ -182,6 +216,9 @@ export type Slug = {
 }
 
 export type AllSanitySchemaTypes =
+  | DestinationReference
+  | RoutesConfig
+  | Destination
   | SanityImageAssetReference
   | SiteConfig
   | SanityImageCrop
@@ -196,10 +233,48 @@ export type AllSanitySchemaTypes =
   | Geopoint
   | Slug
 
-// Source: sanity/queries/site-config.ts
+// Source: sanity/queries/destination/queries.ts
+// Variable: DESTINATIONS_QUERY
+// Query: *[_type == "destination"] | order(name asc) {    _id,    code,    name,    latitude,    longitude  }
+export type DESTINATIONS_QUERY_RESULT = Array<{
+  _id: string
+  code: string | null
+  name: string | null
+  latitude: number | null
+  longitude: number | null
+}>
+
+// Source: sanity/queries/routes-config/queries.ts
+// Variable: ROUTES_CONFIG_QUERY
+// Query: *[_type == "routesConfig"][0] {    _id,    routes[] {      _key,      from->{ _id },      to->{ _id },      shipIconId    }  }
+export type ROUTES_CONFIG_QUERY_RESULT = {
+  _id: string
+  routes: Array<{
+    _key: string
+    from: {
+      _id: string
+    } | null
+    to: {
+      _id: string
+    } | null
+    shipIconId: string | null
+  }> | null
+} | null
+
+// Source: sanity/queries/site-config/queries.ts
 // Variable: SITE_CONFIG_QUERY
-// Query: *[_id == "siteConfig"][0] {    _id,    title,    description,    ogImage { asset->, alt, hotspot, crop },    twitterImage { asset->, alt, hotspot, crop },    socialMedia[] { _key, platform, url, label, contactText },    heroVideoUrl  }
+// Query: *[_id == "siteConfig"][0] {    _id,    title,    description,    ogImage { asset->, alt, hotspot, crop },    twitterImage { asset->, alt, hotspot, crop },    socialMedia[] { _key, platform, url, label, contactText },    heroVideoUrl,    showRouteArcs  }
 export type SITE_CONFIG_QUERY_RESULT =
+  | {
+      _id: "siteConfig"
+      title: null
+      description: null
+      ogImage: null
+      twitterImage: null
+      socialMedia: null
+      heroVideoUrl: null
+      showRouteArcs: null
+    }
   | {
       _id: "siteConfig"
       title: string | null
@@ -208,6 +283,7 @@ export type SITE_CONFIG_QUERY_RESULT =
       twitterImage: null
       socialMedia: null
       heroVideoUrl: null
+      showRouteArcs: null
     }
   | {
       _id: "siteConfig"
@@ -282,6 +358,7 @@ export type SITE_CONFIG_QUERY_RESULT =
         contactText: string | null
       }> | null
       heroVideoUrl: string | null
+      showRouteArcs: boolean | null
     }
   | null
 
@@ -289,6 +366,8 @@ export type SITE_CONFIG_QUERY_RESULT =
 import "@sanity/client"
 declare module "@sanity/client" {
   interface SanityQueries {
-    '\n  *[_id == "siteConfig"][0] {\n    _id,\n    title,\n    description,\n    ogImage { asset->, alt, hotspot, crop },\n    twitterImage { asset->, alt, hotspot, crop },\n    socialMedia[] { _key, platform, url, label, contactText },\n    heroVideoUrl\n  }\n': SITE_CONFIG_QUERY_RESULT
+    '\n  *[_type == "destination"] | order(name asc) {\n    _id,\n    code,\n    name,\n    latitude,\n    longitude\n  }\n': DESTINATIONS_QUERY_RESULT
+    '\n  *[_type == "routesConfig"][0] {\n    _id,\n    routes[] {\n      _key,\n      from->{ _id },\n      to->{ _id },\n      shipIconId\n    }\n  }\n': ROUTES_CONFIG_QUERY_RESULT
+    '\n  *[_id == "siteConfig"][0] {\n    _id,\n    title,\n    description,\n    ogImage { asset->, alt, hotspot, crop },\n    twitterImage { asset->, alt, hotspot, crop },\n    socialMedia[] { _key, platform, url, label, contactText },\n    heroVideoUrl,\n    showRouteArcs\n  }\n': SITE_CONFIG_QUERY_RESULT
   }
 }

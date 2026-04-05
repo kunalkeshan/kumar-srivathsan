@@ -8,6 +8,7 @@ export const SITE_CONFIG_QUERY = defineQuery(`
     ogImage { asset->, alt, hotspot, crop },
     twitterImage { asset->, alt, hotspot, crop },
     socialMedia[] { _key, platform, url, label, contactText },
-    heroVideoUrl
+    heroVideoUrl,
+    showRouteArcs
   }
 `)

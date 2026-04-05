@@ -4,7 +4,7 @@ import type { Metadata } from "next"
 import { Space_Grotesk, Source_Serif_4, IBM_Plex_Mono } from "next/font/google"
 import "./globals.css"
 import { baseMetadata } from "@/config/metadata"
-import { getSiteConfig } from "@/sanity/lib/get-site-config"
+import { getSiteConfig } from "@/sanity/queries/site-config"
 import { urlFor } from "@/sanity/lib/image"
 
 const fontSans = Space_Grotesk({

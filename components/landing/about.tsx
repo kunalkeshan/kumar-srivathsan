@@ -6,13 +6,11 @@ import { HashLink } from "@/components/ui/hash-link"
 import { cn } from "@/lib/utils"
 import { ProtectedImage as Image } from "@/components/protected-image"
 
-/** Career highlight statistics rendered in the Kumar's Story card. */
-const stats = [
-  { value: "1+", label: "Years at Sea" },
-  { value: "2+", label: "Vessel Categories" },
-  { value: "40+", label: "Ports Visited" },
-  { value: "12+", label: "Certifications" },
-]
+/** Props for {@link About} */
+interface AboutProps {
+  /** Live count of destination ports fetched from Sanity — shown as "{n}+" in the stats grid. */
+  portsCount: number
+}
 
 /**
  * About section presenting Kumar Srivathsan's professional background and
@@ -27,7 +25,14 @@ const stats = [
  * On mobile the Kumar card renders above the Family card via CSS `order`
  * overrides, matching the visual priority expected on small screens.
  */
-export function About() {
+export function About({ portsCount }: AboutProps) {
+  /** Career highlight statistics rendered in the Kumar's Story card. */
+  const stats = [
+    { value: "1+", label: "Years at Sea" },
+    { value: "2+", label: "Vessel Categories" },
+    { value: `${portsCount}+`, label: "Ports Visited" },
+    { value: "12+", label: "Certifications" },
+  ]
   return (
     <section id="about" className="py-12">
       <Container className="flex w-full flex-col items-start justify-start gap-10 lg:gap-12">
