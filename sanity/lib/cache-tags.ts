@@ -1,6 +1,10 @@
 // Expand this union as more Sanity schema types are added.
 // After running TypeGen, this can be derived from the generated AllSanitySchemaTypes.
-export type SanityDocumentType = "siteConfig" | "destination" | "routesConfig"
+export type SanityDocumentType =
+  | "siteConfig"
+  | "destination"
+  | "routesConfig"
+  | "manual"
 
 export type CollectionTag = `collection:${SanityDocumentType}`
 export type DocumentTag = `${SanityDocumentType}:${string}`

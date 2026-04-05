@@ -152,6 +152,8 @@ Sanity is integrated for content management. The infrastructure lives in `sanity
 - `sanity/queries/destination/index.ts` — `getDestinations()` fetch function
 - `sanity/queries/routes-config/queries.ts` — `ROUTES_CONFIG_QUERY`
 - `sanity/queries/routes-config/index.ts` — `getRoutesConfig()` fetch function
+- `sanity/queries/manual/queries.ts` — `MANUALS_LIST_QUERY`, `MANUALS_LATEST_QUERY`, `MANUAL_BY_SLUG_QUERY`, `MANUALS_SITEMAP_QUERY`
+- `sanity/queries/manual/index.ts` — `getManuals()`, `getLatestManuals()`, `getManualBySlug()`, `getManualsForSitemap()`
 
 Import fetch functions from the subdirectory (e.g. `@/sanity/queries/site-config`), never from `sanity/lib/`.
 
@@ -196,6 +198,7 @@ TypeGen auto-runs during `sanity dev` via `sanity.cli.ts`, but always run it man
 
 **Destinations data-flow:**
 - `destination` — one Sanity document per port (code, name, latitude, longitude)
+- `manual` — instructional entries (title, slug, summary, thumbnail, author, `body` Portable Text via shared `blockContent`, optional `relatedManuals` references). List at `/manuals`, detail at `/manuals/[slug]`; sitemap includes these URLs via `getManualsForSitemap()`.
 - `routesConfig` — singleton document with a `routes[]` array of Sanity references between destination docs
 - Globe component (`destinations.tsx`) receives `ports` and `routes` as props; builds PORT_MAP, MARKERS, ARCS, LABEL_CSS, and SHIP_ROUTE_IDS internally via `useMemo`
 - `siteConfig.showRouteArcs` (boolean, default false) controls whether arc lines are drawn on the globe — toggle in Sanity Studio without a deploy

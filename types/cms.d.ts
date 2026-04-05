@@ -15,6 +15,98 @@
 export declare const internalGroqTypeReferenceTo: unique symbol
 
 // Source: schema.json
+export type SanityImageAssetReference = {
+  _ref: string
+  _type: "reference"
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: "sanity.imageAsset"
+}
+
+export type ManualReference = {
+  _ref: string
+  _type: "reference"
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: "manual"
+}
+
+export type Manual = {
+  _id: string
+  _type: "manual"
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  slug?: Slug
+  summary?: string
+  thumbnail?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: "image"
+  }
+  author?: string
+  body?: BlockContent
+  relatedManuals?: Array<
+    {
+      _key: string
+    } & ManualReference
+  >
+}
+
+export type BlockContent = Array<
+  | {
+      children?: Array<{
+        marks?: Array<string>
+        text?: string
+        _type: "span"
+        _key: string
+      }>
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote"
+      listItem?: "bullet" | "number"
+      markDefs?: Array<{
+        href?: string
+        _type: "link"
+        _key: string
+      }>
+      level?: number
+      _type: "block"
+      _key: string
+    }
+  | {
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      alt?: string
+      _type: "image"
+      _key: string
+    }
+>
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop"
+  top?: number
+  bottom?: number
+  left?: number
+  right?: number
+}
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot"
+  x?: number
+  y?: number
+  height?: number
+  width?: number
+}
+
+export type Slug = {
+  _type: "slug"
+  current?: string
+  source?: string
+}
+
 export type DestinationReference = {
   _ref: string
   _type: "reference"
@@ -46,13 +138,6 @@ export type Destination = {
   name?: string
   latitude?: number
   longitude?: number
-}
-
-export type SanityImageAssetReference = {
-  _ref: string
-  _type: "reference"
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: "sanity.imageAsset"
 }
 
 export type SiteConfig = {
@@ -94,22 +179,6 @@ export type SiteConfig = {
   }>
   heroVideoUrl?: string
   showRouteArcs?: boolean
-}
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop"
-  top?: number
-  bottom?: number
-  left?: number
-  right?: number
-}
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot"
-  x?: number
-  y?: number
-  height?: number
-  width?: number
 }
 
 export type SanityImagePaletteSwatch = {
@@ -209,20 +278,18 @@ export type Geopoint = {
   alt?: number
 }
 
-export type Slug = {
-  _type: "slug"
-  current?: string
-  source?: string
-}
-
 export type AllSanitySchemaTypes =
+  | SanityImageAssetReference
+  | ManualReference
+  | Manual
+  | BlockContent
+  | SanityImageCrop
+  | SanityImageHotspot
+  | Slug
   | DestinationReference
   | RoutesConfig
   | Destination
-  | SanityImageAssetReference
   | SiteConfig
-  | SanityImageCrop
-  | SanityImageHotspot
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -231,7 +298,6 @@ export type AllSanitySchemaTypes =
   | SanityAssetSourceData
   | SanityImageAsset
   | Geopoint
-  | Slug
 
 // Source: sanity/queries/destination/queries.ts
 // Variable: DESTINATIONS_QUERY
@@ -242,6 +308,224 @@ export type DESTINATIONS_QUERY_RESULT = Array<{
   name: string | null
   latitude: number | null
   longitude: number | null
+}>
+
+// Source: sanity/queries/manual/queries.ts
+// Variable: MANUALS_LIST_QUERY
+// Query: *[_type == "manual" && defined(slug.current)] | order(_createdAt desc) {      _id,  title,  slug,  summary,  author,  thumbnail { asset->, alt, hotspot, crop },  _updatedAt  }
+export type MANUALS_LIST_QUERY_RESULT = Array<{
+  _id: string
+  title: string | null
+  slug: Slug | null
+  summary: string | null
+  author: string | null
+  thumbnail: {
+    asset: {
+      _id: string
+      _type: "sanity.imageAsset"
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      originalFilename?: string
+      label?: string
+      title?: string
+      description?: string
+      altText?: string
+      sha1hash?: string
+      extension?: string
+      mimeType?: string
+      size?: number
+      assetId?: string
+      uploadId?: string
+      path?: string
+      url?: string
+      metadata?: SanityImageMetadata
+      source?: SanityAssetSourceData
+    } | null
+    alt: string | null
+    hotspot: SanityImageHotspot | null
+    crop: SanityImageCrop | null
+  } | null
+  _updatedAt: string
+}>
+
+// Source: sanity/queries/manual/queries.ts
+// Variable: MANUALS_LATEST_QUERY
+// Query: *[_type == "manual" && defined(slug.current)] | order(_createdAt desc) [0...5] {      _id,  title,  slug,  summary,  author,  thumbnail { asset->, alt, hotspot, crop },  _updatedAt  }
+export type MANUALS_LATEST_QUERY_RESULT = Array<{
+  _id: string
+  title: string | null
+  slug: Slug | null
+  summary: string | null
+  author: string | null
+  thumbnail: {
+    asset: {
+      _id: string
+      _type: "sanity.imageAsset"
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      originalFilename?: string
+      label?: string
+      title?: string
+      description?: string
+      altText?: string
+      sha1hash?: string
+      extension?: string
+      mimeType?: string
+      size?: number
+      assetId?: string
+      uploadId?: string
+      path?: string
+      url?: string
+      metadata?: SanityImageMetadata
+      source?: SanityAssetSourceData
+    } | null
+    alt: string | null
+    hotspot: SanityImageHotspot | null
+    crop: SanityImageCrop | null
+  } | null
+  _updatedAt: string
+}>
+
+// Source: sanity/queries/manual/queries.ts
+// Variable: MANUAL_BY_SLUG_QUERY
+// Query: *[_type == "manual" && slug.current == $slug][0] {    _id,    title,    slug,    summary,    author,    thumbnail { asset->, alt, hotspot, crop },    _createdAt,    _updatedAt,    body[]{      ...,      markDefs[]{        ...,      },      _type == "image" => {        _key,        _type,        alt,        asset->,        hotspot,        crop      }    },    relatedManuals[]->{      _id,      title,      slug,      summary,      thumbnail { asset->, alt, hotspot, crop }    }  }
+export type MANUAL_BY_SLUG_QUERY_RESULT = {
+  _id: string
+  title: string | null
+  slug: Slug | null
+  summary: string | null
+  author: string | null
+  thumbnail: {
+    asset: {
+      _id: string
+      _type: "sanity.imageAsset"
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      originalFilename?: string
+      label?: string
+      title?: string
+      description?: string
+      altText?: string
+      sha1hash?: string
+      extension?: string
+      mimeType?: string
+      size?: number
+      assetId?: string
+      uploadId?: string
+      path?: string
+      url?: string
+      metadata?: SanityImageMetadata
+      source?: SanityAssetSourceData
+    } | null
+    alt: string | null
+    hotspot: SanityImageHotspot | null
+    crop: SanityImageCrop | null
+  } | null
+  _createdAt: string
+  _updatedAt: string
+  body: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: "span"
+          _key: string
+        }>
+        style?:
+          | "blockquote"
+          | "h1"
+          | "h2"
+          | "h3"
+          | "h4"
+          | "h5"
+          | "h6"
+          | "normal"
+        listItem?: "bullet" | "number"
+        markDefs: Array<{
+          href?: string
+          _type: "link"
+          _key: string
+        }> | null
+        level?: number
+        _type: "block"
+        _key: string
+      }
+    | {
+        asset: {
+          _id: string
+          _type: "sanity.imageAsset"
+          _createdAt: string
+          _updatedAt: string
+          _rev: string
+          originalFilename?: string
+          label?: string
+          title?: string
+          description?: string
+          altText?: string
+          sha1hash?: string
+          extension?: string
+          mimeType?: string
+          size?: number
+          assetId?: string
+          uploadId?: string
+          path?: string
+          url?: string
+          metadata?: SanityImageMetadata
+          source?: SanityAssetSourceData
+        } | null
+        media?: unknown
+        hotspot: SanityImageHotspot | null
+        crop: SanityImageCrop | null
+        alt: string | null
+        _type: "image"
+        _key: string
+        markDefs: null
+      }
+  > | null
+  relatedManuals: Array<{
+    _id: string
+    title: string | null
+    slug: Slug | null
+    summary: string | null
+    thumbnail: {
+      asset: {
+        _id: string
+        _type: "sanity.imageAsset"
+        _createdAt: string
+        _updatedAt: string
+        _rev: string
+        originalFilename?: string
+        label?: string
+        title?: string
+        description?: string
+        altText?: string
+        sha1hash?: string
+        extension?: string
+        mimeType?: string
+        size?: number
+        assetId?: string
+        uploadId?: string
+        path?: string
+        url?: string
+        metadata?: SanityImageMetadata
+        source?: SanityAssetSourceData
+      } | null
+      alt: string | null
+      hotspot: SanityImageHotspot | null
+      crop: SanityImageCrop | null
+    } | null
+  }> | null
+} | null
+
+// Source: sanity/queries/manual/queries.ts
+// Variable: MANUALS_SITEMAP_QUERY
+// Query: *[_type == "manual" && defined(slug.current)] {    "slug": slug.current,    _updatedAt  }
+export type MANUALS_SITEMAP_QUERY_RESULT = Array<{
+  slug: string | null
+  _updatedAt: string
 }>
 
 // Source: sanity/queries/routes-config/queries.ts
@@ -268,6 +552,16 @@ export type SITE_CONFIG_QUERY_RESULT =
   | {
       _id: "siteConfig"
       title: null
+      description: null
+      ogImage: null
+      twitterImage: null
+      socialMedia: null
+      heroVideoUrl: null
+      showRouteArcs: null
+    }
+  | {
+      _id: "siteConfig"
+      title: string | null
       description: null
       ogImage: null
       twitterImage: null
@@ -367,6 +661,10 @@ import "@sanity/client"
 declare module "@sanity/client" {
   interface SanityQueries {
     '\n  *[_type == "destination"] | order(name asc) {\n    _id,\n    code,\n    name,\n    latitude,\n    longitude\n  }\n': DESTINATIONS_QUERY_RESULT
+    '\n  *[_type == "manual" && defined(slug.current)] | order(_createdAt desc) {\n    \n  _id,\n  title,\n  slug,\n  summary,\n  author,\n  thumbnail { asset->, alt, hotspot, crop },\n  _updatedAt\n\n  }\n': MANUALS_LIST_QUERY_RESULT
+    '\n  *[_type == "manual" && defined(slug.current)] | order(_createdAt desc) [0...5] {\n    \n  _id,\n  title,\n  slug,\n  summary,\n  author,\n  thumbnail { asset->, alt, hotspot, crop },\n  _updatedAt\n\n  }\n': MANUALS_LATEST_QUERY_RESULT
+    '\n  *[_type == "manual" && slug.current == $slug][0] {\n    _id,\n    title,\n    slug,\n    summary,\n    author,\n    thumbnail { asset->, alt, hotspot, crop },\n    _createdAt,\n    _updatedAt,\n    body[]{\n      ...,\n      markDefs[]{\n        ...,\n      },\n      _type == "image" => {\n        _key,\n        _type,\n        alt,\n        asset->,\n        hotspot,\n        crop\n      }\n    },\n    relatedManuals[]->{\n      _id,\n      title,\n      slug,\n      summary,\n      thumbnail { asset->, alt, hotspot, crop }\n    }\n  }\n': MANUAL_BY_SLUG_QUERY_RESULT
+    '\n  *[_type == "manual" && defined(slug.current)] {\n    "slug": slug.current,\n    _updatedAt\n  }\n': MANUALS_SITEMAP_QUERY_RESULT
     '\n  *[_type == "routesConfig"][0] {\n    _id,\n    routes[] {\n      _key,\n      from->{ _id },\n      to->{ _id },\n      shipIconId\n    }\n  }\n': ROUTES_CONFIG_QUERY_RESULT
     '\n  *[_id == "siteConfig"][0] {\n    _id,\n    title,\n    description,\n    ogImage { asset->, alt, hotspot, crop },\n    twitterImage { asset->, alt, hotspot, crop },\n    socialMedia[] { _key, platform, url, label, contactText },\n    heroVideoUrl,\n    showRouteArcs\n  }\n': SITE_CONFIG_QUERY_RESULT
   }
