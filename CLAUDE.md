@@ -21,6 +21,7 @@ pnpm typecheck     # TypeScript type check (no emit)
 - **Next.js 16** with App Router and React Server Components
 - **TypeScript** (strict mode, path alias `@/*` → project root)
 - **Tailwind CSS v4** via `@tailwindcss/postcss`
+- **@tailwindcss/typography** — registered in `app/globals.css` with `@plugin "@tailwindcss/typography"` (v4 CSS-first plugin API; see [Typography plugin](https://github.com/tailwindlabs/tailwindcss-typography))
 - **shadcn/ui** with Radix UI primitives and Lucide icons
 - **next-themes** for dark mode
 
@@ -32,6 +33,7 @@ pnpm typecheck     # TypeScript type check (no emit)
 - `components/ui/` — shadcn/ui primitives (Button, Accordion, etc.)
 - `components/layouts/` — structural components (Header, Footer, Logo, Container)
 - `components/landing/` — home page sections (Hero, About, etc.)
+- `components/manuals/` — manuals UI: `ManualCard`, `ManualsSection`, `ManualArticle`, `ManualPortableText`
 - `components/*.tsx` at the root of `components/` — app-wide route UI not scoped to a single page (e.g. `not-found-page.tsx` for `app/not-found.tsx`)
 - `components/icons/` — custom SVG icon components
 
@@ -74,6 +76,13 @@ Always set `prefetch={false}` on every Next.js `<Link>` component:
 ```
 
 **Why**: Next.js prefetches linked pages automatically in production, which causes unnecessary network requests and can degrade performance. Disabling it gives explicit control over when prefetching occurs.
+
+## Tailwind Typography (CMS / Portable Text)
+
+Rich HTML from Sanity (Portable Text) should be wrapped with the shared **`.prose-cms`** preset or the **`CmsProse`** component from `components/cms-prose.tsx`. The preset extends `prose prose-neutral max-w-none dark:prose-invert` and maps colors to theme tokens (`foreground`, `primary`, `muted`, `border`), **serif headings** and **sans body** per typography guidelines, **`font-mono`** for `code` / `pre`, and **`rounded-surface squircle`** on content images.
+
+- Do not add a second `prose` class when using `CmsProse` / `.prose-cms` (the preset already includes `prose`).
+- For manual pages, combine `CmsProse` with `<PortableText />` and custom `block` components (e.g. map PT `h1` → `<h2>` so the document title remains the only page-level `h1`). The `/manuals/[slug]` page also mounts **`ScrollProgress`** (`components/ui/scroll-progress.tsx`) — a fixed top progress bar using the site **chart** color gradient (`chart-5` → `chart-3` → `chart-1`) at `z-[60]` so it sits above the sticky header (`z-50`).
 
 ## UI Radius Standard
 
@@ -152,6 +161,8 @@ Sanity is integrated for content management. The infrastructure lives in `sanity
 - `sanity/queries/destination/index.ts` — `getDestinations()` fetch function
 - `sanity/queries/routes-config/queries.ts` — `ROUTES_CONFIG_QUERY`
 - `sanity/queries/routes-config/index.ts` — `getRoutesConfig()` fetch function
+- `sanity/queries/manual/queries.ts` — `MANUALS_LIST_QUERY`, `MANUALS_LATEST_QUERY`, `MANUAL_BY_SLUG_QUERY`, `MANUALS_SITEMAP_QUERY`
+- `sanity/queries/manual/index.ts` — `getManuals()`, `getLatestManuals()`, `getManualBySlug()`, `getManualsForSitemap()`
 
 Import fetch functions from the subdirectory (e.g. `@/sanity/queries/site-config`), never from `sanity/lib/`.
 
@@ -191,11 +202,13 @@ TypeGen auto-runs during `sanity dev` via `sanity.cli.ts`, but always run it man
    - `socialMedia` → `<Contact>`
    - `destinations.length` → `<About portsCount>` (drives the "Ports Visited" stat as `{n}+`)
    - `destinations`, `routesConfig.routes`, `siteConfig.showRouteArcs` → `<DestinationsLoader>`
+   - `getLatestManuals()` → `<ManualsSection>` (after About, before Destinations)
 3. `app/layout.tsx` `generateMetadata()` calls `getSiteConfig()` for SEO metadata.
 4. `React.cache()` in each fetch function deduplicates all calls within the same HTTP request.
 
 **Destinations data-flow:**
 - `destination` — one Sanity document per port (code, name, latitude, longitude)
+- `manual` — instructional entries (title, slug, summary, thumbnail, author, `body` Portable Text via shared `blockContent`, optional `relatedManuals` references). List at `/manuals`, detail at `/manuals/[slug]`; sitemap includes these URLs via `getManualsForSitemap()`.
 - `routesConfig` — singleton document with a `routes[]` array of Sanity references between destination docs
 - Globe component (`destinations.tsx`) receives `ports` and `routes` as props; builds PORT_MAP, MARKERS, ARCS, LABEL_CSS, and SHIP_ROUTE_IDS internally via `useMemo`
 - `siteConfig.showRouteArcs` (boolean, default false) controls whether arc lines are drawn on the globe — toggle in Sanity Studio without a deploy

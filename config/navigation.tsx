@@ -14,8 +14,8 @@
 import { ReactNode } from "react"
 import {
   AnchorIcon,
+  BookOpenIcon,
   InfoIcon,
-  NotebookPenIcon,
   SparklesIcon,
 } from "lucide-react"
 
@@ -44,7 +44,12 @@ export const commonLinks: NavLink[] = [
     icon: <AnchorIcon />,
   },
   { label: "Services", href: "#", isLive: false, icon: <SparklesIcon /> },
-  { label: "Blog", href: "#", isLive: false, icon: <NotebookPenIcon /> },
+  {
+    label: "Manuals",
+    href: "/manuals",
+    isLive: true,
+    icon: <BookOpenIcon />,
+  },
 ]
 
 /** Header navigation links — currently identical to {@link commonLinks}. */

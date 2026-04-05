@@ -1,4 +1,5 @@
 "use client"
+import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -21,14 +22,15 @@ type HeaderMenuProps = {
  *
  * Renders a two-dot animated hamburger/close toggle button. When open,
  * displays a {@link Popover} with:
- * - A vertical nav list sourced from `config/navigation.ts`. Live links use
- *   {@link HashLink} and close the popover on click; `isLive: false` links
- *   render as disabled spans with a "soon" badge.
+ * - A vertical nav list sourced from `config/navigation.ts`. Live links with
+ *   a `#` in the URL use {@link HashLink}; other live links use `next/link`.
+ *   `isLive: false` links render as disabled spans with a "soon" badge.
  * - A row of social icon buttons from the `socialLinks` prop (sourced from
  *   Sanity siteConfig). External links open in a new tab unless `external`
  *   is explicitly `false` (e.g. `tel:` / `mailto:` links).
  *
- * On mobile the popover spans 92svw; on desktop it is fixed at 192px (w-48).
+ * On mobile the popover spans 92svw; on desktop it uses a slightly wider min
+ * width so labels like “Manuals” wrap cleanly above the social icon row.
  */
 export function HeaderMenu({ socialLinks }: HeaderMenuProps) {
   const [open, setOpen] = useState(false)
@@ -67,7 +69,7 @@ export function HeaderMenu({ socialLinks }: HeaderMenuProps) {
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="-mr-2 w-[92svw] gap-0 overflow-hidden p-0 md:w-48"
+        className="-mr-2 w-[92svw] gap-0 overflow-hidden p-0 md:w-56 md:min-w-56"
         onCloseAutoFocus={(event) => event.preventDefault()}
         sideOffset={12}
       >
@@ -75,35 +77,60 @@ export function HeaderMenu({ socialLinks }: HeaderMenuProps) {
           {navLinks.map((item) => (
             <li className="w-full" key={item.label}>
               {item.isLive ? (
-                <HashLink
-                  className="group flex w-full items-center justify-between rounded-md px-3 py-2 font-medium hover:bg-muted active:bg-muted dark:hover:bg-muted/50"
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                >
-                  <div className="flex items-center gap-2">
-                    <div className="[&>svg]:size-4 [&>svg]:text-primary/80">
-                      {item.icon}
+                item.href.includes("#") ? (
+                  <HashLink
+                    className="group flex w-full items-center justify-between rounded-md px-3 py-2 font-medium hover:bg-muted active:bg-muted dark:hover:bg-muted/50"
+                    href={item.href}
+                    onClick={() => setOpen(false)}
+                  >
+                    <div className="flex min-w-0 flex-1 items-center gap-2">
+                      <div className="shrink-0 [&>svg]:size-4 [&>svg]:text-primary/80">
+                        {item.icon}
+                      </div>
+                      <p className="text-left wrap-break-word md:text-sm">
+                        {item.label}
+                      </p>
                     </div>
-                    <p className="md:text-sm">{item.label}</p>
-                  </div>
-                  <div className="relative ml-auto flex h-full w-4 items-center">
-                    <ArrowRightIcon className="size-4 opacity-50 transition-all group-hover:translate-x-0 group-hover:opacity-50 md:-translate-x-2 md:opacity-0" />
-                  </div>
-                </HashLink>
+                    <div className="relative ml-1 flex h-full w-4 shrink-0 items-center">
+                      <ArrowRightIcon className="size-4 opacity-50 transition-all group-hover:translate-x-0 group-hover:opacity-50 md:-translate-x-2 md:opacity-0" />
+                    </div>
+                  </HashLink>
+                ) : (
+                  <Link
+                    className="group flex w-full items-center justify-between rounded-md px-3 py-2 font-medium hover:bg-muted active:bg-muted dark:hover:bg-muted/50"
+                    href={item.href}
+                    onClick={() => setOpen(false)}
+                    prefetch={false}
+                  >
+                    <div className="flex min-w-0 flex-1 items-center gap-2">
+                      <div className="shrink-0 [&>svg]:size-4 [&>svg]:text-primary/80">
+                        {item.icon}
+                      </div>
+                      <p className="text-left wrap-break-word md:text-sm">
+                        {item.label}
+                      </p>
+                    </div>
+                    <div className="relative ml-1 flex h-full w-4 shrink-0 items-center">
+                      <ArrowRightIcon className="size-4 opacity-50 transition-all group-hover:translate-x-0 group-hover:opacity-50 md:-translate-x-2 md:opacity-0" />
+                    </div>
+                  </Link>
+                )
               ) : (
                 <span
                   aria-disabled="true"
                   className="flex w-full cursor-not-allowed items-center justify-between rounded-md px-3 py-2 font-medium opacity-50"
                 >
-                  <div className="flex items-center gap-2">
-                    <div className="[&>svg]:size-4 [&>svg]:text-primary/80">
+                  <div className="flex min-w-0 flex-1 items-center gap-2">
+                    <div className="shrink-0 [&>svg]:size-4 [&>svg]:text-primary/80">
                       {item.icon}
                     </div>
-                    <p className="md:text-sm">{item.label}</p>
+                    <p className="text-left wrap-break-word md:text-sm">
+                      {item.label}
+                    </p>
                   </div>
                   <span
                     aria-hidden="true"
-                    className="rounded-full bg-muted px-1.5 py-0.5 text-xs font-medium"
+                    className="shrink-0 rounded-full bg-muted px-1.5 py-0.5 text-xs font-medium"
                   >
                     soon
                   </span>

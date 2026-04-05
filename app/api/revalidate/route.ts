@@ -42,6 +42,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ revalidated: true, type: "routesConfig" })
   }
 
+  if (body._type === "manual") {
+    revalidateTag(createCollectionTag("manual"), "max")
+    return NextResponse.json({ revalidated: true, type: "manual" })
+  }
+
   return NextResponse.json({
     revalidated: false,
     message: "Unknown document type",
