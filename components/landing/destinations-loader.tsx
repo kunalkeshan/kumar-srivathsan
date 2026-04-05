@@ -2,6 +2,20 @@
 
 import dynamic from "next/dynamic"
 import { Container } from "@/components/layouts/container"
+import type {
+  DESTINATIONS_QUERY_RESULT,
+  ROUTES_CONFIG_QUERY_RESULT,
+} from "@/types/cms"
+
+/** Routes array extracted from the routesConfig query result. */
+type Routes = NonNullable<NonNullable<ROUTES_CONFIG_QUERY_RESULT>["routes"]>
+
+/** Props forwarded to the dynamically-loaded {@link Destinations} component. */
+interface DestinationsLoaderProps {
+  ports: DESTINATIONS_QUERY_RESULT
+  routes: Routes
+  showArcs: boolean
+}
 
 function DestinationsSkeleton() {
   return (
@@ -26,6 +40,10 @@ const Destinations = dynamic(
   { ssr: false, loading: () => <DestinationsSkeleton /> }
 )
 
-export function DestinationsLoader() {
-  return <Destinations />
+export function DestinationsLoader({
+  ports,
+  routes,
+  showArcs,
+}: DestinationsLoaderProps) {
+  return <Destinations ports={ports} routes={routes} showArcs={showArcs} />
 }

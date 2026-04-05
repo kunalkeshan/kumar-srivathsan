@@ -148,6 +148,15 @@ export const siteConfigType = defineType({
       description:
         "Full URL of the background video shown in the Hero section (e.g. https://cdn.example.com/hero.mp4). Must be a publicly accessible video file. If left empty, the Hero falls back to static background images (canvas.webp on mobile, hero.webp on desktop).",
     }),
+    defineField({
+      name: "showRouteArcs",
+      title: "Show Shipping Route Arcs on Globe",
+      type: "boolean",
+      group: "media",
+      description:
+        "When enabled, shipping route arcs are drawn between ports on the interactive globe in the Destinations section. Off by default to reduce visual clutter. Requires routes to be configured in the Routes Configuration document.",
+      initialValue: false,
+    }),
   ],
   preview: {
     select: { title: "title" },

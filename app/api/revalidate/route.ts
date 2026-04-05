@@ -32,6 +32,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ revalidated: true, type: "siteConfig" })
   }
 
+  if (body._type === "destination") {
+    revalidateTag(createCollectionTag("destination"), "max")
+    return NextResponse.json({ revalidated: true, type: "destination" })
+  }
+
+  if (body._type === "routesConfig") {
+    revalidateTag(createCollectionTag("routesConfig"), "max")
+    return NextResponse.json({ revalidated: true, type: "routesConfig" })
+  }
+
   return NextResponse.json({
     revalidated: false,
     message: "Unknown document type",

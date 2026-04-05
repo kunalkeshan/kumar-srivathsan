@@ -4,7 +4,7 @@ import { Footer } from "@/components/layouts/footer"
 import MicrosoftClarity from "@/components/analytics/microsoft-clarity"
 import { Providers } from "@/components/providers"
 import { ANALYTICS_IDS } from "@/lib/analytics"
-import { getSiteConfig } from "@/sanity/lib/get-site-config"
+import { getSiteConfig } from "@/sanity/queries/site-config"
 import { mapSanityMediaToSocialLinks } from "@/config/socials"
 
 const googleAnalyticsId = ANALYTICS_IDS.GOOGLE_ANALYTICS

@@ -140,11 +140,20 @@ Sanity is integrated for content management. The infrastructure lives in `sanity
 - `sanity/lib/client.ts` — `createClient` instance
 - `sanity/lib/image.ts` — `urlFor()` URL builder for Sanity image assets
 - `sanity/lib/sanity-fetch.ts` — `sanityFetch<T>()` server-side fetch with on-demand ISR tags
-- `sanity/lib/get-site-config.ts` — `getSiteConfig()` — React.cache-wrapped fetch for the siteConfig singleton; use this everywhere instead of calling `sanityFetch` directly for siteConfig
 - `sanity/lib/cache-tags.ts` — typed `CollectionTag` / `DocumentTag` helpers
-- `sanity/queries/` — GROQ queries wrapped in `defineQuery` for TypeGen support
+- `sanity/queries/` — per-domain subdirectories, each with `queries.ts` (GROQ) + `index.ts` (fetch function)
 - `sanity.config.ts` — embedded Studio config (`basePath: "/cms"`)
 - `sanity.cli.ts` — CLI + TypeGen config (outputs to `types/cms.d.ts`)
+
+**Query/fetch co-location pattern:** Each Sanity domain gets its own subdirectory under `sanity/queries/`:
+- `sanity/queries/site-config/queries.ts` — `SITE_CONFIG_QUERY`
+- `sanity/queries/site-config/index.ts` — `getSiteConfig()` fetch function
+- `sanity/queries/destination/queries.ts` — `DESTINATIONS_QUERY`
+- `sanity/queries/destination/index.ts` — `getDestinations()` fetch function
+- `sanity/queries/routes-config/queries.ts` — `ROUTES_CONFIG_QUERY`
+- `sanity/queries/routes-config/index.ts` — `getRoutesConfig()` fetch function
+
+Import fetch functions from the subdirectory (e.g. `@/sanity/queries/site-config`), never from `sanity/lib/`.
 
 **Naming note:** The Studio structure file is `sanity/studio-structure.ts` (NOT `sanity/structure.ts`). The name `sanity/structure.ts` conflicts with the `sanity/structure` npm subpath and causes TypeScript to resolve imports to the local file instead of the package.
 
@@ -174,12 +183,22 @@ TypeGen auto-runs during `sanity dev` via `sanity.cli.ts`, but always run it man
 
 **siteConfig data-flow pattern:**
 
-`siteConfig` is the singleton Sanity document that drives site-wide runtime data (title, description, OG images, social links, hero video URL). The established prop-passing pattern is:
+`siteConfig` is the singleton Sanity document that drives site-wide runtime data (title, description, OG images, social links, hero video URL, route arc toggle). The established prop-passing pattern is:
 
 1. `app/(site)/layout.tsx` calls `getSiteConfig()` once and passes derived values as props to `<Header>` and `<Footer>`.
-2. `app/(site)/page.tsx` calls `getSiteConfig()` once and passes `heroVideoUrl` to `<HeroVideo>` and `socialMedia` to `<Contact>`.
+2. `app/(site)/page.tsx` calls `getSiteConfig()`, `getDestinations()`, and `getRoutesConfig()` in `Promise.all()`, then passes:
+   - `heroVideoUrl` → `<HeroVideo>`
+   - `socialMedia` → `<Contact>`
+   - `destinations.length` → `<About portsCount>` (drives the "Ports Visited" stat as `{n}+`)
+   - `destinations`, `routesConfig.routes`, `siteConfig.showRouteArcs` → `<DestinationsLoader>`
 3. `app/layout.tsx` `generateMetadata()` calls `getSiteConfig()` for SEO metadata.
-4. `React.cache()` in `getSiteConfig()` deduplicates all calls within the same HTTP request.
+4. `React.cache()` in each fetch function deduplicates all calls within the same HTTP request.
+
+**Destinations data-flow:**
+- `destination` — one Sanity document per port (code, name, latitude, longitude)
+- `routesConfig` — singleton document with a `routes[]` array of Sanity references between destination docs
+- Globe component (`destinations.tsx`) receives `ports` and `routes` as props; builds PORT_MAP, MARKERS, ARCS, LABEL_CSS, and SHIP_ROUTE_IDS internally via `useMemo`
+- `siteConfig.showRouteArcs` (boolean, default false) controls whether arc lines are drawn on the globe — toggle in Sanity Studio without a deploy
 
 For social links: `mapSanityMediaToSocialLinks()` in `config/socials.tsx` maps the Sanity `socialMedia[]` array to `SocialLink[]`. Returns `[]` when `socialMedia` is null or empty — **no static fallback**. `tel:` / `mailto:` entries automatically get `external: false` (no `target="_blank"`). `PLATFORM_ICONS` in the same file is the centralized `platform → ReactNode` mapping — do not define icons anywhere else.
 
