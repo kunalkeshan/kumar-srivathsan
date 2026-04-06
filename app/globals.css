@@ -188,8 +188,11 @@
  * site fonts (serif headings, sans body, mono code), and squircle image corners per project rules.
  */
 @layer components {
+  /**
+   * Add-ons for CMS prose — the wrapper must also include the literal `prose` class
+   * (see `CmsProse`) so Typography plugin descendant selectors apply to PT output.
+   */
   .prose-cms {
-    @apply prose prose-neutral max-w-none dark:prose-invert;
     @apply prose-headings:font-serif prose-p:font-sans prose-li:font-sans;
     @apply prose-headings:text-foreground prose-p:text-foreground;
     @apply prose-a:text-primary prose-a:underline prose-a:underline-offset-4;

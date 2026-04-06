@@ -1,6 +1,7 @@
 import type { StructureResolver } from "sanity/structure"
 
 const SINGLETONS = ["siteConfig", "routesConfig"]
+const EXPLICIT_TYPES = ["legal"]
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -15,7 +16,10 @@ export const structure: StructureResolver = (S) =>
         .title("Routes Configuration")
         .child(S.documentTypeList("routesConfig").title("Routes Configuration")),
       S.divider(),
+      S.documentTypeListItem("legal").title("Legal"),
       ...S.documentTypeListItems().filter(
-        (item) => !SINGLETONS.includes(item.getId()!)
+        (item) =>
+          !SINGLETONS.includes(item.getId()!) &&
+          !EXPLICIT_TYPES.includes(item.getId()!)
       ),
     ])

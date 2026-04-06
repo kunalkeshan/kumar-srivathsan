@@ -4,7 +4,7 @@
  * Three arrays are exported for use across the app:
  * - {@link commonLinks} — the shared set used by both the header and footer
  * - {@link navLinks}    — header navigation (currently identical to commonLinks)
- * - {@link footerLinks} — footer navigation (commonLinks + Contact, Privacy, Terms)
+ * - {@link footerLinks} — footer navigation (commonLinks + Contact); legal links come from Sanity `siteConfig.footerLegalLinks`
  *
  * Links with `isLive: false` render as disabled UI elements with a "soon" badge.
  * Update `isLive` to `true` and set a real `href` when the page/section is ready.
@@ -55,10 +55,8 @@ export const commonLinks: NavLink[] = [
 /** Header navigation links — currently identical to {@link commonLinks}. */
 export const navLinks: NavLink[] = [...commonLinks]
 
-/** Footer navigation links — {@link commonLinks} plus Contact, Privacy, and Terms. */
+/** Footer navigation links — {@link commonLinks} plus Contact. Legal links are rendered from CMS. */
 export const footerLinks: NavLink[] = [
   ...commonLinks,
   { label: "Contact", href: "/#contact", isLive: true },
-  { label: "Privacy", href: "#", isLive: false },
-  { label: "Terms", href: "#", isLive: false },
 ]
