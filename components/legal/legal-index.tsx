@@ -2,7 +2,6 @@ import type { ComponentProps } from "react"
 import Link from "next/link"
 
 import { Container } from "@/components/layouts/container"
-import { FullWidthDivider } from "@/components/ui/full-width-divider"
 import { cn } from "@/lib/utils"
 import type { LEGAL_DOCUMENTS_QUERY_RESULT } from "@/types/cms"
 
@@ -30,20 +29,19 @@ export function LegalIndex({ documents }: LegalIndexProps) {
   }
 
   return (
-    <div className="mx-auto flex min-h-[50vh] w-full max-w-3xl flex-col justify-start md:border-x">
-      <Container className="max-w-none space-y-2 px-4 py-8 md:py-12">
-        <h1 className="font-serif text-2xl font-semibold tracking-tight md:text-4xl">
-          Legal
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          Policies and terms for this site. Last updated dates are shown for each
-          document.
-        </p>
-      </Container>
+    <Container className="max-w-3xl">
+      <div className="flex min-h-[50vh] flex-col justify-start">
+        <div className="space-y-2 py-8 md:py-12">
+          <h1 className="font-serif text-2xl font-semibold tracking-tight md:text-4xl">
+            Legal
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Policies and terms for this site. Last updated dates are shown for each
+            document.
+          </p>
+        </div>
 
-      <div className="relative">
-        <FullWidthDivider />
-        <div className="divide-y">
+        <div className="divide-y divide-border">
           {documents.map((doc) => {
             const slug = doc.slug?.current
             if (!slug) return null
@@ -60,9 +58,8 @@ export function LegalIndex({ documents }: LegalIndexProps) {
             )
           })}
         </div>
-        <FullWidthDivider />
       </div>
-    </div>
+    </Container>
   )
 }
 
