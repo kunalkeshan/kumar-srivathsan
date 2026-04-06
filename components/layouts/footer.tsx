@@ -99,11 +99,12 @@ export function Footer({
                   )}
                 </li>
               ))}
-              {footerLegalLinks.map((legal) => {
-                const slug = legal.slug?.current
-                if (!slug || !legal.title) return null
+              {footerLegalLinks.map((item) => {
+                const legal = item.legal
+                const slug = legal?.slug?.current
+                if (!legal || !slug || !legal.title) return null
                 return (
-                  <li key={legal._id}>
+                  <li key={item._key}>
                     <Link
                       className="hover:text-foreground"
                       href={`/legal/${slug}`}

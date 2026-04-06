@@ -14,7 +14,19 @@ const webhookSecret = assertValue(
 
 type WebhookBody = {
   _type: string
-  slug?: string
+  /** String or `{ current: string }` depending on webhook projection. */
+  slug?: string | { current?: string }
+}
+
+function normalizeWebhookSlug(
+  slug: WebhookBody["slug"]
+): string | undefined {
+  if (slug == null) return undefined
+  if (typeof slug === "string" && slug.length > 0) return slug
+  if (typeof slug === "object" && slug && typeof slug.current === "string") {
+    return slug.current
+  }
+  return undefined
 }
 
 export async function POST(req: NextRequest) {
@@ -57,8 +69,10 @@ export async function POST(req: NextRequest) {
 
   if (body._type === "legal") {
     revalidateTag(createCollectionTag("legal"), "max")
-    if (body.slug) {
-      revalidateTag(createDocumentTag("legal", body.slug), "max")
+    revalidateTag(createCollectionTag("siteConfig"), "max")
+    const slug = normalizeWebhookSlug(body.slug)
+    if (slug) {
+      revalidateTag(createDocumentTag("legal", slug), "max")
     }
     return NextResponse.json({ revalidated: true, type: "legal" })
   }

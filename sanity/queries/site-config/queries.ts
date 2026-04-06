@@ -10,12 +10,15 @@ export const SITE_CONFIG_QUERY = defineQuery(`
     socialMedia[] { _key, platform, url, label, contactText },
     heroVideoUrl,
     showRouteArcs,
-    footerLegalLinks[]-> {
-      _id,
-      title,
-      slug,
-      description,
-      _updatedAt
+    footerLegalLinks[]{
+      _key,
+      "legal": @->{
+        _id,
+        title,
+        slug,
+        description,
+        _updatedAt
+      }
     }
   }
 `)

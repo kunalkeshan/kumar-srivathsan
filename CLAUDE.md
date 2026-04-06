@@ -34,7 +34,8 @@ pnpm typecheck     # TypeScript type check (no emit)
 - `components/layouts/` — structural components (Header, Footer, Logo, Container)
 - `components/landing/` — home page sections (Hero, About, etc.)
 - `components/manuals/` — manuals UI: `ManualCard`, `ManualsSection`, `ManualArticle`, `ManualPortableText`
-- `components/legal/` — legal pages UI: `LegalIndex`, `LegalPortableText`
+- `components/legal/` — legal pages UI: `LegalIndex`, `LegalPortableText` (thin wrappers around shared `CmsPortableText`)
+- `components/cms/` — `cms-prose.tsx` (`CmsProse`), `cms-portable-text.tsx` (`CmsPortableText` — shared Sanity Portable Text renderer for manuals and legal)
 - `components/*.tsx` at the root of `components/` — app-wide route UI not scoped to a single page (e.g. `not-found-page.tsx` for `app/not-found.tsx`)
 - `components/icons/` — custom SVG icon components
 
@@ -156,7 +157,7 @@ Sanity is integrated for content management. The infrastructure lives in `sanity
 - `sanity.cli.ts` — CLI + TypeGen config (outputs to `types/cms.d.ts`)
 
 **Query/fetch co-location pattern:** Each Sanity domain gets its own subdirectory under `sanity/queries/`:
-- `sanity/queries/site-config/queries.ts` — `SITE_CONFIG_QUERY`
+- `sanity/queries/site-config/queries.ts` — `SITE_CONFIG_QUERY` (includes `footerLegalLinks[]{ _key, "legal": @->{...} }` for stable array keys and dereferenced docs)
 - `sanity/queries/site-config/index.ts` — `getSiteConfig()` fetch function
 - `sanity/queries/destination/queries.ts` — `DESTINATIONS_QUERY`
 - `sanity/queries/destination/index.ts` — `getDestinations()` fetch function
@@ -223,7 +224,7 @@ For contact entries: `mapSanityMediaToContactEntries()` in `config/socials.tsx` 
 
 **Fail-loud guard**: `app/(site)/layout.tsx` throws an `Error` if `siteConfig.title` is missing or empty. The site cannot render without a published siteConfig title — ensure the document is published in Sanity Studio before deploying.
 
-**Revalidation:** Webhook-based on-demand ISR via `app/api/revalidate/route.ts`. Configure a Sanity webhook pointing to `{SITE_URL}/api/revalidate` with `SANITY_WEBHOOK_SECRET`. Use `revalidateTag(tag, "max")` — Next.js 16 requires the second `profile` argument. Add a `case` for each new document type added to the schema.
+**Revalidation:** Webhook-based on-demand ISR via `app/api/revalidate/route.ts`. Configure a Sanity webhook pointing to `{SITE_URL}/api/revalidate` with `SANITY_WEBHOOK_SECRET`. Use `revalidateTag(tag, "max")` — Next.js 16 requires the second `profile` argument. Add a `case` for each new document type added to the schema. For `legal` updates, also revalidate `collection:siteConfig` (footer reads `footerLegalLinks` via `getSiteConfig()`). Normalize webhook `slug` as either a string or `{ current: string }` before building document tags.
 
 **Required env vars** (see `.env.example`):
 - `NEXT_PUBLIC_SANITY_PROJECT_ID`

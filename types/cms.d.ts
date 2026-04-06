@@ -672,7 +672,7 @@ export type ROUTES_CONFIG_QUERY_RESULT = {
 
 // Source: sanity/queries/site-config/queries.ts
 // Variable: SITE_CONFIG_QUERY
-// Query: *[_id == "siteConfig"][0] {    _id,    title,    description,    ogImage { asset->, alt, hotspot, crop },    twitterImage { asset->, alt, hotspot, crop },    socialMedia[] { _key, platform, url, label, contactText },    heroVideoUrl,    showRouteArcs,    footerLegalLinks[]-> {      _id,      title,      slug,      description,      _updatedAt    }  }
+// Query: *[_id == "siteConfig"][0] {    _id,    title,    description,    ogImage { asset->, alt, hotspot, crop },    twitterImage { asset->, alt, hotspot, crop },    socialMedia[] { _key, platform, url, label, contactText },    heroVideoUrl,    showRouteArcs,    footerLegalLinks[]{      _key,      "legal": @->{        _id,        title,        slug,        description,        _updatedAt      }    }  }
 export type SITE_CONFIG_QUERY_RESULT =
   | {
       _id: "siteConfig"
@@ -782,11 +782,14 @@ export type SITE_CONFIG_QUERY_RESULT =
       heroVideoUrl: string | null
       showRouteArcs: boolean | null
       footerLegalLinks: Array<{
-        _id: string
-        title: string | null
-        slug: Slug | null
-        description: string | null
-        _updatedAt: string
+        _key: string
+        legal: {
+          _id: string
+          title: string | null
+          slug: Slug | null
+          description: string | null
+          _updatedAt: string
+        }
       }> | null
     }
   | null
@@ -804,6 +807,6 @@ declare module "@sanity/client" {
     '\n  *[_type == "manual" && slug.current == $slug][0] {\n    _id,\n    title,\n    slug,\n    summary,\n    author,\n    thumbnail { asset->, alt, hotspot, crop },\n    _createdAt,\n    _updatedAt,\n    "plainBody": pt::text(body),\n    body[]{\n      ...,\n      markDefs[]{\n        ...,\n      },\n      _type == "image" => {\n        _key,\n        _type,\n        alt,\n        asset->,\n        hotspot,\n        crop\n      }\n    },\n    relatedManuals[]->{\n      _id,\n      title,\n      slug,\n      summary,\n      author,\n      thumbnail { asset->, alt, hotspot, crop },\n      _createdAt,\n      "plainBody": pt::text(body)\n    }\n  }\n': MANUAL_BY_SLUG_QUERY_RESULT
     '\n  *[_type == "manual" && defined(slug.current)] {\n    "slug": slug.current,\n    _updatedAt\n  }\n': MANUALS_SITEMAP_QUERY_RESULT
     '\n  *[_type == "routesConfig"][0] {\n    _id,\n    routes[] {\n      _key,\n      from->{ _id },\n      to->{ _id },\n      shipIconId\n    }\n  }\n': ROUTES_CONFIG_QUERY_RESULT
-    '\n  *[_id == "siteConfig"][0] {\n    _id,\n    title,\n    description,\n    ogImage { asset->, alt, hotspot, crop },\n    twitterImage { asset->, alt, hotspot, crop },\n    socialMedia[] { _key, platform, url, label, contactText },\n    heroVideoUrl,\n    showRouteArcs,\n    footerLegalLinks[]-> {\n      _id,\n      title,\n      slug,\n      description,\n      _updatedAt\n    }\n  }\n': SITE_CONFIG_QUERY_RESULT
+    '\n  *[_id == "siteConfig"][0] {\n    _id,\n    title,\n    description,\n    ogImage { asset->, alt, hotspot, crop },\n    twitterImage { asset->, alt, hotspot, crop },\n    socialMedia[] { _key, platform, url, label, contactText },\n    heroVideoUrl,\n    showRouteArcs,\n    footerLegalLinks[]{\n      _key,\n      "legal": @->{\n        _id,\n        title,\n        slug,\n        description,\n        _updatedAt\n      }\n    }\n  }\n': SITE_CONFIG_QUERY_RESULT
   }
 }
