@@ -10,6 +10,7 @@ export const siteConfigType = defineType({
     { name: "basic", title: "Basic", default: true },
     { name: "seo", title: "SEO & OG" },
     { name: "social", title: "Social & Contact" },
+    { name: "navigation", title: "Navigation & Footer" },
     { name: "media", title: "Media" },
   ],
   fields: [
@@ -137,6 +138,21 @@ export const siteConfigType = defineType({
           },
         }),
       ],
+    }),
+
+    defineField({
+      name: "footerLegalLinks",
+      title: "Footer Legal Links",
+      type: "array",
+      group: "navigation",
+      of: [
+        defineArrayMember({
+          type: "reference",
+          to: [{ type: "legal" }],
+        }),
+      ],
+      description:
+        "Select and order legal documents shown in the footer. Only documents listed here appear (e.g. Privacy Policy, Terms & Conditions).",
     }),
 
     // Media

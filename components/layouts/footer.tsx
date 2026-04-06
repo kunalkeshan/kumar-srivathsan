@@ -7,12 +7,19 @@ import { Button } from "@/components/ui/button"
 import type { SocialLink } from "@/config/socials"
 import { footerLinks } from "@/config/navigation"
 import { Container } from "@/components/layouts/container"
+import type { SITE_CONFIG_QUERY_RESULT } from "@/types/cms"
 import { HashLink } from "@/components/ui/hash-link"
 import { APP_VERSION } from "@/config/version"
+
+type FooterLegalLink = NonNullable<
+  NonNullable<SITE_CONFIG_QUERY_RESULT>["footerLegalLinks"]
+>[number]
 
 type FooterProps = {
   siteTitle: string
   socialLinks: SocialLink[]
+  /** Ordered legal doc links from Sanity (footer only). */
+  footerLegalLinks: FooterLegalLink[]
 }
 
 /**
@@ -21,15 +28,20 @@ type FooterProps = {
  * Structure:
  * - Top row: {@link Logo} (links home) + social icon buttons from the
  *   `socialLinks` prop (sourced from Sanity siteConfig).
- * - Nav row: footer links from `config/navigation.ts`. Links with
- *   `isLive: false` render as disabled `<span>` elements with a "soon" badge.
- *   Hash links use {@link HashLink}; page links use `<Link prefetch={false}>`.
+ * - Nav row: footer links from `config/navigation.ts` plus optional legal links
+ *   from Sanity `footerLegalLinks`. Links with `isLive: false` render as disabled
+ *   `<span>` elements with a "soon" badge. Hash links use {@link HashLink}; page
+ *   links use `<Link prefetch={false}>`.
  * - Bottom bar: copyright year range via {@link CopyrightYear}, package
  *   version (from `config/version.ts`) linking to
  *   latest GitHub release, and a
  *   "Built by Kunal" credit with GitHub avatar.
  */
-export function Footer({ siteTitle, socialLinks }: FooterProps) {
+export function Footer({
+  siteTitle,
+  socialLinks,
+  footerLegalLinks,
+}: FooterProps) {
   return (
     <footer>
       <Container>
@@ -87,6 +99,21 @@ export function Footer({ siteTitle, socialLinks }: FooterProps) {
                   )}
                 </li>
               ))}
+              {footerLegalLinks.map((legal) => {
+                const slug = legal.slug?.current
+                if (!slug || !legal.title) return null
+                return (
+                  <li key={legal._id}>
+                    <Link
+                      className="hover:text-foreground"
+                      href={`/legal/${slug}`}
+                      prefetch={false}
+                    >
+                      {legal.title}
+                    </Link>
+                  </li>
+                )
+              })}
             </ul>
           </nav>
         </div>

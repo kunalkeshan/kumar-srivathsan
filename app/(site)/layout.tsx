@@ -24,12 +24,17 @@ export default async function SiteLayout({
 
   const siteTitle = siteConfig.title
   const socialLinks = mapSanityMediaToSocialLinks(siteConfig.socialMedia ?? null)
+  const footerLegalLinks = siteConfig.footerLegalLinks ?? []
 
   return (
     <Providers>
       <Header siteTitle={siteTitle} socialLinks={socialLinks} />
       {children}
-      <Footer siteTitle={siteTitle} socialLinks={socialLinks} />
+      <Footer
+        footerLegalLinks={footerLegalLinks}
+        siteTitle={siteTitle}
+        socialLinks={socialLinks}
+      />
       <MicrosoftClarity />
       {googleAnalyticsId ? (
         <GoogleAnalytics gaId={googleAnalyticsId} />

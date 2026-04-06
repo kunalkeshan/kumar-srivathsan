@@ -9,6 +9,13 @@ export const SITE_CONFIG_QUERY = defineQuery(`
     twitterImage { asset->, alt, hotspot, crop },
     socialMedia[] { _key, platform, url, label, contactText },
     heroVideoUrl,
-    showRouteArcs
+    showRouteArcs,
+    footerLegalLinks[]-> {
+      _id,
+      title,
+      slug,
+      description,
+      _updatedAt
+    }
   }
 `)

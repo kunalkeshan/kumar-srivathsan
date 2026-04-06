@@ -5,6 +5,7 @@ export type SanityDocumentType =
   | "destination"
   | "routesConfig"
   | "manual"
+  | "legal"
 
 export type CollectionTag = `collection:${SanityDocumentType}`
 export type DocumentTag = `${SanityDocumentType}:${string}`
