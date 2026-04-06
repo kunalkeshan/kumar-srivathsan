@@ -34,10 +34,11 @@ pnpm typecheck     # TypeScript type check (no emit)
 - `components/layouts/` — structural components (Header, Footer, Logo, Container)
 - `components/landing/` — home page sections (Hero, About, etc.)
 - `components/manuals/` — manuals UI: `ManualCard`, `ManualsSection`, `ManualArticle`, `ManualPortableText`
+- `components/legal/` — legal pages UI: `LegalIndex`, `LegalPortableText`
 - `components/*.tsx` at the root of `components/` — app-wide route UI not scoped to a single page (e.g. `not-found-page.tsx` for `app/not-found.tsx`)
 - `components/icons/` — custom SVG icon components
 
-**Centralized config**: Navigation links are defined in `config/navigation.tsx`. Social media links are sourced exclusively from Sanity siteConfig at runtime via the mapping utilities in `config/socials.tsx` — see the Sanity CMS section for the data flow. Add new nav items in `config/`, never directly in components.
+**Centralized config**: Navigation links are defined in `config/navigation.tsx`. Social media links are sourced exclusively from Sanity siteConfig at runtime via the mapping utilities in `config/socials.tsx` — see the Sanity CMS section for the data flow. Footer links to legal documents (e.g. Privacy, Terms) come from `siteConfig.footerLegalLinks` in Sanity, not from `config/navigation.tsx`. Add new header/footer *structural* nav items in `config/`, never directly in components.
 
 **New components**: Wrap content with `<Container>` from `@/components/layouts/container.tsx` for consistent max-width and horizontal padding. Follow the same prop pattern as existing components — accept `className?: string` and spread it into `cn()` for extensibility.
 
@@ -163,6 +164,8 @@ Sanity is integrated for content management. The infrastructure lives in `sanity
 - `sanity/queries/routes-config/index.ts` — `getRoutesConfig()` fetch function
 - `sanity/queries/manual/queries.ts` — `MANUALS_LIST_QUERY`, `MANUALS_LATEST_QUERY`, `MANUAL_BY_SLUG_QUERY`, `MANUALS_SITEMAP_QUERY`
 - `sanity/queries/manual/index.ts` — `getManuals()`, `getLatestManuals()`, `getManualBySlug()`, `getManualsForSitemap()`
+- `sanity/queries/legal/queries.ts` — `LEGAL_DOCUMENTS_QUERY`, `LEGAL_DOCUMENT_BY_SLUG_QUERY`, `LEGAL_DOCUMENTS_SITEMAP_QUERY`
+- `sanity/queries/legal/index.ts` — `getLegalDocuments()`, `getLegalBySlug()`, `getLegalDocumentsForSitemap()`
 
 Import fetch functions from the subdirectory (e.g. `@/sanity/queries/site-config`), never from `sanity/lib/`.
 
@@ -194,9 +197,9 @@ TypeGen auto-runs during `sanity dev` via `sanity.cli.ts`, but always run it man
 
 **siteConfig data-flow pattern:**
 
-`siteConfig` is the singleton Sanity document that drives site-wide runtime data (title, description, OG images, social links, hero video URL, route arc toggle). The established prop-passing pattern is:
+`siteConfig` is the singleton Sanity document that drives site-wide runtime data (title, description, OG images, social links, hero video URL, route arc toggle, ordered `footerLegalLinks` references to `legal` documents). The established prop-passing pattern is:
 
-1. `app/(site)/layout.tsx` calls `getSiteConfig()` once and passes derived values as props to `<Header>` and `<Footer>`.
+1. `app/(site)/layout.tsx` calls `getSiteConfig()` once and passes derived values as props to `<Header>` and `<Footer>` (including resolved `footerLegalLinks` for the footer nav).
 2. `app/(site)/page.tsx` calls `getSiteConfig()`, `getDestinations()`, and `getRoutesConfig()` in `Promise.all()`, then passes:
    - `heroVideoUrl` → `<HeroVideo>`
    - `socialMedia` → `<Contact>`
@@ -209,6 +212,7 @@ TypeGen auto-runs during `sanity dev` via `sanity.cli.ts`, but always run it man
 **Destinations data-flow:**
 - `destination` — one Sanity document per port (code, name, latitude, longitude)
 - `manual` — instructional entries (title, slug, summary, thumbnail, author, `body` Portable Text via shared `blockContent`, optional `relatedManuals` references). List at `/manuals`, detail at `/manuals/[slug]`; sitemap includes these URLs via `getManualsForSitemap()`.
+- `legal` — policies and terms (title, slug, description, `content` Portable Text via shared `blockContent`). List at `/legal`, detail at `/legal/[slug]`; footer links are controlled by `siteConfig.footerLegalLinks` order; sitemap includes these URLs via `getLegalDocumentsForSitemap()`.
 - `routesConfig` — singleton document with a `routes[]` array of Sanity references between destination docs
 - Globe component (`destinations.tsx`) receives `ports` and `routes` as props; builds PORT_MAP, MARKERS, ARCS, LABEL_CSS, and SHIP_ROUTE_IDS internally via `useMemo`
 - `siteConfig.showRouteArcs` (boolean, default false) controls whether arc lines are drawn on the globe — toggle in Sanity Studio without a deploy
