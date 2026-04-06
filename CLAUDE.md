@@ -80,9 +80,9 @@ Always set `prefetch={false}` on every Next.js `<Link>` component:
 
 ## Tailwind Typography (CMS / Portable Text)
 
-Rich HTML from Sanity (Portable Text) should be wrapped with the shared **`.prose-cms`** preset or the **`CmsProse`** component from `components/cms-prose.tsx`. The preset extends `prose prose-neutral max-w-none dark:prose-invert` and maps colors to theme tokens (`foreground`, `primary`, `muted`, `border`), **serif headings** and **sans body** per typography guidelines, **`font-mono`** for `code` / `pre`, and **`rounded-surface squircle`** on content images.
+Rich HTML from Sanity (Portable Text) should be wrapped with the **`CmsProse`** component from `components/cms-prose.tsx` (or the same class list: `prose prose-neutral max-w-none dark:prose-invert prose-cms`). The wrapper **must** include the literal Tailwind Typography **`prose`** class so heading/paragraph/list spacing and sizes apply to Portable Text output; **`.prose-cms`** in `app/globals.css` adds site tokens (colors, **serif headings**, **sans body**, **`font-mono`** for `code` / `pre`, **`rounded-surface squircle`** on content images).
 
-- Do not add a second `prose` class when using `CmsProse` / `.prose-cms` (the preset already includes `prose`).
+- Do not add extra redundant `prose` wrappers when using `CmsProse` — it already applies `prose` + `prose-cms`.
 - For manual pages, combine `CmsProse` with `<PortableText />` and custom `block` components (e.g. map PT `h1` → `<h2>` so the document title remains the only page-level `h1`). The `/manuals/[slug]` page also mounts **`ScrollProgress`** (`components/ui/scroll-progress.tsx`) — a fixed top progress bar using the site **chart** color gradient (`chart-5` → `chart-3` → `chart-1`) at `z-[60]` so it sits above the sticky header (`z-50`).
 
 ## UI Radius Standard
