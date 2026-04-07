@@ -8,6 +8,8 @@ type SubstackSubscribeProps = {
 export function SubstackSubscribe({ substackUrl }: SubstackSubscribeProps) {
   if (!substackUrl) return null
 
+  const normalizedUrl = substackUrl.trim().replace(/\/$/, "")
+
   return (
     <section aria-label="Subscribe to the logbook">
       <Container className="relative">
@@ -26,8 +28,10 @@ export function SubstackSubscribe({ substackUrl }: SubstackSubscribeProps) {
               <iframe
                 frameBorder="0"
                 height="320"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
                 scrolling="no"
-                src={`${substackUrl}/embed`}
+                src={`${normalizedUrl}/embed`}
                 style={{ border: "none" }}
                 title="Subscribe to the logbook on Substack"
                 width="100%"

@@ -32,12 +32,14 @@ export function SubstackCard({ post, className }: SubstackCardProps) {
       />
       <div className="space-y-2 px-2 pb-2">
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-muted-foreground group-hover:text-foreground sm:text-xs">
-          {post.author ? <span>by {post.author}</span> : null}
           {post.author ? (
-            <span
-              aria-hidden
-              className="size-1 shrink-0 rounded-full squircle bg-muted-foreground"
-            />
+            <>
+              <span>by {post.author}</span>
+              <span
+                aria-hidden
+                className="size-1 shrink-0 rounded-full squircle bg-muted-foreground"
+              />
+            </>
           ) : null}
           <time className="font-mono" dateTime={post.pubDate}>
             {dateLabel}

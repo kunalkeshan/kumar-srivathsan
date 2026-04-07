@@ -1,3 +1,4 @@
+/** Canonical shape for a parsed Substack RSS feed item. */
 export type SubstackPost = {
   title: string
   link: string
