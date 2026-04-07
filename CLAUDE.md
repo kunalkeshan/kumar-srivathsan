@@ -233,6 +233,26 @@ For contact entries: `mapSanityMediaToContactEntries()` in `config/socials.tsx` 
 - `SANITY_API_READ_TOKEN`
 - `SANITY_WEBHOOK_SECRET`
 
+## Substack RSS Feed
+
+The "From the logbook" section on the home page fetches posts from a Substack RSS feed.
+
+**Fetch function:** `lib/substack.ts` → `getSubstackPosts(limit?: number): Promise<SubstackPost[]>`
+
+**ISR pattern — critical:** Use `fetch(feedUrl, { next: { revalidate: 3600 } })` to get the RSS XML, then `parser.parseString(xml)`. Do NOT use `parser.parseURL()` — it uses Node's `http` module internally and bypasses Next.js's instrumented `fetch`, so the 1-hour time-based ISR would not apply.
+
+**Env var:** `SUBSTACK_URL=https://kumarsrivathsan.substack.com` (no trailing slash, server-side only — no `NEXT_PUBLIC_` prefix). If unset, `getSubstackPosts` returns `[]` and the section renders an empty state.
+
+**Components:**
+- `components/substack/substack-card.tsx` — `SubstackCard`: external link card (`<a target="_blank">`, not `<Link>`). No read time shown (RSS content is truncated so estimation is inaccurate).
+- `components/substack/substack-section.tsx` — `SubstackSection`: grid section wrapper with heading, description, grid of cards, and "View all on Substack" CTA.
+
+**Types:** `types/substack.ts` exports `SubstackPost` — the canonical shape for RSS items after parsing.
+
+**Image fallback:** `/assets/canvas.webp` — used when the RSS item has no cover image (`imageUrl: null`) or when the external image fails to load. `LazyImage` uses a plain `<img>` tag so no `remotePatterns` changes are needed in `next.config.mjs`.
+
+**RSS library:** `rss-parser` (ships its own `.d.ts`, no separate `@types/` package needed). If Turbopack throws a bundling error for it, add `"rss-parser"` to `serverExternalPackages` in `next.config.mjs`.
+
 ## Documentation Hygiene
 
 When making a change that introduces, modifies, or removes a pattern, convention, or architectural decision, update the relevant section of CLAUDE.md in the same PR/commit.
